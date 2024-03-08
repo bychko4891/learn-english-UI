@@ -1,0 +1,45 @@
+.app-menu * {
+    text-decoration: none !important;
+}
+.main-menu {
+    padding-left: 0 !important;
+}
+
+.main-menu svg{
+    width: 25px;
+    height: 25px;
+}
+
+
+.sidebar {
+    padding: 5px 0;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 13px 10px;
+    color: var(--dashui-heading-color, inherit);
+    font-size: 20px;
+    position: relative;
+}
+
+
+.active-link * {
+    filter: brightness(0) saturate(100%) invert(34%) sepia(91%) saturate(762%) hue-rotate(219deg) brightness(108%) contrast(106%);
+}
+
+
+.active-li {
+    border-right: 4px solid #7b61ff;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    filter: brightness(0) saturate(100%) invert(34%) sepia(91%) saturate(762%) hue-rotate(219deg) brightness(108%) contrast(106%);
+    border-right: 4px solid #7b61ff;
+}
+
+.sidebar ul li a:hover .icon,
+.sidebar ul li a.active .icon {
+    color: wheat;
+}
