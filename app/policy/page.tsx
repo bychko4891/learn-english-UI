@@ -1,10 +1,10 @@
 import {Login} from "@/components/auntification/login/Login";
 
-export default function LoginPage() {
+export default function Policy() {
 
     return (
         <div className="app-content-area">
-            <Login/>
+            <h1>Policy</h1>
         </div>
     );
 }

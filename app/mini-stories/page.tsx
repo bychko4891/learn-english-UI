@@ -1,4 +1,4 @@
-import {Login} from "@/components/auntification/Login";
+import {Login} from "@/components/auntification/login/Login";
 
 export default function MiniStories() {
 

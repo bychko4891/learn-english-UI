@@ -1,6 +1,6 @@
 'use client'
 
-import { GoogleColorSvgComponent } from "@/components/auntification/GoogleColorSvgComponent";
+import { GoogleColorSvgComponent } from "@/components/auntification/google/GoogleColorSvgComponent";
 import { signIn } from "next-auth/react";
 import {useSearchParams} from "next/navigation";
 

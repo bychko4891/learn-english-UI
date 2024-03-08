@@ -1,11 +1,14 @@
 import Image from "next/image";
 import {getUserAPI} from "@/app/(protected)/user/profile/getUserAPI";
 import {UserGender} from "@/components/user/profile/UserGender";
+import {formatDate} from "@/components/formatDate";
 
 export const UserInfo = async () => {
 
     const user = await getUserAPI();
     const gender = user?.gender.at(1) || 'MALE';
+
+    const date: string = await formatDate(user?.dateOfCreated!);
 
 
     return (
@@ -22,7 +25,7 @@ export const UserInfo = async () => {
             </div>
             <div className="d-flex align-items-center ma-10-0">
                 <Image className="colored-svg reset-styles me-1" src="/images/date.svg" alt="profile" width="20" height="20"/>
-                <span>{user?.dateOfCreated}</span>
+                <span>{date}</span>
             </div>
             <div className="user-about">
                 <p>{user?.about}</p>

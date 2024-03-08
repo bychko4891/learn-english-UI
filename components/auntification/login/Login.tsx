@@ -2,10 +2,10 @@
 
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";
-import "./logitStyle.css";
-import {LoginForm} from "@/components/auntification/LoginForm";
-import {GoogleButtonSignUp} from "@/components/auntification/GoogleButtonSignUp";
-import {GoogleColorSvgComponent} from "@/components/auntification/GoogleColorSvgComponent";
+import "../auth.styles.css";
+import {LoginForm} from "@/components/auntification/login/LoginForm";
+import {GoogleButtonSignUp} from "@/components/auntification/google/GoogleButtonSignUp";
+import {GoogleColorSvgComponent} from "@/components/auntification/google/GoogleColorSvgComponent";
 import Image from "next/image";
 
 

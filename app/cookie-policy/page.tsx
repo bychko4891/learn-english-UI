@@ -1,10 +1,10 @@
 import {Login} from "@/components/auntification/login/Login";
 
-export default function LoginPage() {
+export default function CooliePolicy() {
 
     return (
         <div className="app-content-area">
-            <Login/>
+            <h1>Cookie policy</h1>
         </div>
     );
 }

@@ -34,11 +34,7 @@ export async function getUserAPI() {
             console.log(' user get 401 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         }
 
-        const userRemote = (await response.json()) as UserSuccessResponse;
-        console.log(userRemote.dateOfCreated + " date")
-        console.log(userRemote.gender + " gender")
-        // console.log(userRemote.dateOfCreated + " date")
-        return userRemote;
+        return (await response.json()) as UserSuccessResponse;
         // }
     } catch (error) {
         console.error('Error fetching data USER:');
