@@ -1,25 +1,14 @@
 'use client'
 
-import {SubmitHandler, useForm} from "react-hook-form"
+import {FieldValue, SubmitHandler, useForm} from "react-hook-form"
 import React, {ChangeEvent, ChangeEventHandler, FormEventHandler, useState} from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ReactSVG } from "react-svg";
 import "./signup.styles.css";
+import {sendSignUpAPI} from "@/app/signup/sendSignUpAPI";
 
-
-type UnauthorizedLoginResponse = {
-    status: string;
-    fieldName: string;
-    fieldMessage: string;
-};
-
-type FormRequestData = {
-    name: string;
-    email: string;
-    password: string;
-};
-export const SignUpForm = () => {
+export const SignUpForm = async () => {
 
     const router = useRouter();
 
@@ -39,10 +28,14 @@ export const SignUpForm = () => {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors, isValid },
     } = useForm({
-        mode: "onBlur"
+        mode: "onBlur",
+        defaultValues: {
+            name: "",
+            email: "",
+            password: ""
+        }
     });
     const customValidator = (e: ChangeEvent<HTMLInputElement>) => {
         let inputValue = e.target.value;
@@ -75,8 +68,9 @@ export const SignUpForm = () => {
 
 
 
-    const onSubmit: SubmitHandler<FormRequestData> = (data) => {
-        console.log(" onSubmit !!! ")
+    const onSubmit: SubmitHandler<FieldValue<any>> = (data) => {
+        const formData = data as FormData;
+        const res = await sendSignUpAPI(formData);
         alert(JSON.stringify(data))
         console.log(data)
     }
@@ -98,12 +92,13 @@ export const SignUpForm = () => {
                 <ReactSVG className="modal__icon" src="/images/user.svg"/>
             </div>
 
-            <div style={{height: 40, color:"tomato"}}>{errors?.name && <span>{errors.name?.message || "Error!"}</span>}</div>
+            <div style={{height: 40, color:"tomato"}}>{errors?.name && <span>{errors.name?.message?.toString() || "Error"}</span>}</div>
 
             <div className="wrap-input100 input">
                 <input className="input100" placeholder="Email" {...register("email", {
                     required: "Поле обов'язкове",
-                    pattern: {value: /^.+@{1}.+$/, message: "Повинна бути правильно сформована адреса електронної пошти"}
+                    pattern: {value: /^.+@{1}.+$/, message: "Повинна бути правильно сформована адреса електронної пошти"},
+                    maxLength: {value: 50, message: "Максимальна довжина поля 50 символів"}
 
                 })} />
                 <span className="focus-input100"></span>
@@ -113,14 +108,15 @@ export const SignUpForm = () => {
                 <ReactSVG className="modal__icon" src="/images/email.svg"/>
             </div>
 
-            <div style={{height: 40, color:"tomato"}}>{errors?.email && <span>{errors.email?.message || "Error!"}</span>}</div>
+            <div style={{height: 40, color:"tomato"}}>{errors?.email && <span>{errors.email?.message?.toString() || "Error!"}</span>}</div>
 
             <div className="wrap-input100 input" data-validate="Password is required">
                 <input className="input100" placeholder="Пароль" type="password" {...register("password", {
                     required: "Поле обов'язкове",
+                    minLength: {value: 6, message: "Мінімальна довжина поля 3 символи"},
+                    maxLength: {value: 50, message: "Максимальна довжина поля 50 символів"}
+                })}  onChange={customValidator}/>
 
-
-                })} onChange={customValidator} />
                 <span className="focus-input100"></span>
                 <span className="symbol-input100">
                     <i className="fa fa-lock" aria-hidden="true"></i>
@@ -128,7 +124,7 @@ export const SignUpForm = () => {
                 <ReactSVG className="modal__icon" src="/images/lock-password.svg"/>
             </div>
 
-            <div style={{height: 40, color:"tomato"}}><span>{errors?.password?.message || "e"}</span></div>
+            <div style={{height: 40, color:"tomato"}}><span>{errors?.password?.message?.toString()}</span></div>
 
             <div className="validation">
                 <ul>
@@ -155,7 +151,6 @@ export const SignUpForm = () => {
             </div>
 
         </form>
-
 
     );
 }

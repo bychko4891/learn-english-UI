@@ -30,14 +30,15 @@ export async function regenerateAccessToken(
         body: JSON.stringify({ jwtRefreshToken: refreshToken }),
     });
 
-    if(response.status === 401) {
-
-        return undefined;
-    } else {
+    if(response.status === 200) {
         const json = (await response.json()) as SuccessAccessTokenRegeneration;
         return json.jwtAccessToken;
+    } if(response.status === 401) {
+        return undefined;
     }
+    return undefined;
 }
+
 export async function regenerateAllTokens(
     refreshToken: string,
 ): Promise<SuccessAccessTokenRegeneration> {
