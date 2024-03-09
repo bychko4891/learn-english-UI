@@ -4,33 +4,29 @@ import {env} from "@/env.mjs";
 import {redirect} from "next/navigation";
 
 
-type BadRequestSignUp = {
+export type DataSendSignUp = {
     name: string;
     email: string;
     password: string;
 };
 
-export async function sendSignUpAPI(data: FormData) {
 
-    try {
-        const response = await fetch(env.SERVER_API_URL + '/api/signup', {
-            body: JSON.stringify(data),
-            method: 'POST'
-        });
+export async function sendSignUpAPI(formValues: DataSendSignUp) {
 
-        if(response.ok) {
-            redirect("/");
+    const response = await fetch(env.SERVER_API_URL + '/api/signup', {
+        method: 'POST',
+        body: JSON.stringify(formValues),
+        headers: {
+            "Content-Type": "application/json"
         }
+    });
 
-        if(response.status === 400) {
-            return (await response.json())as BadRequestSignUp;
-        }
+    if (response.ok) {
+        redirect("/login");
+    }
 
-        return response;
-
-    } catch (error) {
-        console.error('Error fetching data ABOUT:', error);
-        // Обробка помилки, якщо запит не вдалося виконати
+    if (response.status === 400) {
+        return (await response.json()) as DataSendSignUp;
     }
 
 }

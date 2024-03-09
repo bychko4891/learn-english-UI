@@ -1,18 +1,17 @@
 'use client'
 
-import {FieldValue, SubmitHandler, useForm} from "react-hook-form"
-import React, {ChangeEvent, ChangeEventHandler, FormEventHandler, useState} from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { ReactSVG } from "react-svg";
+import {SubmitHandler, useForm} from "react-hook-form"
+import React, {ChangeEvent, useState} from "react";
+import {ReactSVG} from "react-svg";
 import "./signup.styles.css";
-import {sendSignUpAPI} from "@/app/signup/sendSignUpAPI";
+import {DataSendSignUp, sendSignUpAPI} from "@/app/signup/sendSignUpAPI";
 
-export const SignUpForm = async () => {
 
-    const router = useRouter();
+export const SignUpForm = () => {
 
-    const session = useSession();
+    const [signupNameError, setNameError] = useState("");
+    const [signupEmailError, setEmailError] = useState("");
+    const [signupPasswordError, setPasswordError] = useState("");
 
     const [lover, setLover] = useState('');
     const [upper, setUpper] = useState('');
@@ -37,6 +36,7 @@ export const SignUpForm = async () => {
             password: ""
         }
     });
+
     const customValidator = (e: ChangeEvent<HTMLInputElement>) => {
         let inputValue = e.target.value;
         if(lowerReg.test(inputValue)) {
@@ -66,15 +66,14 @@ export const SignUpForm = async () => {
         }
     };
 
+    const onSubmit: SubmitHandler<DataSendSignUp> = async (data) => {
 
+        const res = await sendSignUpAPI(data);
 
-    const onSubmit: SubmitHandler<FieldValue<any>> = (data) => {
-        const formData = data as FormData;
-        const res = await sendSignUpAPI(formData);
-        alert(JSON.stringify(data))
-        console.log(data)
+        setNameError(res?.name || "");
+        setEmailError(res?.email || "");
+        setPasswordError(res?.password || "");
     }
-
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="class">
@@ -92,12 +91,18 @@ export const SignUpForm = async () => {
                 <ReactSVG className="modal__icon" src="/images/user.svg"/>
             </div>
 
-            <div style={{height: 40, color:"tomato"}}>{errors?.name && <span>{errors.name?.message?.toString() || "Error"}</span>}</div>
+            <div style={{height: 40, color: "tomato"}}>
+                {errors?.name && <span>{errors.name?.message?.toString()}</span>}
+                <span>{signupNameError}</span>
+            </div>
 
             <div className="wrap-input100 input">
                 <input className="input100" placeholder="Email" {...register("email", {
                     required: "Поле обов'язкове",
-                    pattern: {value: /^.+@{1}.+$/, message: "Повинна бути правильно сформована адреса електронної пошти"},
+                    pattern: {
+                        value: /^.+@{1}.+$/,
+                        message: "Повинна бути правильно сформована адреса електронної пошти"
+                    },
                     maxLength: {value: 50, message: "Максимальна довжина поля 50 символів"}
 
                 })} />
@@ -108,14 +113,17 @@ export const SignUpForm = async () => {
                 <ReactSVG className="modal__icon" src="/images/email.svg"/>
             </div>
 
-            <div style={{height: 40, color:"tomato"}}>{errors?.email && <span>{errors.email?.message?.toString() || "Error!"}</span>}</div>
+            <div style={{height: 40, color: "tomato"}}>
+                {errors?.email && <span>{errors.email?.message?.toString()}</span>}
+                <span>{signupEmailError}</span>
+            </div>
 
             <div className="wrap-input100 input" data-validate="Password is required">
                 <input className="input100" placeholder="Пароль" type="password" {...register("password", {
                     required: "Поле обов'язкове",
-                    minLength: {value: 6, message: "Мінімальна довжина поля 3 символи"},
+                    minLength: {value: 6, message: "Мінімальна довжина поля 6 символів"},
                     maxLength: {value: 50, message: "Максимальна довжина поля 50 символів"}
-                })}  onChange={customValidator}/>
+                })} onChange={customValidator}/>
 
                 <span className="focus-input100"></span>
                 <span className="symbol-input100">
@@ -124,7 +132,10 @@ export const SignUpForm = async () => {
                 <ReactSVG className="modal__icon" src="/images/lock-password.svg"/>
             </div>
 
-            <div style={{height: 40, color:"tomato"}}><span>{errors?.password?.message?.toString()}</span></div>
+            <div style={{height: 40, color: "tomato"}}>
+                <span>{errors?.password?.message?.toString()}</span>
+                <span>{signupPasswordError}</span>
+            </div>
 
             <div className="validation">
                 <ul>
