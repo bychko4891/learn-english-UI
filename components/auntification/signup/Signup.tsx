@@ -1,7 +1,6 @@
 'use client'
 
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
-import {GoogleButtonSignUp} from "@/components/auntification/google/GoogleButtonSignUp";
 import "../auth.styles.css";
 import Image from "next/image";
 import {SignUpForm} from "@/components/auntification/signup/SignUpForm";
@@ -19,32 +18,32 @@ export const Signup = () => {
         password: ''
     });
 
-    const [error, setError] = useState('');
-    const nameChangeHandler = (event) => {
-        const {name, value} = event.target;
-        setFormData({...formData, [name]: value});
-    };
-
-    const emailChangeHandler = (event) => {
-        const {name, value} = event.target;
-        setFormData({...formData, [name]: value});
-    };
-
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(formData.email);
-        if (!formData.email.trim()) {
-            setError('Email is required');
-            return;
-        }
-        if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            setError('Invalid email format');
-            return;
-        }
-        formData.email = '';
-        // Отримайте дані з форми та виконайте подальші дії, наприклад, відправку на сервер
-    };
+    // const [error, setError] = useState('');
+    // const nameChangeHandler = (event) => {
+    //     const {name, value} = event.target;
+    //     setFormData({...formData, [name]: value});
+    // };
+    //
+    // const emailChangeHandler = (event) => {
+    //     const {name, value} = event.target;
+    //     setFormData({...formData, [name]: value});
+    // };
+    //
+    //
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     console.log(formData.email);
+    //     if (!formData.email.trim()) {
+    //         setError('Email is required');
+    //         return;
+    //     }
+    //     if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    //         setError('Invalid email format');
+    //         return;
+    //     }
+    //     formData.email = '';
+    //     // Отримайте дані з форми та виконайте подальші дії, наприклад, відправку на сервер
+    // };
 
 
     return (
