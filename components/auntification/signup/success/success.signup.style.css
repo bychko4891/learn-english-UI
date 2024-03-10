@@ -1,0 +1,19 @@
+.success__signup h1 {
+    margin-top: 20px;
+    color: #57b846;
+}
+
+.success__signup p {
+    margin-top: 4px;
+    font-size: 20px;
+}
+
+[data-theme='light'] .success__signup .images::before {
+    content: url("white_success.gif");
+    margin-top: 5px;
+}
+[data-theme='dark'] .success__signup .images::before {
+    content: url("black_success.gif");
+    margin-top: 5px;
+
+}

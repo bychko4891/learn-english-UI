@@ -13,7 +13,7 @@ export const Breadcrumb = ({breadcrumb}: Props) => {
         <nav aria-label="breadcrumb" className="bread-crumbs__bottom">
             <ol className="breadcrumb d-flex gap-3 p-0">
                 <li className="breadcrumb-item">
-                    <Link href="/public">
+                    <Link href="/">
                         <Image className="colored-svg reset-styles ms-auto" src="/images/home.svg" alt="profile"
                              width="20" height="20"/>
                     </Link>

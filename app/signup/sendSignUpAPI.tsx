@@ -22,7 +22,7 @@ export async function sendSignUpAPI(formValues: DataSendSignUp) {
     });
 
     if (response.ok) {
-        redirect("/login");
+        redirect("/signup/success");
     }
 
     if (response.status === 400) {

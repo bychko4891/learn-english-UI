@@ -53,6 +53,7 @@ body {
 
     --dashui-body-bg-color: rgb(40 42 57);
     --dashui-body-bg: url("/images/bg-abstract-4-dark.jpg");
+
     --dashui-body-color: #64748b;
 
     --dashui-border-color: #475569;
@@ -92,6 +93,7 @@ body {
 [data-theme='light'] {
     --dashui-body-bg-color: #f6f4ff;
     --dashui-body-bg: url("/images/bg-abstract-4-light.jpg");
+    --dashui-signup-bg: url("/images/wnite_success.gif");
     --dashui-body-color: #475569;
 
     --dashui-border-color: #e2e8f0;
