@@ -6,7 +6,7 @@
     display: -ms-flexbox;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 10px 130px 133px 95px;
+    padding: 10px 0 40px 0;
 }
 
 .validation {
@@ -76,3 +76,22 @@ button:disabled {
     background: #0f172a;
 }
 
+.check-policy {
+    margin-top: 20px;
+}
+
+.check-policy input{
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+}
+
+.check-policy a {
+    font-size: 18px;
+    color: #a775f9;
+}
+
+.check-policy a:hover{
+    color: var(--dashui-indigo);
+    text-decoration: underline;
+}

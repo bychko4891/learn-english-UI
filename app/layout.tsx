@@ -20,14 +20,14 @@ export default function RootLayout({ children,}: Readonly<{ children: React.Reac
     return (
         <html lang="uk-UA">
         <body>
-        <Providers>
+        {/*<Providers>*/}
             <ConstantLayout>
                 <SideBar/>
                 <main id="app-content">
                     {children}
                 </main>
             </ConstantLayout>
-        </Providers>
+        {/*</Providers>*/}
         </body>
         </html>
     );

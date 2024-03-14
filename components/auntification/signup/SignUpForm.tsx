@@ -5,6 +5,7 @@ import React, {ChangeEvent, useState} from "react";
 import {ReactSVG} from "react-svg";
 import "./signup.styles.css";
 import {DataSendSignUp, sendSignUpAPI} from "@/app/signup/sendSignUpAPI";
+import Link from "next/link";
 
 
 export const SignUpForm = () => {
@@ -33,7 +34,8 @@ export const SignUpForm = () => {
         defaultValues: {
             name: "",
             email: "",
-            password: ""
+            password: "",
+            policy: false
         }
     });
 
@@ -155,6 +157,18 @@ export const SignUpForm = () => {
                         <span>Довжина - щонайменше 6 символів</span>
                     </li>
                 </ul>
+            </div>
+
+            <div className="check-policy d-flex align-items-center">
+                <input type="checkbox" {...register("policy", {
+                    required:  "Неохідно прийняти наші правила та умови"
+                })} />
+
+                <span>Я погоджуюся з <Link href="/policy" target="_blank">Правилами та умовами</Link></span>
+            </div>
+
+            <div style={{color: "tomato"}}>
+                <span>{errors?.policy?.message?.toString()}</span>
             </div>
 
             <div className="container-login100-form-btn">

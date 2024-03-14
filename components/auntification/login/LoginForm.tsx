@@ -2,7 +2,6 @@
 
 import React, {FormEvent, useState} from "react";
 import {ReactSVG} from "react-svg";
-import {signIn, useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 
 
@@ -13,8 +12,7 @@ type UnauthorizedLoginResponse = {
 };
 export const LoginForm = () => {
 
-    const session = useSession();
-    console.log(session.data +  ' session !!!!!!!!!!!')
+    // console.log(session.data +  ' session !!!!!!!!!!!')
 
     // const [email, setEmail] = useState('');
     // const [password, setPassword] = useState('');
@@ -25,20 +23,20 @@ export const LoginForm = () => {
 
         const formData = new FormData(e.currentTarget);
 
-        const response = await signIn('credentials',
-            {
-                email: formData.get('email'),
-                password: formData.get('password'),
-                redirect: false
-            });
+        // const response = await signIn('credentials',
+        //     {
+        //         email: formData.get('email'),
+        //         password: formData.get('password'),
+        //         redirect: false
+        //     });
 
-        if (response && !response.error) {
-            console.log(response.status + ' if !!!!!');
-            router.push('/about');
-
-        } else if(response && response.error){
-            console.log(response.error + ' else !!!1');
-        }
+        // if (response && !response.error) {
+        //     console.log(response.status + ' if !!!!!');
+        //     router.push('/about');
+        //
+        // } else if(response && response.error){
+        //     console.log(response.error + ' else !!!1');
+        // }
     };
 
 

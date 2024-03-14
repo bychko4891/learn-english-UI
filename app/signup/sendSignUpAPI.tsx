@@ -3,13 +3,11 @@
 import {env} from "@/env.mjs";
 import {redirect} from "next/navigation";
 
-
 export type DataSendSignUp = {
     name: string;
     email: string;
     password: string;
 };
-
 
 export async function sendSignUpAPI(formValues: DataSendSignUp) {
 
