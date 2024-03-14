@@ -1,5 +1,6 @@
-import {NextApiRequest, NextApiResponse} from "next";
 import {google} from "googleapis";
+import {NextRequest, NextResponse} from "next/server";
+import {redirect} from "next/navigation";
 
 
 const NEXTAUTH_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
@@ -9,28 +10,28 @@ const REDIRECT_URL = NEXTAUTH_URL + process.env.GOOGLE_REDIRECT_URL; // Напр
 
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
 
-    console.log(" callback ")
-    const { code } = req.body;
-    console.log(code + " CODE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    const  reqParams   = req.nextUrl.searchParams;
+    const code = reqParams.get("code") || "";
+
+    console.log(code + " code **********************************")
 
     try {
-        // Отримуємо доступний токен після успішної аутентифікації
         const { tokens } = await oAuth2Client.getToken(code);
 
-        // Встановлюємо токен для подальшого використання
         oAuth2Client.setCredentials(tokens);
 
-        // Отримуємо інформацію про користувача
         const oauth2 = google.oauth2({ version: 'v2', auth: oAuth2Client });
         const { data } = await oauth2.userinfo.get();
 
-        // Відправляємо інформацію про користувача у відповідь
-        res.status(200).json(data);
+        // return NextResponse.json(data, {status: 200});
+        return NextResponse.redirect("/about", 307);
+        // redirect("/about");
     } catch (error) {
-        console.error('Error retrieving access token:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        // console.error('Error retrieving access token:', error);
+        // res.status(500).json({ error: 'Internal server error' });
+        return NextResponse.json(error, {status: 500});
     }
     // } else {
     //     res.setHeader('Allow', ['GET', 'POST']);

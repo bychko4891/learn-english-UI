@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
         });
             console.log(authUrl + " auth url !!!")
 
+
     const url = {url: authUrl}
         // Повертаємо URL для перенаправлення
         // res.json({authUrl});
