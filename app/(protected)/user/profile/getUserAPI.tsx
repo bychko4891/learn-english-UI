@@ -1,18 +1,10 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {getJwtAccessToken, regenerateAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
+import { getJwtAccessToken } from "@/app/(protected)/jwtSessionService/authTokenHandler";
 import {fetchWithToken} from "@/app/fetchWithToken";
+import User from "@/user/User";
 
-export interface UserSuccessResponse {
-    uuid: string;
-    login: string;
-    name: string;
-    email: string;
-    about: string;
-    gender:[string];
-    dateOfCreated: string;
-}
 
 export async function getUserAPI() {
 
@@ -34,7 +26,7 @@ export async function getUserAPI() {
             console.log(' user get 401 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         }
 
-        return (await response.json()) as UserSuccessResponse;
+        return (await response.json()) as User;
         // }
     } catch (error) {
         console.error('Error fetching data USER:');

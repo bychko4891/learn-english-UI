@@ -10,10 +10,7 @@ type GoogleURLSend = {
 
 export const GoogleButtonSignUp = () => {
 
-    const searchParams = useSearchParams()
 
-    // const callbackUrl = "/about";
-    const callbackUrl = searchParams.get("callbackUrl") || "/about";
     const [googleUrl, setGoogleUrl] = useState("");
     const googleAuth = async () => {
         const response = await fetch('/api/auth/google', {

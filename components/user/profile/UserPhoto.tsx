@@ -1,13 +1,10 @@
 'use server';
 
-import {getServerSession} from "next-auth";
-import {authConfig} from "@/configs/auth";
 import Image from "next/image";
 
 export const UserPhoto = async () => {
 
-    const session = await getServerSession(authConfig);
-    const userAvatar = "/api/avatar/" + session?.user?.image || "#";
+    const userAvatar = "/api/avatar/no-avatar.png";
 
     return (
         <div className="user-photo-block overflow-visible">

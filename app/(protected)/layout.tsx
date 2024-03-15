@@ -15,20 +15,15 @@ import {SignOut} from "@/app/(protected)/jwtSessionService/SignOut";
 export default async function Layout({ children }: { children: ReactNode }) {
   const accessTokenCookie = await getJwtAccessToken();
   const accessTokenCookieIsEmpty = accessTokenCookie === undefined;
-  console.log("0")
   if (accessTokenCookie) {
-    console.log("1")
     return (
         <>
           {children}
         </>
     );
   }
-  console.log("2")
   const accessToken = await newAccessToken(accessTokenCookieIsEmpty);
-  console.log("3")
   if (accessToken) {
-    console.log("4")
     return (
         <>
           <SetAccessToken accessToken={accessToken}/>
@@ -36,11 +31,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
         </>
     );
   }
-  console.log("5")
   const tokens = await newRefreshAndAccessToken();
-  console.log(tokens + " TOKENS ")
   if (tokens !== undefined) {
-    console.log(tokens + " TOKENS 2 !!! ")
     return (
         <>
           {children}
@@ -48,7 +40,6 @@ export default async function Layout({ children }: { children: ReactNode }) {
         </>
     );
   }
-  console.log("6")
   return (
       <>
         <SignOut />

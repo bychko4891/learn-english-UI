@@ -3,8 +3,6 @@ import {SettingsIco} from "@/components/user/profile/SettingsIco";
 import {UserInfo} from "@/components/user/profile/UserInfo";
 import {UserNavigation} from "@/components/user/profile/UserNavigation";
 import "./userstyles.css";
-import {getUserAPI, UserSuccessResponse} from "@/app/(protected)/user/profile/getUserAPI";
-
 export const LeftBlock = async () => {
 
 

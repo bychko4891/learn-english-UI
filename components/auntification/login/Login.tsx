@@ -7,6 +7,7 @@ import {LoginForm} from "@/components/auntification/login/LoginForm";
 import {GoogleButtonSignUp} from "@/components/auntification/google/GoogleButtonSignUp";
 import {GoogleColorSvgComponent} from "@/components/auntification/google/GoogleColorSvgComponent";
 import Image from "next/image";
+import {Suspense} from "react";
 
 
 export const Login = () => {

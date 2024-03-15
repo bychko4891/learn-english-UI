@@ -4,6 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
     server: {
         SERVER_API_URL: z.string().url(),
+
     },
     client: {},
     runtimeEnv: process.env,

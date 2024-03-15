@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import {signOut, useSession} from "next-auth/react";
 import Image from "next/image";
+import { useUser } from "@/app/UserProvider";
 
 export const UserGroup = () => {
 
-    const session = useSession();
+    const { user } = useUser();
+
 
     useEffect(() => {
         import("./bootstrap.bundle.min").then((bootstrap) => {
         });
     }, []);
 
-    const avatar = "/api/avatar/" + session.data?.user?.image || "/images/avatar-2.jpeg";
+    const avatar = "/api/avatar/" + user?.userAvatar?.imageName || "/images/avatar-2.jpeg";
 
     return (
 
@@ -28,7 +29,7 @@ export const UserGroup = () => {
 
                 <div className="px-4 pb-0 pt-2">
                     <div className="lh-1 ">
-                        <h5 className="mb-1">{session.data?.user?.name}</h5>
+                        <h5 className="mb-1">{user?.name}</h5>
                         <Link href="/user/profile" className="text-inherit fs-6">View my profile</Link>
                     </div>
                     <div className=" dropdown-divider mt-3 mb-2"></div>
@@ -58,7 +59,8 @@ export const UserGroup = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item d-flex align-items-center" onClick={() => signOut({callbackUrl: "/"})} href="#">
+                        <Link className="dropdown-item d-flex align-items-center"  href="#">
+                        {/*<Link className="dropdown-item d-flex align-items-center" onClick={() => signOut({callbackUrl: "/"})} href="#">*/}
                             <Image className="colored-svg reset-styles me-2" src="/images/power-off.svg"
                                  alt="User statistics" width="15" height="15"/>
                             Вихід

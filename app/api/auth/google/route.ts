@@ -1,4 +1,4 @@
-import { google, oauth2_v2 } from 'googleapis';
+import {google, oauth2_v2} from 'googleapis';
 import {NextRequest, NextResponse} from "next/server";
 
 
@@ -12,16 +12,14 @@ const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_U
 
 export async function GET(req: NextRequest) {
 
-    console.log("GOOGLE step one !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        const authUrl = oAuth2Client.generateAuthUrl({
-            access_type: 'offline',
-            scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
-        });
-            console.log(authUrl + " auth url !!!")
+    const authUrl = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
+    });
 
 
     const url = {url: authUrl}
-        // Повертаємо URL для перенаправлення
-        // res.json({authUrl});
+    // Повертаємо URL для перенаправлення
+    // res.json({authUrl});
     return NextResponse.json({url: authUrl}, {status: 200});
 }

@@ -1,7 +1,5 @@
 "use server";
 
-import {getServerSession} from "next-auth";
-import {authConfig} from "@/configs/auth";
 import {getAboutAPI} from "@/app/about/getAboutAPI";
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 
@@ -13,12 +11,14 @@ type Resp = {
 
 export default async function About() {
 
+
+
+
     const breadcrumbNavigation = {
         href: "/about",
         name: "Про нас"
     }
 
-    const session = await getServerSession(authConfig);
     const about = await getAboutAPI();
 
 
