@@ -20,7 +20,7 @@ type SuccessApiLoginResponse = {
 
 };
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
 
     const reqParams = req.nextUrl.searchParams;
     const code = reqParams.get("code") || "";

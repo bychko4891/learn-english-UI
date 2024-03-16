@@ -39,18 +39,19 @@ export async function regenerateAccessToken(
     return undefined;
 }
 
-export async function regenerateAllTokens(
-    refreshToken: string,
-): Promise<SuccessAccessTokenRegeneration> {
-    const response = await fetch(env.SERVER_API_URL + '/api/auth/refresh/refresh-token', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ jwtRefreshToken: refreshToken }),
-    });
+export async function regenerateAllTokens(refreshToken: string,): Promise<SuccessAccessTokenRegeneration | undefined> {
+    if(refreshToken) {
+        const response = await fetch(env.SERVER_API_URL + '/api/auth/refresh/refresh-token', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({jwtRefreshToken: refreshToken}),
+        });
 
-    return (await response.json()) as SuccessAccessTokenRegeneration;
+        return (await response.json()) as SuccessAccessTokenRegeneration;
+    }
+    return undefined;
 }
 
 export async function redirectUnauthorized() {

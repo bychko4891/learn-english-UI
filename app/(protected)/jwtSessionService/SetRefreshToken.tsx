@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { setToken } from "./setToken";
+import { setAccess } from "./setAccess";
 
 export function SetRefreshToken({ accessToken }: { accessToken: string }) {
     useEffect(() => {
-        setToken(accessToken);
+        setAccess(accessToken);
     }, [accessToken]);
 
     return <></>;

@@ -3,23 +3,20 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import User from '@/user/User';
 
-// Визначте тип для об'єкта користувача
 type UserContextType = {
-    user: User | null; // Замість User може бути будь-який тип вашого користувача
-    updateUser: (userData: User) => void;
+    user: User | null;
+    updateUser: (userData: User | null) => void;
 };
 
-// Створення контексту для користувача з визначеним типом
 const UserContext = createContext<UserContextType>({
     user: null,
     updateUser: () => {},
 });
 
-// Створення глобального провайдера для користувача
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null); // Початковий стан користувача
 
-    const updateUser = (userData: User) => {
+    const updateUser = (userData: User | null) => {
         setUser(userData);
     };
 
@@ -30,5 +27,4 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-// Хук для отримання даних користувача в компонентах
 export const useUser = () => useContext(UserContext);

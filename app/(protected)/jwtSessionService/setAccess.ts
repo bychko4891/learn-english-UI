@@ -2,6 +2,6 @@
 
 import { setJwtAccessToken } from "./SetHttpOnlyCookies";
 
-export async function setToken(accessToken: string) {
+export async function setAccess(accessToken: string) {
     setJwtAccessToken(accessToken);
 }

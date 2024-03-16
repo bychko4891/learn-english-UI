@@ -30,3 +30,28 @@ export function setJwtRefreshToken(jwtRefreshToken: string) {
         priority: "high",
     });
 }
+export function deleteJwtAccessToken() {
+    cookies().set({
+        name: JWT_ACCESS_TOKEN,
+        value: "",
+        maxAge: -1,
+        path: "/",
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        priority: "high"
+    });
+}
+
+export function deleteJwtRefreshToken() {
+    cookies().set({
+        name: JWT_REFRESH_TOKEN,
+        value: "",
+        maxAge: -1,
+        path: "/",
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        priority: "high"
+    });
+}

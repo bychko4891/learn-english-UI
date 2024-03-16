@@ -1,11 +1,31 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useUser } from "@/app/UserProvider";
+import { useRouter } from 'next/navigation';
+import {deleteAccessAndRefresh} from "@/app/(protected)/jwtSessionService/deleteAccessAndRefresh";
 
 export const UserGroup = () => {
 
     const { user } = useUser();
+
+    const { user: currentUser, updateUser } = useUser();
+
+    const router = useRouter()
+
+    const [shouldSignOut, setShouldSignOut] = useState(false);
+
+    function signOut() {
+        setShouldSignOut(true);
+        deleteAccessAndRefresh();
+    }
+
+    useEffect(() => {
+        if (shouldSignOut) {
+            updateUser(null);
+            router.push("/login");
+        }
+    }, [shouldSignOut]);
 
 
     useEffect(() => {
@@ -59,8 +79,8 @@ export const UserGroup = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link className="dropdown-item d-flex align-items-center"  href="#">
-                        {/*<Link className="dropdown-item d-flex align-items-center" onClick={() => signOut({callbackUrl: "/"})} href="#">*/}
+                        {/*<Link className="dropdown-item d-flex align-items-center"  href="#">*/}
+                        <Link className="dropdown-item d-flex align-items-center" onClick={signOut} href="#">
                             <Image className="colored-svg reset-styles me-2" src="/images/power-off.svg"
                                  alt="User statistics" width="15" height="15"/>
                             Вихід

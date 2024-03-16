@@ -1,15 +1,14 @@
-import { ReactNode } from "react";
+import {ReactNode} from "react";
 import {
   getJwtAccessToken,
-  redirectUnauthorized,
   regenerateAccessToken,
   regenerateAllTokens,
   SuccessAccessTokenRegeneration,
 } from "./jwtSessionService/authTokenHandler";
-import { cookies } from "next/headers";
-import { JWT_REFRESH_TOKEN } from "../../CookiesName";
-import { SetAccessToken } from "./jwtSessionService/SetAccessToken";
-import { SetAllTokens } from "./jwtSessionService/SetAllTokens";
+import {cookies} from "next/headers";
+import {JWT_REFRESH_TOKEN} from "../../CookiesName";
+import {SetAccessToken} from "./jwtSessionService/SetAccessToken";
+import {SetAllTokens} from "./jwtSessionService/SetAllTokens";
 import {SignOut} from "@/app/(protected)/jwtSessionService/SignOut";
 
 export default async function Layout({ children }: { children: ReactNode }) {
@@ -43,7 +42,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   return (
       <>
         <SignOut />
-        {children}
+        {/*{children}*/}
       </>
   );
 
@@ -53,7 +52,6 @@ export default async function Layout({ children }: { children: ReactNode }) {
     if (accessTokenIsEmpty) {
       const refreshToken = cookies().get(JWT_REFRESH_TOKEN);
       if (!refreshToken) {
-        // throw await redirectUnauthorized();
         return undefined;
       }
 
@@ -65,10 +63,10 @@ export default async function Layout({ children }: { children: ReactNode }) {
   async function newRefreshAndAccessToken(): Promise<SuccessAccessTokenRegeneration | undefined> {
     const refreshToken = cookies().get(JWT_REFRESH_TOKEN);
     if (!refreshToken) {
-      // throw await redirectUnauthorized();
       return undefined;
     }
 
     return await regenerateAllTokens(refreshToken.value);
   }
+
 }
