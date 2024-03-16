@@ -68,14 +68,6 @@
     height: 10px;
 }
 
-button:disabled {
-    background: #0f172a;
-}
-
-.login100-form-btn:disabled {
-    background: #0f172a;
-}
-
 .check-policy {
     margin-top: 20px;
 }

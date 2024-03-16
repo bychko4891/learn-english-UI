@@ -23,7 +23,7 @@ export async function getUserAPI() {
             throw new Error('Network response was not ok');
         }
         if(response.status === 401) {
-            console.log(' user get 401 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
         }
 
         return (await response.json()) as User;

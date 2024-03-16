@@ -30,12 +30,10 @@ export const  Test = ({uuid} : { uuid: string }) => {
                 if (response.status === 400)  {
                     const res = (await response.json()) as  BadResp;
                     setResp(res);
-                    console.error("Failed to validate email")
 
                 } else {
                     const res = (await response.json()) as  BadResp;
                     setResp(res);
-                    console.log("Email validated successfully");
                 }
             } catch (error) {
                 // console.error("Error validating email:", error);

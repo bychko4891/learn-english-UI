@@ -26,7 +26,6 @@ export default async function ValidateEmail() {
     //     }
     //
     // });
-    // console.log(response);
 
      // const res = (await response.json()) as  BadResp;
 const uuid = "83409603986903486"

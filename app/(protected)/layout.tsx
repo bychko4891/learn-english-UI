@@ -7,7 +7,7 @@ import {
   SuccessAccessTokenRegeneration,
 } from "./jwtSessionService/authTokenHandler";
 import { cookies } from "next/headers";
-import { JWT_REFRESH_TOKEN } from "../../CooKiesName";
+import { JWT_REFRESH_TOKEN } from "../../CookiesName";
 import { SetAccessToken } from "./jwtSessionService/SetAccessToken";
 import { SetAllTokens } from "./jwtSessionService/SetAllTokens";
 import {SignOut} from "@/app/(protected)/jwtSessionService/SignOut";

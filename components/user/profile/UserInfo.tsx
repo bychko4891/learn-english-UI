@@ -6,18 +6,6 @@ import {SaveUserForContext} from "@/components/user/profile/SaveUserForContext";
 
 export const UserInfo = async () => {
 
-    // const router = useRouter();
-
-    // useEffect(() => {
-    //     // Перевірте, чи є параметр запиту "user" в URL
-    //     const { user } = router.query;
-    //     if (user) {
-    //         // Оновіть стан користувача на основі даних з параметра запиту
-    //         const userData: User = JSON.parse(user as string);
-    //         updateUser(userData);
-    //     }
-    // }, [router.query]);
-
     const user = await getUserAPI();
 
     const gender = user?.gender.at(1) || 'MALE';

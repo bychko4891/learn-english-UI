@@ -1,6 +1,6 @@
 'use client'
 
-import { GoogleColorSvgComponent } from "@/components/auntification/google/GoogleColorSvgComponent";
+import {GoogleColorSvgComponent} from "@/components/auntification/google/GoogleColorSvgComponent";
 import {redirect, useSearchParams} from "next/navigation";
 import {useEffect, useState} from "react";
 
@@ -10,31 +10,25 @@ type GoogleURLSend = {
 
 export const GoogleButtonSignUp = () => {
 
-
     const [googleUrl, setGoogleUrl] = useState("");
     const googleAuth = async () => {
         const response = await fetch('/api/auth/google', {
             method: "GET"
         });
 
-        console.log(response + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        const authUrl  = await response.json() as GoogleURLSend;
-        console.log(authUrl.url + " google url !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        const authUrl = await response.json() as GoogleURLSend;
         setGoogleUrl(authUrl.url);
     };
 
     const handleGoogleAuthClick = () => {
         googleAuth();
     };
-    if(!!googleUrl) {
+    if (!!googleUrl) {
         redirect(googleUrl);
     }
     return (
-
         <button className="google-button" onClick={handleGoogleAuthClick}>
-        {/*<button className="google-button" onClick={() => signIn('google', {callbackUrl})}>*/}
             <GoogleColorSvgComponent/>
         </button>
-
     );
 };

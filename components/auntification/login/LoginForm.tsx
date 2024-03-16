@@ -2,86 +2,55 @@
 
 import React, {FormEvent, useState} from "react";
 import {ReactSVG} from "react-svg";
-import {useRouter} from "next/navigation";
+import {sendFormLoginAPI, UnauthorizedLoginResponse} from "@/app/login/sendFormLoginAPI";
 
-
-type UnauthorizedLoginResponse = {
-    status: string;
-    fieldName: string;
-    fieldMessage: string;
-};
 export const LoginForm = () => {
 
-    // console.log(session.data +  ' session !!!!!!!!!!!')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [disabled, setDisabled] = useState(false);
 
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    const router = useRouter();
+    const [respData, setRespData] = useState<UnauthorizedLoginResponse>()
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setDisabled(true);
+        const data = {
+            email: email,
+            password: password
+        }
+        try {
+            const response = await sendFormLoginAPI(data);
+            setDisabled(false);
+            if(response) {
+                setRespData(response);
+            }
+        } catch (error) {
+            setDisabled(false);
+            console.log("Server error: " + error)
 
-        const formData = new FormData(e.currentTarget);
-
-        // const response = await signIn('credentials',
-        //     {
-        //         email: formData.get('email'),
-        //         password: formData.get('password'),
-        //         redirect: false
-        //     });
-
-        // if (response && !response.error) {
-        //     console.log(response.status + ' if !!!!!');
-        //     router.push('/about');
-        //
-        // } else if(response && response.error){
-        //     console.log(response.error + ' else !!!1');
-        // }
-    };
-
-
-    // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     const formData = {
-    //         email: email,
-    //         password: password
-    //     }
-    //     try {
-    //         const response = await sendFormLoginAPI(formData);
-    //
-    //
-    //         if(response)console.log(response?.fieldMessage);
-    //         // console.log(response.jwtAccessToken);
-    //         // localStorage.setItem("accessJwtToken", response.data.jwtAccessToken);
-    //         // console.log(localStorage.getItem('accessJwtToken') + ' localStorage');
-    //     } catch (error) {
-    //         console.log("Server error: " + error)
-    //
-    //         // console.error('Error submitting form:');
-    //     }
-    // }
-
+        }
+    }
 
     return (
         <form onSubmit={handleSubmit} className="class">
 
             <div className="wrap-input100 input">
-                {/*<input className="input100" type="text" name="email" placeholder="Email" value={formData.email} onChange={emailChangeHandler}/>*/}
-                <input className="input100" type="email" name="email" placeholder="Email"/>
-
-                {/*<input className="input100" type="email" name="email" placeholder="Email" value={email}*/}
-                {/*       onChange={(e) => setEmail(e.target.value)} required={true} />*/}
+                <input className="input100" type="email" name="email" placeholder="Email" value={email}
+                       onChange={(e) => setEmail(e.target.value)} required={true} />
                 <span className="focus-input100"></span>
                 <span className="symbol-input100">
                         <i className="fa fa-envelope" aria-hidden="true"></i>
-                    </span>
+                </span>
                 <ReactSVG className="modal__icon" src="/images/email.svg"/>
+            </div>
+            <div style={{height: 40, color: "tomato"}}>
+                {respData?.email && <span>{respData.email}</span>}
             </div>
 
             <div className="wrap-input100 input" data-validate="Password is required">
-                <input className="input100" type="password" name="password" placeholder="Пароль"/>
-                {/*<input className="input100" type="password" name="password" placeholder="Пароль" value={password}*/}
-                {/*       onChange={(e) => setPassword(e.target.value)}/>*/}
+                <input className="input100" type="password" name="password" placeholder="Пароль" value={password}
+                       onChange={(e) => setPassword(e.target.value)} required={true} />
                 <span className="focus-input100"></span>
                 <span className="symbol-input100">
                         <i className="fa fa-lock" aria-hidden="true"></i>
@@ -89,10 +58,13 @@ export const LoginForm = () => {
                 <ReactSVG className="modal__icon" src="/images/lock-password.svg"/>
             </div>
 
-            {/*{error && <div className="error-email text-center">{error}</div>}*/}
+            <div style={{height: 20, color: "tomato"}}>
+                {respData?.password && <span>{respData.password}</span>}
+                {respData?.general && <span>{respData.general}</span>}
+            </div>
 
             <div className="container-login100-form-btn">
-                <button type="submit" className="login100-form-btn">Увійти</button>
+                <button type="submit" className="login100-form-btn" disabled={disabled}>Увійти</button>
             </div>
 
         </form>

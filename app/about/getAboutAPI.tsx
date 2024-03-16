@@ -28,8 +28,6 @@ export async function getAboutAPI() {
             throw new Error('Network response was not ok');
         }
 
-        // const data = await response.json();
-        // console.log(data + ' about !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         // if(!data) {
         const aboutPage = (await response.json()) as AboutSuccessResponse;
         return aboutPage;

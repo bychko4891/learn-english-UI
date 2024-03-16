@@ -18,34 +18,6 @@ export const Signup = () => {
         password: ''
     });
 
-    // const [error, setError] = useState('');
-    // const nameChangeHandler = (event) => {
-    //     const {name, value} = event.target;
-    //     setFormData({...formData, [name]: value});
-    // };
-    //
-    // const emailChangeHandler = (event) => {
-    //     const {name, value} = event.target;
-    //     setFormData({...formData, [name]: value});
-    // };
-    //
-    //
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     console.log(formData.email);
-    //     if (!formData.email.trim()) {
-    //         setError('Email is required');
-    //         return;
-    //     }
-    //     if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    //         setError('Invalid email format');
-    //         return;
-    //     }
-    //     formData.email = '';
-    //     // Отримайте дані з форми та виконайте подальші дії, наприклад, відправку на сервер
-    // };
-
-
     return (
         <div className="main-content p-4 w-95">
             <Breadcrumb breadcrumb={breadcrumbNavigation}/>

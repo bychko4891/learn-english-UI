@@ -5,11 +5,10 @@ import {setJwtAccessToken, setJwtRefreshToken} from "@/app/(protected)/jwtSessio
 
 
 
-const NEXTAUTH_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const CLIENT_SECRET = process.env.GOOGLE_SECRET;
-const REDIRECT_URL = NEXTAUTH_URL + process.env.GOOGLE_REDIRECT_URL; // Наприклад, http://localhost:3000/api/auth/google/callback
-
+const APP_URL = env.APP_URL || 'http://localhost:3000';
+const CLIENT_ID = env.GOOGLE_CLIENT_ID;
+const CLIENT_SECRET = env.GOOGLE_SECRET;
+const REDIRECT_URL = APP_URL + env.GOOGLE_CALLBACK_URL;
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
@@ -58,9 +57,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
         }
 
         return NextResponse.redirect(new URL('/login', req.url));
+
     } catch (error) {
-        // console.error('Error retrieving access token:', error);
-        // res.status(500).json({ error: 'Internal server error' });
+
         return NextResponse.json(error, {status: 500});
     }
     // } else {

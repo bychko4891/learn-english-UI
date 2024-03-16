@@ -306,3 +306,11 @@ iframe {
     background: var(--dashui-dark);
     transition: 1s ease-in-out;
 }
+
+button:disabled {
+    background: #0f172a;
+}
+
+.login100-form-btn:disabled {
+    background: #0f172a;
+}

@@ -29,14 +29,12 @@
 //     // Беремо останній елемент масиву, який буде UUID
 //     const uuid = parts[parts.length - 1];
 //
-//     console.log(uuid + ' uuid ! ! !')
 //
 //     const resp = await fetch(env.SERVER_API_URL + '/api/find-user/' + uuid, {
 //         method: "GET",
 //     });
 //
 //     if (resp.status === 200) {
-//         console.log(url + " 200  bo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 //     //     const user = (await resp.json()) as SuccessResponse;
 //         // const session = await getServerSession(req, res, {
 //         //     user: { id: user.id, email: user.name  }, useSecureCookies: true
@@ -57,8 +55,18 @@
 //     // return resp;
 // }
 
+
+
+
+
+
+
+
+
+
+
+
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from "next-auth/next";
 import {env} from "@/env.mjs";
 import {setJwtAccessToken, setJwtRefreshToken} from "@/app/(protected)/jwtSessionService/SetHttpOnlyCookies";
 import {NextRequest, NextResponse} from "next/server";
@@ -77,16 +85,8 @@ type SuccessResponse = {
 };
 
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if(req.method === 'GET') {
-        console.log( "GET  API Test URL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    }
-
-    if(req.method === 'POST') {
-        console.log( "POST API Test URL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    }
 
 
-    console.log( " API Test URL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     const localUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
@@ -101,35 +101,20 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
 
  if(response.ok){
-     console.log(apiUrl + " URL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
      const user = (await response.json()) as SuccessResponse;
-     console.log(apiUrl + " response  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
      setJwtAccessToken(user.jwtAccessToken);
      setJwtRefreshToken(user.jwtRefreshToken);
-     console.log(apiUrl + " JWT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     // const { id, email, name, image } = req.body;
 
-    const session = await getServerSession({
-        user: {
-            id: user.id,
-            email: user.name,
-            name: user.name,
-            image: user.image
-        },
-        useSecureCookies: true
-    });
-     console.log(apiUrl + " session !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
     const account = {provider: "Magic Link"}
     // await signIn("Magic Link", {account,  user});
-     console.log(apiUrl + " signIn !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     // res.status(200).json({ success: true, message: 'Session created successfully' });
-     console.log(" redirect !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     res.redirect("/user/profile");
  }
- console.log(" return **********************************************************")
  return res;
 
 }

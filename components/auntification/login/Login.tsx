@@ -5,9 +5,7 @@ import Link from "next/link";
 import "../auth.styles.css";
 import {LoginForm} from "@/components/auntification/login/LoginForm";
 import {GoogleButtonSignUp} from "@/components/auntification/google/GoogleButtonSignUp";
-import {GoogleColorSvgComponent} from "@/components/auntification/google/GoogleColorSvgComponent";
 import Image from "next/image";
-import {Suspense} from "react";
 
 
 export const Login = () => {
@@ -26,7 +24,6 @@ export const Login = () => {
                     <LoginForm />
                     <p>або</p>
                     <GoogleButtonSignUp />
-
                     <div className="text-center p-t-12">
                         <Link className="txt2" href="/forgot-password">Забув/ла свій пароль?</Link>
                     </div>

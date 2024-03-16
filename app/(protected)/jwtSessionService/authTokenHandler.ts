@@ -1,5 +1,5 @@
 import {cookies} from "next/headers";
-import {JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN} from "@/CooKiesName";
+import {JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN} from "@/CookiesName";
 import {redirect} from "next/navigation";
 import { env } from "@/env.mjs";
 

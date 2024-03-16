@@ -1,7 +1,8 @@
 'use client'
 
 import {Header} from "@/components/constantLayout/header/Header";
-import {ReactNode, useState} from "react";
+import {ReactNode, Suspense, useState} from "react";
+import {Loading} from "@/app/suspense_fallback/Loading";
 
 export function ConstantLayout({children}: { children: ReactNode }) {
 
@@ -16,7 +17,9 @@ export function ConstantLayout({children}: { children: ReactNode }) {
 
         <div id="main-wrapper" className={mainWrapperClasses}>
             <Header burgerButtonClick={ handleClick } />
-           {children}
+            <Suspense fallback={< Loading />}>
+                {children}
+            </Suspense>
         </div>
 
     );

@@ -1,5 +1,5 @@
 import "server-only";
-import { JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN } from "@/CooKiesName";
+import { JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN } from "@/CookiesName";
 import { cookies } from "next/headers";
 
 export function setJwtAccessToken(jwtAccessToken: string) {
