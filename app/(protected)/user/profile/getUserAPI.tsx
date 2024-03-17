@@ -20,20 +20,21 @@ export async function getUserAPI() {
                 }
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (response.ok) {
+                return (await response.json()) as User;
             }
+
             if (response.status === 401) {
-
+               return undefined;
             }
 
-            return (await response.json()) as User;
-            // }
+
+
         } catch (error) {
             console.error('Error fetching data USER:');
             // console.error('Error fetching data:', error);
             // Обробка помилки, якщо запит не вдалося виконати
         }
     }
-
+    return undefined;
 }

@@ -9,7 +9,8 @@ import {cookies} from "next/headers";
 import {JWT_REFRESH_TOKEN} from "../../CookiesName";
 import {SetAccessToken} from "./jwtSessionService/SetAccessToken";
 import {SetAllTokens} from "./jwtSessionService/SetAllTokens";
-import {SignOut} from "@/app/(protected)/jwtSessionService/SignOut";
+import SignOut from "@/app/SignOut";
+
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const accessTokenCookie = await getJwtAccessToken();

@@ -4,20 +4,19 @@ import { useUser } from "@/app/UserProvider";
 import { useRouter } from 'next/navigation';
 import {deleteAccessAndRefresh} from "@/app/(protected)/jwtSessionService/deleteAccessAndRefresh";
 import {useEffect} from "react";
-import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies";
 
 
-export function SignOut() {
+export default function SignOut() {
 
     const { user: currentUser, updateUser } = useUser();
     const router = useRouter()
 
-    // deleteAccessAndRefresh();
-
     useEffect(() => {
         updateUser(null);
+        deleteAccessAndRefresh();
         router.push("/login")
     }, []);
 
-    return <></>;
+    return( <></> );
+
 }
