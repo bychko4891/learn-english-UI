@@ -1,12 +1,8 @@
 import {env} from "@/env.mjs";
 import {NextRequest, NextResponse} from "next/server";
 import {SuccessAccessTokenRegeneration} from "@/app/(protected)/jwtSessionService/authTokenHandler";
+import {GeneralMessage} from "@/app/DefaultResponsesInterfaces";
 
-
-type ResponseMessage = {
-
-    general: string;
-}
 
 export async function GET(req: NextRequest) {
 
@@ -28,7 +24,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({tokens}, {status: 200});
         }
 
-        const badResponse = (await response.json()) as ResponseMessage;
+        const badResponse = (await response.json()) as GeneralMessage;
 
         return NextResponse.json({badResponse}, {status: 400});
 

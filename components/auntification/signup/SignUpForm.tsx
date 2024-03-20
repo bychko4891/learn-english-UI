@@ -77,6 +77,7 @@ export const SignUpForm = () => {
         setPasswordError(res?.password || "");
     }
 
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="class">
 
@@ -93,7 +94,7 @@ export const SignUpForm = () => {
                 <ReactSVG className="modal__icon" src="/images/user.svg"/>
             </div>
 
-            <div style={{height: 40, color: "tomato"}}>
+            <div style={{height: 40, color: "rgb(233, 30, 99)"}}>
                 {errors?.name && <span>{errors.name?.message?.toString()}</span>}
                 <span>{signupNameError}</span>
             </div>
@@ -115,7 +116,7 @@ export const SignUpForm = () => {
                 <ReactSVG className="modal__icon" src="/images/email.svg"/>
             </div>
 
-            <div style={{height: 40, color: "tomato"}}>
+            <div style={{height: 40, color: "rgb(233, 30, 99)"}}>
                 {errors?.email && <span>{errors.email?.message?.toString()}</span>}
                 <span>{signupEmailError}</span>
             </div>

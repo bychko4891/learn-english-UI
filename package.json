@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.7.1",
+    "@tinymce/tinymce-react": "^4.3.2",
     "cookies-next": "^4.1.1",
     "env-nextjs": "^1.0.1",
     "googleapis": "^134.0.0",
@@ -18,6 +19,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
     "react-svg": "^16.1.33",
+    "react-toastify": "^10.0.5",
     "sharp": "^0.33.2",
     "simplebar-react": "^3.2.4",
     "zod": "^3.22.4"

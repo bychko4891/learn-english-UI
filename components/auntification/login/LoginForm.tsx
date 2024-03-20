@@ -2,7 +2,8 @@
 
 import React, {FormEvent, useState} from "react";
 import {ReactSVG} from "react-svg";
-import {sendFormLoginAPI, UnauthorizedLoginResponse} from "@/app/login/sendFormLoginAPI";
+import {sendFormLoginAPI} from "@/app/login/sendFormLoginAPI";
+import {BadRequestMessages} from "@/app/DefaultResponsesInterfaces";
 
 export const LoginForm = () => {
 
@@ -10,7 +11,7 @@ export const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [disabled, setDisabled] = useState(false);
 
-    const [respData, setRespData] = useState<UnauthorizedLoginResponse>()
+    const [respData, setRespData] = useState<BadRequestMessages>()
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

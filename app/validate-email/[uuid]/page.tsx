@@ -31,7 +31,7 @@ export default async function ValidateEmail({params: {uuid}}: Props) {
 
         return (
             <>
-                <BadValidate message={badResponse}/>
+                <BadValidate message={badResponse} />
             </>
         );
     }

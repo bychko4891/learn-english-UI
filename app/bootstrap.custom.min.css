@@ -319,6 +319,11 @@ dl, ol, ul {
         width: 25% !important;
     }
 
+    .col-md-2 {
+        flex: 0 0 auto;
+        width: 16.66666667%
+    }
+
     /*    .col-md-6 {*/
     /*        flex: 0 0 auto;*/
     /*        width: 50%*/

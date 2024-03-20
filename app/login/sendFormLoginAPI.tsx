@@ -3,24 +3,14 @@
 import {env} from "@/env.mjs";
 import {setJwtAccessToken, setJwtRefreshToken} from "@/app/(protected)/jwtSessionService/SetHttpOnlyCookies";
 import {redirect} from "next/navigation";
+import {BadRequestMessages, ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 
-type DataRequest = {
+type DataSend = {
     email: string;
     password: string;
 }
 
-export type UnauthorizedLoginResponse = {
-    email: string;
-    password: string;
-    general: string;
-};
-
-type SuccessLoginResponse = {
-    type: "Bearer";
-    jwtAccessToken: string;
-    jwtRefreshToken: string;
-};
-export async function sendFormLoginAPI(data: DataRequest) {
+export async function sendFormLoginAPI(data: DataSend) {
 
 
     const response = await fetch(env.SERVER_API_URL + '/api/auth/login', {
@@ -32,13 +22,13 @@ export async function sendFormLoginAPI(data: DataRequest) {
 
     });
     if (response.status === 200) {
-        const tokens = (await response.json()) as SuccessLoginResponse;
+        const tokens = (await response.json()) as ResponseTokens;
         setJwtAccessToken(tokens.jwtAccessToken);
         setJwtRefreshToken(tokens.jwtRefreshToken);
         redirect('/user/profile');
     }
     if (response.status === 401 || response.status === 400) {
 
-        return (await response.json()) as UnauthorizedLoginResponse;
+        return (await response.json()) as BadRequestMessages
     }
 }

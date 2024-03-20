@@ -2,13 +2,8 @@ import {cookies} from "next/headers";
 import {JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN} from "@/CookiesName";
 import {redirect} from "next/navigation";
 import { env } from "@/env.mjs";
+import {ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 
-
-export type SuccessAccessTokenRegeneration = {
-    type: "Bearer";
-    jwtAccessToken: string;
-    jwtRefreshToken: string;
-};
 
 export async function getJwtAccessToken(): Promise<string | undefined> {
     const accessToken = cookies().get(JWT_ACCESS_TOKEN);
@@ -31,7 +26,7 @@ export async function regenerateAccessToken(
     });
 
     if(response.status === 200) {
-        const json = (await response.json()) as SuccessAccessTokenRegeneration;
+        const json = (await response.json()) as ResponseTokens;
         return json.jwtAccessToken;
     } if(response.status === 401) {
         return undefined;
@@ -39,7 +34,7 @@ export async function regenerateAccessToken(
     return undefined;
 }
 
-export async function regenerateAllTokens(refreshToken: string,): Promise<SuccessAccessTokenRegeneration | undefined> {
+export async function regenerateAllTokens(refreshToken: string,): Promise<ResponseTokens | undefined> {
     if(refreshToken) {
         const response = await fetch(env.SERVER_API_URL + '/api/auth/refresh/refresh-token', {
             method: "POST",
@@ -49,7 +44,7 @@ export async function regenerateAllTokens(refreshToken: string,): Promise<Succes
             body: JSON.stringify({jwtRefreshToken: refreshToken}),
         });
 
-        return (await response.json()) as SuccessAccessTokenRegeneration;
+        return (await response.json()) as ResponseTokens;
     }
     return undefined;
 }
