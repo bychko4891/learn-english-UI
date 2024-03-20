@@ -3,13 +3,13 @@ import {
   getJwtAccessToken,
   regenerateAccessToken,
   regenerateAllTokens,
-  SuccessAccessTokenRegeneration,
 } from "./jwtSessionService/authTokenHandler";
 import {cookies} from "next/headers";
 import {JWT_REFRESH_TOKEN} from "../../CookiesName";
 import {SetAccessToken} from "./jwtSessionService/SetAccessToken";
 import {SetAllTokens} from "./jwtSessionService/SetAllTokens";
 import SignOut from "@/app/SignOut";
+import {ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 
 
 export default async function Layout({ children }: { children: ReactNode }) {
@@ -18,6 +18,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   if (accessTokenCookie) {
     return (
         <>
+          <h1> dgdfjgkldfjgl dlkfgjkdflgj dlkgdkflgjk ldgdfkl gjkfd g jfkdkfdg jkdflgjdkfl gfdklgjkdfl fdklg jkfdl gjklfd gjklfd kfdl gkfdl gkfdl gjkfldjg kfld jgkfd jgkfldg</h1>
           {children}
         </>
     );
@@ -61,7 +62,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
     return undefined;
   }
 
-  async function newRefreshAndAccessToken(): Promise<SuccessAccessTokenRegeneration | undefined> {
+  async function newRefreshAndAccessToken(): Promise<ResponseTokens | undefined> {
     const refreshToken = cookies().get(JWT_REFRESH_TOKEN);
     if (!refreshToken) {
       return undefined;

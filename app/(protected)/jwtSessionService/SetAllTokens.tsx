@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import {setAccessAndRefresh} from "./setAccessAndRefresh";
-import {SuccessAccessTokenRegeneration} from "@/app/(protected)/jwtSessionService/authTokenHandler";
+import {ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 
-export function SetAllTokens({ tokens }: { tokens: SuccessAccessTokenRegeneration}) {
+export function SetAllTokens({ tokens }: { tokens: ResponseTokens}) {
     useEffect(() => {
         setAccessAndRefresh(tokens);
     }, [tokens]);

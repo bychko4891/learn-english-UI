@@ -1,7 +1,6 @@
 "use server";
 
-import {deleteJwtAccessToken, deleteJwtRefreshToken, setJwtAccessToken, setJwtRefreshToken} from "./SetHttpOnlyCookies";
-import {SuccessAccessTokenRegeneration} from "@/app/(protected)/jwtSessionService/authTokenHandler";
+import { deleteJwtAccessToken, deleteJwtRefreshToken } from "./SetHttpOnlyCookies";
 
 export async function deleteAccessAndRefresh() {
     deleteJwtAccessToken();
