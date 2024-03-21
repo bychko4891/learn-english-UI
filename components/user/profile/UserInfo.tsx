@@ -9,9 +9,12 @@ export const UserInfo = async () => {
 
     const user = await getUserAPI();
 
-    const gender = user?.gender.at(1) || 'MALE';
+    const gender = user?.gender[0] || 'MALE';
 
     const date: string = await formatDate(user?.dateOfCreated!);
+    console.log(user?.userRole[0] + " User Role user profile")
+    console.log(user?.gender[0] + " User gender user profile")
+
 
     if (user) {
 
