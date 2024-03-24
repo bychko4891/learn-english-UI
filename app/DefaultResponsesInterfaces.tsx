@@ -15,3 +15,10 @@ export  interface BadRequestMessages {
     password: string;
     general: string;
 }
+
+export interface Category {
+    uuid: string;
+    name: string;
+    mainCategory: boolean;
+    subcategories: Category[];
+}

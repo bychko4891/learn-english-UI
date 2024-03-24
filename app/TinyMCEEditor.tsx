@@ -3,10 +3,13 @@
 import React, {useRef, useState} from 'react';
 import {Editor} from '@tinymce/tinymce-react';
 
-
-export const TinyMCEEditor: React.FC<{ onContentChange: (content: string) => void }> = ({onContentChange}) => {
+interface TinyMCEEditorProps {
+    onContentChange: (content: string) => void;
+    initialValue?: string; // Опціональний параметр для початкового вмісту
+}
+export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({ onContentChange, initialValue }) => {
     const editorRef = useRef<any>(null);
-    const [content, setContent] = useState<string>("");
+    const [content, setContent] = useState<string>(initialValue || ""); // Встановлюємо початковий вміст
 
     const handleContentChange = (content: string) => {
         setContent(content);
@@ -17,7 +20,7 @@ export const TinyMCEEditor: React.FC<{ onContentChange: (content: string) => voi
         <>
             <Editor apiKey="j8dxs8puyiugoamq11vn3bctaonh1jhzvd0cewcb1jiyl2c6"
                     onInit={(evt, editor) => (editorRef.current = editor)}
-                    initialValue="<p>This is the initial content of the editor.</p>"
+                    initialValue={initialValue}
                     id="5712"
                     init={{
                         height: 500 ,

@@ -133,6 +133,11 @@
     margin-left: auto !important
 }
 
+.mx-0 {
+    margin-right: 0 !important;
+    margin-left: 0 !important
+}
+
 .mb-1 {
     margin-bottom: .25rem !important
 }
@@ -300,6 +305,10 @@ dl, ol, ul {
 
 .w-100 {
     width: 100% !important
+}
+
+.flex-row {
+    flex-direction: row !important
 }
 
 @media (min-width: 768px) {
