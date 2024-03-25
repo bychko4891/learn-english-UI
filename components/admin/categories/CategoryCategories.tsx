@@ -4,9 +4,10 @@ import Link from "next/link";
 import {ReactElement, ReactNode, useState} from "react";
 import {ReactSVG} from "react-svg";
 
-export const CategoryCategories = ({categoryName, categoryUuid,
+export const CategoryCategories = ({
+                                       categoryName, categoryUuid,
                                        categories
-}: {
+                                   }: {
     categoryName: string,
     categoryUuid: string,
     categories: ReactNode
@@ -22,19 +23,19 @@ export const CategoryCategories = ({categoryName, categoryUuid,
     const categoryClasses = isCategoryActive ? 'category visible' : 'category';
 
     return (
-        <li key={categoryUuid} >
-            <div  className="d-flex">
-            <span>{categoryName}</span>
-            <button type="button" className="toggle" onClick={handleClick}>
-                <ReactSVG src="/images/arrow-bottom.svg" className="color-arrow-svg"/>
-            </button>
+        <>
+            <div className="d-flex">
+                <span>{categoryName}</span>
+                <button type="button" className="toggle" onClick={handleClick}>
+                    <ReactSVG src="/images/arrow-bottom.svg" className="color-arrow-svg"/>
+                </button>
                 <Link href={'/admin/categories/edit/' + categoryUuid} className="edit">
                     <ReactSVG src="/images/edit.svg" className="color-edit-svg"/>
                 </Link>
             </div>
-            <ul className={categoryClasses}>
+            <ul key={categoryUuid} className={categoryClasses}>
                 {categories}
             </ul>
-        </li>
+        </>
     );
 };

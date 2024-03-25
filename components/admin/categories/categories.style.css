@@ -24,10 +24,12 @@
     width: 40px;
 
 }
+
 .color-arrow-svg {
     filter: brightness(0) saturate(100%) invert(49%) sepia(98%) saturate(1760%) hue-rotate(164deg) brightness(97%) contrast(95%);
     transition: 0.1s ease-in-out;
 }
+
 .color-arrow-svg:hover {
     filter: brightness(0) saturate(100%) invert(53%) sepia(7%) saturate(13%) hue-rotate(32deg) brightness(100%) contrast(87%);
 }
@@ -42,14 +44,15 @@
 }
 
 .category {
-    margin-left: 20px;
     height: 0;
     opacity: 0;
+    margin: 0;
     visibility: hidden;
     transition: opacity 0.9s, height 1.9s, visibility 0.3s linear;
 }
 
 .category.visible {
+    margin-left: 20px;
     opacity: 1;
     height: auto;
     visibility: visible;

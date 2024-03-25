@@ -30,7 +30,32 @@
 }
 
 .left {
+    display: flex;
+    align-items: center;
     justify-self: start;
+    background: #19a68c;
+    border: 1px solid;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: all .8s ease-in-out;
+
+}
+
+.left:hover {
+    background: #19a646;
+}
+
+.button-new {
+    cursor: pointer;
+    background: #19a68c;
+    border: 1px solid;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: all .8s ease-in-out;
+}
+
+.button-new:hover {
+    background: #19a646;
 }
 
 .center {
@@ -45,7 +70,9 @@
     min-height: calc(100vh - 100px);
 }
 
-
+.back-arrow-color {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(6%) saturate(844%) hue-rotate(151deg) brightness(96%) contrast(96%);
+}
 
 
 

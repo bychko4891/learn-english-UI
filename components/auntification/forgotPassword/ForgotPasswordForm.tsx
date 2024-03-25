@@ -67,17 +67,17 @@ export const ForgotPasswordForm = () => {
                 const responseData = await SendFormForgotPasswordAPI(data);
                 setDisabled(false);
                 if (responseData.status === 200) {
-                    const success = await responseData as GeneralMessage;
+                    const success = responseData as GeneralMessage;
                     setSuccessMessage(success.general);
                     toast.success(success.general);
                 }
                 if (responseData.status === 400) {
-                    const success = await responseData as BadRequestMessages;
+                    const success = responseData as BadRequestMessages;
                     setSuccessMessage(success.general);
                     toast.success(success.general);
                 }
                 if (responseData.status === 404) {
-                    const notFound = await responseData as GeneralMessage;
+                    const notFound =  responseData as GeneralMessage;
                     setNotFoundMessage(notFound.general);
                     toast.error(notFound.general);
                 }

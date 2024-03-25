@@ -11,27 +11,25 @@ type Category = {
     subcategories: Category[];
 }
 
-export const Categories = ({category}: {category: Category}) => {
+export const Categories = ({category}: { category: Category }) => {
 
 
-    return (
-            <>
-                {category.subcategories.map((subcategory) => (
+    return ( <> {category.subcategories.map((subcategory) => (
 
-                    <>
-                        {subcategory.subcategories && subcategory.subcategories.length > 0 ? (
-                            <CategoryCategories
-                                categoryName={subcategory.name}
-                                categoryUuid={subcategory.uuid}
-                                categories={<Categories category={subcategory}/>}
-                            />
-                        ) : (
-                            <Category key={subcategory.uuid} category={subcategory} />
-                        )}
-                    </>
-                    ))
-                }
-            </>
+                <li key={subcategory.uuid}>
+                    {subcategory.subcategories && subcategory.subcategories.length > 0 ? (
+                        <CategoryCategories
+                            categoryName={subcategory.name}
+                            categoryUuid={subcategory.uuid}
+                            categories={<Categories category={subcategory}/>}
+                        />
+                    ) : (
+                        <Category category={subcategory}/>
+                    )}
+                </li>
+            ))
+            }
+        </>
     );
 
 };
