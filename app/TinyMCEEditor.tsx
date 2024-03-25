@@ -23,8 +23,9 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({ onContentChange, i
                     initialValue={initialValue}
                     id="5712"
                     init={{
-                        height: 500 ,
-                        width: 1000,
+                        height: "calc(100vh - 200px)",
+                        width: "100%",
+                        min_width: 800,
                         menubar: true,
                         convert_urls : false,
                         license_key: 'gpl',

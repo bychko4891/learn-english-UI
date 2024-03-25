@@ -3,13 +3,13 @@ export interface GeneralMessage {
     general: string;
 }
 
-export interface  ResponseTokens {
+export interface ResponseTokens {
     type: "Bearer";
     jwtAccessToken: string;
     jwtRefreshToken: string;
 }
 
-export  interface BadRequestMessages {
+export interface BadRequestMessages {
     status: number;
     email: string;
     password: string;
@@ -19,6 +19,14 @@ export  interface BadRequestMessages {
 export interface Category {
     uuid: string;
     name: string;
+    description: string;
     mainCategory: boolean;
     subcategories: Category[];
+    image: Image;
+}
+
+export interface Image {
+    imageName: string;
+    width: string;
+    height: string;
 }
