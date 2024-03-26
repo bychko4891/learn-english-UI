@@ -21,8 +21,14 @@ export interface Category {
     name: string;
     description: string;
     mainCategory: boolean;
+    parentCategory: Category;
     subcategories: Category[];
+    categoryPage: string[];
     image: Image;
+}
+export interface CategoryRequest {
+    category: Category
+    mainCategories: Category[];
 }
 
 export interface Image {

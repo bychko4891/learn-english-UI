@@ -11,10 +11,6 @@
     margin-left: 10px;
 }
 
-.edit:hover {
-
-}
-
 
 .toggle {
     cursor: pointer;
@@ -67,4 +63,33 @@
     border: 2px solid;
     border-radius: 10px;
     margin-top: 15px;
+}
+
+.block-h {
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    visibility: hidden;
+    transition: opacity 0.9s, height 1.9s, visibility 0.3s linear;
+
+}
+.block-h.visit {
+    opacity: 1;
+    height: auto;
+    visibility: visible;
+}
+.category-tree input,
+.category-tree select {
+    height: 30px;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+.category-tree select option {
+    font-size: 18px;
+}
+
+.category-tree button {
+    height: 32px;
+    text-align: center;
+    padding: 7px 0 0 15px;
 }

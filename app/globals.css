@@ -2288,8 +2288,48 @@ button.reset-styles:hover {
     }
 }
 
+.toggle-switch {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch-label {
+    display: inline-block;
+    width: 55px;
+    height: 24px;
+    background-color: gray;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    /*margin-top: 10px;*/
+    margin-bottom: -4px;
+}
+
+.toggle-switch-label:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    left: 2px;
+    top: 2px;
+    background-color: white;
+    transition: 0.2s;
+}
+
+.toggle-switch:checked + .toggle-switch-label {
+    background-color: #6d23d9;
+}
+
+.toggle-switch:checked + .toggle-switch-label:before {
+    transform: translateX(30px);
+}
 
 
+.br-g {
+    border-radius: 10px !important;
+}
 
 
 

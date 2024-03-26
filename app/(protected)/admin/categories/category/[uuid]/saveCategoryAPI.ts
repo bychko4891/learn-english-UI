@@ -14,13 +14,14 @@ type Category = {
     subcategories: Category[];
 }
 
-export async function saveCategoryAPI() {
+export async function saveCategoryAPI(data:FormData, uuid: string) {
 
     const token = await getJwtAccessToken();
 
     try {
-        const response = await fetch(env.SERVER_API_URL + '/api/admin/categories', {
-            method: 'GET',
+        const response = await fetch(env.SERVER_API_URL + '/api/admin/category/' + uuid, {
+            method: 'PUT',
+            body: data,
             headers: {
                 Authorization: `Bearer ${token}`,
             }

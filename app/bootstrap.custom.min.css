@@ -152,6 +152,10 @@
     align-items: flex-start !important
 }
 
+.align-items-end {
+    align-items: flex-end !important
+}
+
 .mx-auto {
     margin-right: auto !important;
     margin-left: auto !important

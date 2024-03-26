@@ -29,7 +29,7 @@ export const CategoryCategories = ({
                 <button type="button" className="toggle" onClick={handleClick}>
                     <ReactSVG src="/images/arrow-bottom.svg" className="color-arrow-svg"/>
                 </button>
-                <Link href={'/admin/categories/edit/' + categoryUuid} className="edit">
+                <Link href={'/admin/categories/category/' + categoryUuid} className="edit">
                     <ReactSVG src="/images/edit.svg" className="color-edit-svg"/>
                 </Link>
             </div>
