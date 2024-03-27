@@ -27,7 +27,10 @@ export const CategoryCategories = ({
             <div className="d-flex">
                 <span>{categoryName}</span>
                 <button type="button" className="toggle" onClick={handleClick}>
-                    <ReactSVG src="/images/arrow-bottom.svg" className="color-arrow-svg"/>
+                    <ReactSVG src="/images/arrow-bottom.svg" className="color-arrow-svg" beforeInjection={(svg) => {
+                        svg.setAttribute('style', 'width: 35px')
+                        svg.setAttribute('style', 'height: 35px')
+                    }}/>
                 </button>
                 <Link href={'/admin/categories/category/' + categoryUuid} className="edit">
                     <ReactSVG src="/images/edit.svg" className="color-edit-svg"/>

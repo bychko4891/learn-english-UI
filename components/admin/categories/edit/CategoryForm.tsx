@@ -18,6 +18,9 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryReque
     const [name, setName] = useState(categoryRequest.category.name);
     const [uuid, setUuid] = useState(categoryRequest.category.uuid);
     const [image, setImage] = useState<File>();
+    const [subCategories, setSubcategories] = useState<Category[]>();
+    const [selectMainCategory, setSelectMainCategory] = useState<Category>();
+    const [selectSubcategory, setSelectSubcategory] = useState<Category>();
 
     const [imageURL, setImageURL] = useState<string>('');
     const [visit, setVisit] = useState(false);
@@ -49,19 +52,35 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryReque
         setTextContent(newContent);
     };
 
+    const handleSelectMainCategory = (uuid: string) => {
+        categoryRequest.mainCategories.forEach(category => {
+            if (category.uuid === uuid) {
+                setSelectMainCategory(category);
+                setSubcategories(category.subcategories);
+                return;
+            }
+        });
+    };
 
-    const handleSelectChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSelectedPage(e.target.value); // Оновлюємо стан із значенням, обраним користувачем
+    const handleSelectSubcategory = (uuid: string) => {
+        subCategories?.forEach(category => {
+            if (category.uuid === uuid) {
+                setSelectSubcategory(category);
+                return;
+            }
+        });
     };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // setDisabled(true);
+        const parentCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
         const category = {
             uuid: uuid,
             name: name,
             description: textContent,
             mainCategory: mainCategory,
+            parentCategory: parentCategory,
             categoryPage: [selectedPage],
         } as Category
         var formData = new FormData;
@@ -88,7 +107,12 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryReque
                     <h1>Редагування категорії</h1>
                 </div>
                 {/*<ButtonNewCategory/>*/}
-                <button form="form" type="submit" className="right">Save</button>
+                <button form="form" type="submit" className="right save">
+                    <ReactSVG src="/images/save.svg" className="back-arrow-color" beforeInjection={(svg) => {
+                        svg.setAttribute('style', 'width: 35px')
+                        svg.setAttribute('style', 'height: 35px')
+                    }}/>
+                </button>
             </div>
             <div className="category-tree">
                 <form id="form" className=" d-flex flex-row mt-3" onSubmit={handleSubmit}>
@@ -125,11 +149,10 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryReque
                                    name="showDescriptionInPage"
                                    onChange={(e) => setShowDescription(e.target.checked)}/>
                             <label htmlFor="toggleSwitch" className="toggle-switch-label"></label>
-
                         </div>
 
                         <label>Змінити категорію</label>
-                        <select className="w-100">
+                        <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
                             <option>Батьківська категорія</option>
                             {categoryRequest.mainCategories && categoryRequest.mainCategories.length > 0 &&
                                 categoryRequest.mainCategories.map(category => (
@@ -137,15 +160,24 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryReque
                                         {category.name}
                                     </option>
                                 ))}
+
                         </select>
 
-                        <select className="w-100">
+                        <select className="w-100" onChange={(e) => handleSelectSubcategory(e.target.value)}>
                             <option>Оберіть підкатегорію</option>
+                            {subCategories && subCategories.length > 0 &&
+                                subCategories.map(category => (
+                                    <option key={category.uuid} value={category.uuid}>
+                                        {category.name}
+                                    </option>
+                                ))}
+
                         </select>
 
                         <div className="d-flex flex-column w-100 align-items-start">
                             <label htmlFor="page">Сторінка вивода</label>
-                            <select id="page" name="categoryPage" className="w-100" onChange={(e) => setSelectedPage(e.target.value)}>
+                            <select id="page" name="categoryPage" className="w-100"
+                                    onChange={(e) => setSelectedPage(e.target.value)}>
                                 <option value="NO_PAGE">Оберіть сторінку вивода</option>
                                 <option value="VOCABULARY_PAGE">Словник</option>
                                 <option value="MINI_STORIES">Міні історії</option>
@@ -171,8 +203,6 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryReque
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                     <input type="hidden" name="uuid" value={uuid} onChange={(e) => setUuid(e.target.value)}/>
                 </form>
