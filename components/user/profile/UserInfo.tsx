@@ -3,7 +3,7 @@ import {getUserAPI} from "@/app/(protected)/user/profile/getUserAPI";
 import {UserGender} from "@/components/user/profile/UserGender";
 import {formatDate} from "@/components/formatDate";
 import {SaveUserForContext} from "@/components/user/profile/SaveUserForContext";
-import SignOut from "@/app/SignOut";
+import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 
 export const UserInfo = async () => {
 
@@ -20,7 +20,7 @@ export const UserInfo = async () => {
 
         return (
             <>
-                {user && <SaveUserForContext user={user}/>}
+                <SaveUserForContext user={user} />
                 <div className="col-md-6 col-12 text-justify">
                     <span>@</span>
                     <span>{user?.login}</span>
@@ -36,7 +36,7 @@ export const UserInfo = async () => {
                     <div className="d-flex align-items-center ma-10-0">
                         <Image className="colored-svg reset-styles me-1" src="/images/date.svg" alt="profile" width="20"
                                height="20"/>
-                        <span>{date}</span>
+                        <span>{date && date || ""}</span>
                     </div>
                     <div className="user-about">
                         <p>{user?.about}</p>
@@ -44,9 +44,13 @@ export const UserInfo = async () => {
                 </div>
             </>
         );
-    }
+    } else {
 
-    return (
-        <SignOut />
-    );
+        return (
+            <>
+                <DeleteJwtAccessToken/>
+            </>
+        );
+
+    }
 };

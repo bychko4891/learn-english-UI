@@ -29,6 +29,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({ onContentChange, i
                         menubar: true,
                         convert_urls : false,
                         license_key: 'gpl',
+                        cleanup: false,
                         plugins: [
                             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',

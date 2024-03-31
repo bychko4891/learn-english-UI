@@ -14,9 +14,17 @@ export async function getJwtAccessToken(): Promise<string | undefined> {
     return undefined;
 }
 
-export async function regenerateAccessToken(
-    refreshToken: string,
-): Promise<string | undefined> {
+export async function getJwtRefreshToken(): Promise<string | undefined> {
+    const accessToken = cookies().get(JWT_REFRESH_TOKEN);
+    if (accessToken && accessToken.value) {
+
+        return accessToken.value;
+    }
+    return undefined;
+}
+
+export async function regenerateAccessToken(refreshToken: string,): Promise<string | undefined> {
+
     const response = await fetch(env.SERVER_API_URL + '/api/auth/refresh/access-token', {
         method: "POST",
         headers: {
@@ -35,7 +43,7 @@ export async function regenerateAccessToken(
 }
 
 export async function regenerateAllTokens(refreshToken: string,): Promise<ResponseTokens | undefined> {
-    if(refreshToken) {
+    // if(refreshToken) {
         const response = await fetch(env.SERVER_API_URL + '/api/auth/refresh/refresh-token', {
             method: "POST",
             headers: {
@@ -45,10 +53,6 @@ export async function regenerateAllTokens(refreshToken: string,): Promise<Respon
         });
 
         return (await response.json()) as ResponseTokens;
-    }
-    return undefined;
-}
-
-export async function redirectUnauthorized() {
-    redirect('/login');
+    // }
+    // return undefined;
 }

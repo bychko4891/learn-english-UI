@@ -15,7 +15,7 @@ export default async function CategoriesPage() {
 
     const res = await getCategoriesAPI();
 
-    const apiRequestURL = "categories/new-category";
+    const apiRequestURL = "/categories/new-category";
 
     return (
         <div className="app-content-area d-flex flex-column align-items-center">

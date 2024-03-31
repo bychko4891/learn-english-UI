@@ -36,3 +36,27 @@ export interface Image {
     width: string;
     height: string;
 }
+
+export interface AppPageContent {
+    id: number;
+    uuid: string;
+    name: string;
+    description: string;
+    positionContent: string[];
+    applicationPage: AppPage;
+    image: Image;
+}
+
+export interface AppPage {
+    id: number;
+    uuid: string;
+    h1: string;
+    htmlTagDescription: string;
+    htmlTagTitle: string;
+    url: string;
+}
+
+export interface AppPageContentRequest {
+    applicationPageContent: AppPageContent;
+    applicationPages: AppPage[];
+}

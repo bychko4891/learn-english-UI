@@ -5,31 +5,28 @@ import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHa
 import { stringify, parse } from 'flatted';
 import {number} from "prop-types";
 import {Category} from "@/components/admin/categories/Category";
-import {CategoryRequest} from "@/app/DefaultResponsesInterfaces";
+import {AppPageContent, CategoryRequest} from "@/app/DefaultResponsesInterfaces";
+import {fetchWithToken} from "@/app/fetchWithToken";
 
 
-export async function getCategoryAPI(uuid: string) {
+export async function getAppPagesContentsAPI() {
 
     const token = await getJwtAccessToken();
 
     try {
-        const response = await fetch(env.SERVER_API_URL + '/api/admin/category/' + uuid, {
+        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/app-pages-contents', {
             method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
         });
 
-
-        if (!response.ok) {
+        if (!response?.ok) {
             throw new Error('Network response was not ok');
         }
 
-
-        return (await response.json()) as CategoryRequest;
+        return (await response.json()) as AppPageContent[];
     } catch (error) {
-        console.error('Error fetching get data Category to  Admin page:', error);
+        console.error('Error fetching data all appPagesContents to  Admin page:', error);
         // Обробка помилки, якщо запит не вдалося виконати
     }
+
 
 }

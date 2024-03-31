@@ -5,6 +5,7 @@ import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHa
 import { stringify, parse } from 'flatted';
 import {number} from "prop-types";
 import {Category} from "@/components/admin/categories/Category";
+import {fetchWithToken} from "@/app/fetchWithToken";
 
 
 export async function newEntityAPI(apiURL:string) {
@@ -12,15 +13,12 @@ export async function newEntityAPI(apiURL:string) {
     const token = await getJwtAccessToken();
 
     try {
-        const response = await fetch(env.SERVER_API_URL + '/api/admin/' + apiURL, {
+        const response = await fetchWithToken(env.SERVER_API_URL + `/api/admin${apiURL}`, {
             method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
         });
 
 
-        if (!response.ok) {
+        if (!response?.ok) {
             throw new Error('Network response was not ok');
         }
 
@@ -29,7 +27,7 @@ export async function newEntityAPI(apiURL:string) {
 
         return await response.text();
     } catch (error) {
-        console.error('Error fetching new URL Category to  Admin page:', error);
+        console.error('Error fetching new ~~ Entity ~~ to  Admin page:', error);
         // Обробка помилки, якщо запит не вдалося виконати
     }
 

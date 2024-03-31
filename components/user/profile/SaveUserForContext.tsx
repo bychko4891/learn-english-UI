@@ -9,7 +9,6 @@ export const SaveUserForContext = ({user}: {user: User }) => {
     const { user: currentUser, updateUser } = useUser();
 
     useEffect(() => {
-        // Виконуємо зміни користувача перед рендерингом
         updateUser(user);
     }, [user]);
 

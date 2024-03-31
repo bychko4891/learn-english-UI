@@ -22,7 +22,6 @@ export const ButtonNewEntity = ({apiRequestURL, redirectURL}: {redirectURL: stri
         const uuid = await newEntityAPI(apiRequestURL);
         if(uuid) {
             setUuidUrl(uuid);
-
         }
     }
 

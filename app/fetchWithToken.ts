@@ -1,13 +1,34 @@
-import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
+import {
+    getJwtAccessToken,
+    getJwtRefreshToken,
+    regenerateAccessToken
+} from "@/app/(protected)/jwtSessionService/authTokenHandler";
 
 export const fetchWithToken = async (url: string, options: any) => {
-const token = await getJwtAccessToken();
-    const headers = {
-        ...options.headers,
-        Authorization: `Bearer ${token}`,
-    };
 
-    const updatedOptions = { ...options, headers };
+    const accessToken = await getJwtAccessToken();
 
-    return fetch(url, updatedOptions);
+    if (accessToken) {
+        const headers = {
+            ...options.headers,
+            Authorization: `Bearer ${accessToken}`,
+        };
+
+        const updatedOptions = {...options, headers};
+
+        return fetch(url, updatedOptions);
+
+    }
+    const jwtToken = await getJwtRefreshToken();
+    if(jwtToken) {
+        const newAccessToken = await regenerateAccessToken(jwtToken);
+        const headers = {
+            ...options.headers,
+            Authorization: `Bearer ${newAccessToken}`,
+        };
+
+        const updatedOptions = {...options, headers};
+
+        return fetch(url, updatedOptions);
+    }
 };

@@ -1,20 +1,21 @@
 import {ReactNode} from "react";
 import {
-  getJwtAccessToken,
+  getJwtAccessToken, getJwtRefreshToken,
   regenerateAccessToken,
   regenerateAllTokens,
 } from "./jwtSessionService/authTokenHandler";
-import {cookies} from "next/headers";
-import {JWT_REFRESH_TOKEN} from "../../CookiesName";
 import {SetAccessToken} from "./jwtSessionService/SetAccessToken";
 import {SetAllTokens} from "./jwtSessionService/SetAllTokens";
 import SignOut from "@/app/SignOut";
+import { Suspense } from 'react'
 import {ResponseTokens} from "@/app/DefaultResponsesInterfaces";
+import {Loading} from "@/app/suspense_fallback/Loading";
 
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const accessTokenCookie = await getJwtAccessToken();
-  const accessTokenCookieIsEmpty = accessTokenCookie === undefined;
+
+
   if (accessTokenCookie) {
     return (
         <>
@@ -22,11 +23,16 @@ export default async function Layout({ children }: { children: ReactNode }) {
         </>
     );
   }
-  const accessToken = await newAccessToken(accessTokenCookieIsEmpty);
+
+  const accessToken = await newAccessToken();
+
   if (accessToken) {
+
     return (
         <>
-          <SetAccessToken accessToken={accessToken}/>
+            <Suspense fallback={<Loading />} >
+                <SetAccessToken accessToken={accessToken}/>
+            </Suspense>
           {children}
         </>
     );
@@ -35,11 +41,15 @@ export default async function Layout({ children }: { children: ReactNode }) {
   if (tokens !== undefined) {
     return (
         <>
-          {children}
-          <SetAllTokens tokens={tokens}/>
+            <Suspense fallback={<Loading />} >
+                <SetAllTokens tokens={tokens}/>
+            </Suspense>
+            {children}
+
         </>
     );
   }
+  // if()
   return (
       <>
         <SignOut />
@@ -47,27 +57,23 @@ export default async function Layout({ children }: { children: ReactNode }) {
       </>
   );
 
-  async function newAccessToken(
-      accessTokenIsEmpty: boolean,
-  ): Promise<string | undefined> {
-    if (accessTokenIsEmpty) {
-      const refreshToken = cookies().get(JWT_REFRESH_TOKEN);
+  async function newAccessToken(): Promise<string | undefined> {
+
+      const refreshToken = await getJwtRefreshToken();
       if (!refreshToken) {
         return undefined;
       }
 
-      return await regenerateAccessToken(refreshToken.value);
-    }
-    return undefined;
+      return await regenerateAccessToken(refreshToken);
   }
 
   async function newRefreshAndAccessToken(): Promise<ResponseTokens | undefined> {
-    const refreshToken = cookies().get(JWT_REFRESH_TOKEN);
+    const refreshToken = await getJwtRefreshToken();
     if (!refreshToken) {
       return undefined;
     }
 
-    return await regenerateAllTokens(refreshToken.value);
+    return await regenerateAllTokens(refreshToken);
   }
 
 }

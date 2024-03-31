@@ -1,11 +1,8 @@
 .category-tree ul li {
     list-style-type: disc !important;
+    width: fit-content;
 }
 
-.category-tree {
-    margin-top: 20px;
-    font-size: 20px;
-}
 
 .edit {
     margin-left: 10px;
@@ -78,15 +75,7 @@
     height: auto;
     visibility: visible;
 }
-.category-tree input,
-.category-tree select {
-    height: 30px;
-    border-radius: 10px;
-    padding: 0 10px;
-}
-.category-tree select option {
-    font-size: 18px;
-}
+
 
 .category-tree button {
     height: 32px;
