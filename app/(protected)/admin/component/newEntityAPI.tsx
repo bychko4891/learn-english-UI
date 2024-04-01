@@ -10,8 +10,6 @@ import {fetchWithToken} from "@/app/fetchWithToken";
 
 export async function newEntityAPI(apiURL:string) {
 
-    const token = await getJwtAccessToken();
-
     try {
         const response = await fetchWithToken(env.SERVER_API_URL + `/api/admin${apiURL}`, {
             method: 'GET',
@@ -21,9 +19,6 @@ export async function newEntityAPI(apiURL:string) {
         if (!response?.ok) {
             throw new Error('Network response was not ok');
         }
-
-        // const uuid = ;
-
 
         return await response.text();
     } catch (error) {

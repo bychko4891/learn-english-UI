@@ -1,4 +1,5 @@
 import {ButtonBack} from "@/components/admin/ButtonBack";
+import {ButtonNewEntity} from "@/components/admin/ButtonNewEntity";
 import Link from "next/link";
 import {getAppPagesAPI} from "@/app/(protected)/admin/app-pages/getAppPagesAPI";
 import Image from "next/image";
@@ -16,8 +17,10 @@ export default async function ApplicationPages() {
                         <h1>Сторінки додатка</h1>
                     </div>
 
-                    {/*<ButtonNewEntity  apiRequestURL={apiRequestURL} redirectURL="/admin/app-pages/"/>*/}
+                    <div className="right d-flex gap-3">
+                    <ButtonNewEntity  apiRequestURL="/app-pages/new-page" redirectURL="/admin/app-pages/"/>
                     <Link href="/admin/app-pages/contents" className="right page-nav">Контент сторінок</Link>
+                    </div>
                 </div>
                 <table className="table mt-3">
                     <thead className="table-dark">

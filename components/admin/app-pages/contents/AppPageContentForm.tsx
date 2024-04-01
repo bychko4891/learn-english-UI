@@ -19,7 +19,7 @@ export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentR
     const [uuid, setUuid] = useState(pageContent.applicationPageContent.uuid);
     const [image, setImage] = useState<File>();
 
-    const [imageURL, setImageURL] = useState<string>('');
+    const [imageURL, setImageURL] = useState<string>("");
     const [visit, setVisit] = useState(false);
 
     const blockVisit = visit ? "block-h visit" : "block-h";
@@ -116,23 +116,18 @@ export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentR
                                    onChange={(e) => setName(e.target.value)}/>
                         </div>
 
-                        {/*<div className="d-flex flex-column align-items-start w-100">*/}
-                        {/*    <label>Сторінка вивода:</label>*/}
-                        {/*    <span className="d-flex align-items-start w-100"*/}
-                        {/*          style={{borderBottom: "1px solid"}}>Відсутня</span>*/}
-                        {/*</div>*/}
-
-                        <label>Сторінка вивода:
+                           <label>Сторінка вивода:
                             {selectedPage &&
-                                <span style={{paddingLeft: 10, color: "#307ed9"}}>{selectedPage.h1}</span>
+                                <span style={{paddingLeft: 10, color: "#307ed9"}}>{selectedPage.url}</span>
                             }
                         </label>
+
                         <select className="w-100" onChange={(e) => handleSelectPage(e.target.value)}>
                             <option>Змінити сторінку</option>
                             {pageContent.applicationPages && pageContent.applicationPages.length > 0 &&
                                 pageContent.applicationPages.map(appPage => (
                                     <option key={appPage.uuid} value={appPage.uuid}>
-                                        {appPage.h1}
+                                        {appPage.url}
                                     </option>
                                 ))}
 

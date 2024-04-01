@@ -24,29 +24,3 @@ export async function getAppPageAPI(uuid: string) {
     }
 
 }
-
-// export async function getAppPageContentAPI(uuid: string) {
-//
-//     const token = await getJwtAccessToken();
-//
-//     try {
-//         const response = await fetch(env.SERVER_API_URL + '/api/admin/app-pages-contents/page-content/' + uuid, {
-//             method: 'GET',
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//             }
-//         });
-//
-//
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//
-//
-//         return (await response.json()) as AppPageContentRequest;
-//     } catch (error) {
-//         console.error('Error fetching get data Category to  Admin page:', error);
-//         // Обробка помилки, якщо запит не вдалося виконати
-//     }
-//
-// }

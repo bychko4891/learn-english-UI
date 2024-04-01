@@ -6,6 +6,7 @@ import {fetchWithToken} from "@/app/fetchWithToken";
 
 type ResMessage = {
     status: number;
+    h1: string;
     htmlTagDescription: string,
     htmlTagTitle: string,
     url: string;

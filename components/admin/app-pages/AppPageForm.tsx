@@ -16,6 +16,7 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
     const [description, setDescription] = useState(appPage.htmlTagDescription || "");
     const [url, setUrl] = useState(appPage.url);
 
+    const [h1Error, setH1Error] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
     const [titleError, setTitleError] = useState("");
     const [urlError, setUrlError] = useState("");
@@ -42,6 +43,7 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
                 setTitleError(response?.htmlTagTitle)
                 setUrlError(response?.url)
                 setGeneralError(response?.general)
+                setH1Error(response?.h1)
                 toast.error("Є помилки при введенні даних!");
             }
             // setDisabled(false);
@@ -79,6 +81,7 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
                                    onChange={(e) => setH1(e.target.value)}/>
                         </div>
                     </div>
+                    {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>Html tag «Title»</label>
@@ -111,7 +114,7 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>URL сторінки</label>
                             <input type="text" className="w-50" name="name" value={url}
-                                   onChange={(e) => setUrl(e.target.value)}/>
+                                   onChange={(e) => setUrl(e.target.value)} required={true}/>
                         </div>
                     </div>
                     {!!urlError && <p className="p_error ms-3">{urlError}</p>}
