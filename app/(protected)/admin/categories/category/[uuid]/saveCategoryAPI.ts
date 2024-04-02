@@ -34,7 +34,7 @@ export async function saveCategoryAPI(data:FormData, uuid: string) {
 
         return (await response.json()) as Category[];
     } catch (error) {
-        console.error('Error fetching data Categories to  Admin page:', error);
+        console.error('Error save Category to  Admin page:', error);
         // Обробка помилки, якщо запит не вдалося виконати
     }
 

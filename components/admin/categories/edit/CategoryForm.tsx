@@ -8,6 +8,7 @@ import {ReactSVG} from "react-svg";
 import {sendFormLoginAPI} from "@/app/login/sendFormLoginAPI";
 import {Category, CategoryRequest} from "@/app/DefaultResponsesInterfaces";
 import {saveCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/saveCategoryAPI";
+import Image from "next/image";
 
 export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryRequest }) => {
 
@@ -199,7 +200,7 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryReque
                                 <input type="file" className="w-100" accept="image/*" onChange={handleImageChange}/>
                                 <div className="category-edit-img-container">
                                     {imageURL &&
-                                        <img src={imageURL} alt="Uploaded Image" className="category-edit-img"/>}
+                                        <Image src={imageURL} alt="Uploaded Image" width="450" height="280" className="category-edit-img"/>}
                                 </div>
                             </div>
                         </div>

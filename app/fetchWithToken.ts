@@ -1,3 +1,5 @@
+// 'use server'
+
 import {
     getJwtAccessToken,
     getJwtRefreshToken,
@@ -7,6 +9,8 @@ import {
 export const fetchWithToken = async (url: string, options: any) => {
 
     const accessToken = await getJwtAccessToken();
+
+    console.log(accessToken);
 
     if (accessToken) {
         const headers = {
@@ -19,7 +23,9 @@ export const fetchWithToken = async (url: string, options: any) => {
         return fetch(url, updatedOptions);
 
     }
+
     const jwtToken = await getJwtRefreshToken();
+
     if(jwtToken) {
         const newAccessToken = await regenerateAccessToken(jwtToken);
         const headers = {

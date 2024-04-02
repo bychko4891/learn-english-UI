@@ -29,4 +29,5 @@ export default async function AdminMainPage() {
             </div>
         </div>
     );
+
 }

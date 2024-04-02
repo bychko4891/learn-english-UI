@@ -12,6 +12,8 @@ import {toast, ToastContainer, Zoom} from "react-toastify";
 
 export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentRequest }) => {
 
+    const imgUrl = pageContent.applicationPageContent.image ? `/api/webimg/${pageContent.applicationPageContent.image.imageName}` : "";
+
     const [textContent, setTextContent] = useState<string>(pageContent.applicationPageContent.description);
     const [selectedPage, setPage] = useState<AppPage>(pageContent.applicationPageContent.applicationPage);
     const [selectedPositionContent, setPositionContent] = useState<string[]>(pageContent.applicationPageContent?.positionContent);
@@ -19,7 +21,7 @@ export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentR
     const [uuid, setUuid] = useState(pageContent.applicationPageContent.uuid);
     const [image, setImage] = useState<File>();
 
-    const [imageURL, setImageURL] = useState<string>("");
+    const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
 
     const blockVisit = visit ? "block-h visit" : "block-h";

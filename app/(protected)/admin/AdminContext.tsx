@@ -1,11 +1,12 @@
 'use client'
 
-import { useUser } from "@/app/UserProvider";
-import { ReactNode, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import {useUser} from "@/app/UserProvider";
+import {ReactNode, useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 
-export function AdminContext({ children }: { children: ReactNode }) {
-    const { user } = useUser();
+export function AdminContext({children}: { children: ReactNode }) {
+    const {user} = useUser();
     const [userRole, setUserRole] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
@@ -28,4 +29,6 @@ export function AdminContext({ children }: { children: ReactNode }) {
     }
 
     return <>{children}</>;
+
+
 }

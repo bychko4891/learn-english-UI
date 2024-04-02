@@ -33,7 +33,7 @@ export const UserGroup = () => {
         });
     }, []);
 
-    const avatar = "/api/avatar/" + user?.userAvatar?.imageName || "/images/avatar-2.jpeg";
+    const avatar = `/api/avatar/${user?.userAvatar?.imageName}` || "/images/avatar-2.jpeg";
 
     return (
 
