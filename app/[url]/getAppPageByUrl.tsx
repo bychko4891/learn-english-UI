@@ -1,4 +1,3 @@
-'use server'
 
 import {env} from "@/env.mjs";
 import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
@@ -9,7 +8,8 @@ export async function getAppPageByUrl(url: string) {
 
     // try {
         return await fetch(env.SERVER_API_URL + `/api/page/${url}`, {
-            method: 'GET'
+            method: 'GET',
+            cache: 'no-store'
         });
 
     //     if (!response.ok) {

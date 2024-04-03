@@ -2331,7 +2331,46 @@ button.reset-styles:hover {
     border-radius: 10px !important;
 }
 
+.m-bottom-content div:nth-child(1){
+    order: 1;
+}
+.m-bottom-content div:nth-child(2){
+    order: 2;
+}
 
+.m-bottom-content__inverted div:nth-child(1) {
+    order: 2;
+}
+.m-bottom-content__inverted div:nth-child(2) {
+    order: 1;
+}
+
+@media (min-width: 320px) {
+    .m-bottom-content__inverted div:nth-child(1) {
+        order: 1;
+    }
+    .m-bottom-content__inverted div:nth-child(2) {
+        order: 2;
+    }
+
+}@media (max-width: 768px) {
+    .m-bottom-content__inverted div:nth-child(1) {
+        order: 1;
+    }
+    .m-bottom-content__inverted div:nth-child(2) {
+        order: 2;
+    }
+
+}
+@media (min-width: 768.1px) {
+    .m-bottom-content__inverted div:nth-child(1) {
+        order: 2;
+    }
+    .m-bottom-content__inverted div:nth-child(2) {
+        order: 1;
+    }
+
+}
 
 
 

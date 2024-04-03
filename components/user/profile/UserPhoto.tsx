@@ -1,4 +1,6 @@
 import Image from "next/image";
+import ProfileFon from "public/images/profile_fon.jpg"
+
 
 export const UserPhoto = async ({avatarName}: {avatarName: string }) => {
 
@@ -7,7 +9,7 @@ export const UserPhoto = async ({avatarName}: {avatarName: string }) => {
 
     return (
         <div className="user-photo-block overflow-visible">
-            <Image className="background-image" src="/images/profile_fone.jpg" alt="profile" width={1080} height={200} />
+            <Image className="background-image" src={ProfileFon} alt="profile" />
             <Image className="user-avatar" src={userAvatar} alt="profile" width={200}  height={200} />
         </div>
     );

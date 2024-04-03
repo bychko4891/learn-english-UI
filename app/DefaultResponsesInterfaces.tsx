@@ -42,6 +42,7 @@ export interface AppPageContent {
     uuid: string;
     name: string;
     description: string;
+    order: number;
     positionContent: string[];
     applicationPage: AppPage;
     image: Image;
@@ -54,6 +55,7 @@ export interface AppPage {
     htmlTagDescription: string;
     htmlTagTitle: string;
     url: string;
+    appPageContents: AppPageContent[];
 }
 
 export interface AppPageContentRequest {
