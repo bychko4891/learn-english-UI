@@ -26,10 +26,6 @@ export interface Category {
     categoryPage: string[];
     image: Image;
 }
-export interface CategoryRequest {
-    category: Category
-    mainCategories: Category[];
-}
 
 export interface Image {
     imageName: string;
@@ -37,12 +33,28 @@ export interface Image {
     height: string;
 }
 
+export interface Article {
+    uuid: string;
+    h1: string;
+    htmlTagDescription: string;
+    htmlTagTitle: string;
+    description: string;
+    image: Image;
+    category: Category;
+}
+
+export interface CategoryResponse {
+    category: Category
+    mainCategories: Category[];
+    articles: Article[];
+}
+
 export interface AppPageContent {
     id: number;
     uuid: string;
     name: string;
     description: string;
-    order: number;
+    positionOrder: number;
     positionContent: string[];
     applicationPage: AppPage;
     image: Image;
@@ -62,3 +74,4 @@ export interface AppPageContentRequest {
     applicationPageContent: AppPageContent;
     applicationPages: AppPage[];
 }
+

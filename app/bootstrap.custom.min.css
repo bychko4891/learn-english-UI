@@ -147,6 +147,9 @@
     margin-left: auto !important
 }
 
+.mt-auto {
+    margin-top: auto !important
+}
 .me-auto {
     margin-right: auto !important
 }

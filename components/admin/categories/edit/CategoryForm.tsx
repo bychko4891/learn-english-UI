@@ -6,11 +6,11 @@ import {ChangeEvent, FormEvent, useState} from "react";
 import "../categories.style.css"
 import {ReactSVG} from "react-svg";
 import {sendFormLoginAPI} from "@/app/login/sendFormLoginAPI";
-import {Category, CategoryRequest} from "@/app/DefaultResponsesInterfaces";
+import {Category, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 import {saveCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/saveCategoryAPI";
 import Image from "next/image";
 
-export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryRequest }) => {
+export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryResponse }) => {
 
     const [textContent, setTextContent] = useState<string>(categoryRequest.category.description);
     const [mainCategory, setMainCategory] = useState(categoryRequest.category.mainCategory);

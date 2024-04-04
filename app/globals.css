@@ -2326,6 +2326,22 @@ button.reset-styles:hover {
     transform: translateX(30px);
 }
 
+.border-lr {
+    border-left: solid 2px #0F687E;
+    border-right: solid 2px #0F687E;
+    text-align: left;
+    padding-left: 15px;
+    border-radius: 10px;
+    font-size: 20px;
+    line-height: 140%;
+}
+
+.h3__link {
+    text-decoration: underline;
+}
+.h3__link:hover {
+    color: var(--dashui-indigo);
+}
 
 .br-g {
     border-radius: 10px !important;

@@ -3,7 +3,8 @@
 
 import {CategoryForm} from "@/components/admin/categories/edit/CategoryForm";
 import {getCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/getCategoryAPI";
-import {CategoryRequest} from "@/app/DefaultResponsesInterfaces";
+import {CategoryResponse} from "@/app/DefaultResponsesInterfaces";
+import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 
 
 type Props = {
@@ -14,14 +15,21 @@ type Props = {
 
 export default async function CategoriesPage({params: {uuid}}: Props) {
 
-    const res = await getCategoryAPI(uuid) as CategoryRequest;
-    console.log(res?.category.uuid + " C REQ!!!")
+    const category = await getCategoryAPI(uuid) as CategoryResponse;
+
+    if(category) {
+        return (
+            <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
+                <div className="main-content p-3 w-95 admin-h">
+                    <CategoryForm categoryRequest={category}/>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
-            <div className="main-content p-3 w-95 admin-h">
-                {res && <CategoryForm categoryRequest={res} />}
-            </div>
-        </div>
+        <>
+            <DeleteJwtAccessToken />
+        </>
     );
 }

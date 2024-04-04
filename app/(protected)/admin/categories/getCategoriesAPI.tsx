@@ -5,6 +5,7 @@ import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHa
 import { stringify, parse } from 'flatted';
 import {number} from "prop-types";
 import {Category} from "@/components/admin/categories/Category";
+import {fetchWithToken} from "@/app/fetchWithToken";
 
 
 type Category = {
@@ -16,17 +17,13 @@ type Category = {
 
 export async function getCategoriesAPI() {
 
-    const token = await getJwtAccessToken();
 
     try {
-        const response = await fetch(env.SERVER_API_URL + '/api/admin/categories', {
+        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/categories', {
             method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
         });
 
-        if (!response.ok) {
+        if (!response?.ok) {
             throw new Error('Network response was not ok');
         }
 
@@ -34,8 +31,8 @@ export async function getCategoriesAPI() {
         return (await response.json()) as Category[];
         // }
     } catch (error) {
-        console.error('Error fetching data Categories to  Admin page:', error);
-        // Обробка помилки, якщо запит не вдалося виконати
+        // console.error('Error fetching data Categories to  Admin page:', error);
+        return undefined;
     }
 
 }

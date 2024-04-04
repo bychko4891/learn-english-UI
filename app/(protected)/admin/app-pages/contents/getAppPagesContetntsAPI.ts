@@ -5,7 +5,7 @@ import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHa
 import { stringify, parse } from 'flatted';
 import {number} from "prop-types";
 import {Category} from "@/components/admin/categories/Category";
-import {AppPageContent, CategoryRequest} from "@/app/DefaultResponsesInterfaces";
+import {AppPageContent, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 

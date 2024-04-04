@@ -1,14 +1,27 @@
 import {getAppPageByUrl} from "@/app/[url]/getAppPageByUrl";
-import {AppPage} from "@/app/DefaultResponsesInterfaces";
 import Image from "next/image";
+
+
+export async function generateMetadata() {
+    const page = await getAppPageByUrl("main");
+    if(page) {
+        return {
+            title: page.htmlTagTitle,
+            description: page.htmlTagDescription,
+        }
+    }
+    return {
+        title: "",
+        description:""
+    }
+}
 
 export default async function Home() {
 
-    const res = await getAppPageByUrl("main");
+    const page = await getAppPageByUrl("main");
 
-    if (res.ok) {
 
-        const page = (await res.json()) as AppPage;
+    if (page) {
 
         const topContents = page.appPageContents && page.appPageContents.length > 0 ? page.appPageContents.filter(content => {
             return content.positionContent[0] === "TOP"
@@ -41,7 +54,7 @@ export default async function Home() {
                 {bottomContents && bottomContents.length > 0 &&
 
                     <div className="main-content p-3 ">
-                        <h3>Декілька причин вивчити англійську мову</h3>
+                        <h2>Декілька причин вивчити англійську мову</h2>
                         <div className="d-flex flex-column">
                             {bottomContents.map((content, index) => (
                                 <div key={content.uuid}
@@ -61,20 +74,14 @@ export default async function Home() {
                                     </div>
                                 </div>
                             ))}
-
                         </div>
-                        {/*<div>*/}
-
-                        {/*    <div dangerouslySetInnerHTML={{__html: (page.htmlTagDescription) || 'test'}}/>*/}
-                        {/*</div>*/}
 
                     </div>
-
                 }
-
 
             </div>
         );
     }
 
+    return (<></>);
 }

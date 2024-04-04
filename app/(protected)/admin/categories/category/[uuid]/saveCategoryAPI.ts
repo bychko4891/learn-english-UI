@@ -5,6 +5,7 @@ import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHa
 import { stringify, parse } from 'flatted';
 import {number} from "prop-types";
 import {Category} from "@/components/admin/categories/Category";
+import {fetchWithToken} from "@/app/fetchWithToken";
 
 
 type Category = {
@@ -16,26 +17,21 @@ type Category = {
 
 export async function saveCategoryAPI(data:FormData, uuid: string) {
 
-    const token = await getJwtAccessToken();
 
     try {
-        const response = await fetch(env.SERVER_API_URL + '/api/admin/category/' + uuid, {
+        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/category/' + uuid, {
             method: 'PUT',
             body: data,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
         });
 
-        if (!response.ok) {
+        if (!response?.ok) {
             throw new Error('Network response was not ok');
         }
 
-
         return (await response.json()) as Category[];
     } catch (error) {
-        console.error('Error save Category to  Admin page:', error);
-        // Обробка помилки, якщо запит не вдалося виконати
+        // console.error('Error save Category to  Admin page:', error);
+        return undefined;
     }
 
 }

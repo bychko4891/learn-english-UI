@@ -1,6 +1,5 @@
 import NotFound from "@/app/not-found";
 import {getAppPageByUrl} from "@/app/[url]/getAppPageByUrl";
-import {AppPage} from "@/app/DefaultResponsesInterfaces";
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 
 type Props = {
@@ -8,14 +7,26 @@ type Props = {
         url: string;
     }
 }
+
+export async function generateMetadata({params: {url}}: Props) {
+    const page = await getAppPageByUrl(url);
+    if(page) {
+        return {
+            title: page.htmlTagTitle,
+            description: page.htmlTagDescription,
+        }
+    }
+    return {
+        title: "",
+        description: "",
+    }
+}
+
 export default async function ApplicationPage({params: {url}}: Props) {
 
-    const res = await getAppPageByUrl(url);
+    const page = await getAppPageByUrl(url);
 
-
-    if (res.ok) {
-
-        const page = (await res.json()) as AppPage;
+    if (page) {
 
         const breadcrumbNavigation = {
             href: `/${url}`,
