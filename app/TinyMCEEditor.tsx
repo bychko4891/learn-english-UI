@@ -51,6 +51,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
                         content_style: 'body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }',
                         image_title: true,
                         file_picker_types: 'image',
+                        images_file_types: 'jpg,jpeg,png,webp',
                         statusbar: true,
                         branding: false,
                         skin: 'oxide-dark',

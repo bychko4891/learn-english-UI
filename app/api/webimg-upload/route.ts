@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     const img = form.get("file") as File;
 
     const data = new FormData();
-    data.append("file", img as Blob);
+    data.append("imageFile", img as Blob);
 
     const resp = await fetchWithToken(env.SERVER_API_URL + "/api/admin/upload-web-img", {
         method: "POST",
@@ -24,5 +24,4 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ location: imageName }, { status: 200 });
     }
     return NextResponse.json({}, {status: 400});
-
 }
