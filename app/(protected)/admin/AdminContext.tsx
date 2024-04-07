@@ -6,6 +6,7 @@ import {useRouter} from "next/navigation";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 
 export function AdminContext({children}: { children: ReactNode }) {
+
     const {user} = useUser();
     const [userRole, setUserRole] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);

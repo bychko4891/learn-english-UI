@@ -34,6 +34,7 @@ export interface Image {
 }
 
 export interface Article {
+    id: number;
     uuid: string;
     h1: string;
     htmlTagDescription: string;
@@ -73,5 +74,23 @@ export interface AppPage {
 export interface AppPageContentRequest {
     applicationPageContent: AppPageContent;
     applicationPages: AppPage[];
+}
+
+export interface Word {
+    uuid: string;
+    translate: string;
+    brTranscription: string;
+    usaTranscription: string;
+
+}
+export interface VocabularyPage {
+    uuid: string;
+    name: string;
+    description: string;
+    cardInfo: string;
+    published: boolean;
+    word: Word;
+    image: Image;
+    category: Category;
 }
 

@@ -45,7 +45,6 @@ export default async function Layout({ children }: { children: ReactNode }) {
                 <SetAllTokens tokens={tokens}/>
             </Suspense>
             {children}
-
         </>
     );
   }

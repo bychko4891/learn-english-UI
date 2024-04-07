@@ -3,11 +3,13 @@
 import React, {useRef, useState} from 'react';
 import {Editor} from '@tinymce/tinymce-react';
 
+
 interface TinyMCEEditorProps {
     onContentChange: (content: string) => void;
-    initialValue?: string; // Опціональний параметр для початкового вмісту
+    initialValue?: string;
 }
-export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({ onContentChange, initialValue }) => {
+
+export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, initialValue}) => {
     const editorRef = useRef<any>(null);
     const [content, setContent] = useState<string>(initialValue || ""); // Встановлюємо початковий вміст
 
@@ -15,6 +17,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({ onContentChange, i
         setContent(content);
         onContentChange(content);
     };
+
 
     return (
         <>
@@ -27,7 +30,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({ onContentChange, i
                         width: "100%",
                         min_width: 800,
                         menubar: true,
-                        convert_urls : false,
+                        // convert_urls: false,
                         license_key: 'gpl',
                         cleanup: false,
                         plugins: [
@@ -47,71 +50,18 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({ onContentChange, i
                         //     'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
                         content_style: 'body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }',
                         image_title: true,
-                        automatic_uploads: true,
                         file_picker_types: 'image',
                         statusbar: true,
                         branding: false,
-                        // file_picker_callback: function (callback, value, meta) {
-                        //     var input = document.createElement('input');
-                        //     input.setAttribute('type', 'file');
-                        //     input.setAttribute('accept', 'image/*');
-                        //     input.onchange = function () {
-                        //         var file = this.files[0];
-                        //         var formData = new FormData();
-                        //
-                        //         formData.append('imageFile', file);
-                        //
-                        //         $.ajax({
-                        //             url: '/admin/web-image/upload',
-                        //             type: 'POST',
-                        //             data: formData,
-                        //             processData: false,
-                        //             contentType: false,
-                        //             beforeSend: function (xhr) {
-                        //             },
-                        //             success: function (imageUrl) {
-                        //                 // Викликати callback з отриманим URL зображення
-                        //                 callback(imageUrl, { title: file.name });
-                        //             },
-                        //             error: function (xhr, status, error) {
-                        //                 // Обробка помилки
-                        //             }
-                        //         });
-                        //     };
-                        //
-                        //     input.click();
-                        // },
-                        // images_upload_handler: function (blobInfo, success, failure) {
-                        //     var xhr, formData;
-                        //
-                        //     xhr = new XMLHttpRequest();
-                        //     xhr.withCredentials = false;
-                        //     xhr.open('POST', '/admin/web-image/upload');
-                        //
-                        //     xhr.onload = function () {
-                        //         var imageUrl = xhr.responseText;
-                        //         console.log(imageUrl);
-                        //         if (xhr.status === 200 && imageUrl) {
-                        //             success(imageUrl);
-                        //         } else {
-                        //             failure('Помилка завантаження зображення');
-                        //         }
-                        //     };
-                        //
-                        //     xhr.onerror = function () {
-                        //         failure('Помилка завантаження зображення');
-                        //     };
-                        //
-                        //     formData = new FormData();
-                        //     formData.append('imageFile', blobInfo.blob(), blobInfo.filename());
-                        //
-                        //     xhr.send(formData);
-                        // },
+                        skin: 'oxide-dark',
+                        images_upload_url: '/api/webimg-upload',
+                        automatic_uploads: true,
+                        images_upload_base_path: "/api/webimg/",
                         setup: function (editor) {
                             editor.on('change', function () {
                                 handleContentChange(editor.getContent());
                             });
-                        }
+                        },
                     }}
                     tinymceScriptSrc="/tinymce/tinymce.min.js"
             />
@@ -120,4 +70,3 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({ onContentChange, i
 };
 
 export default TinyMCEEditor;
-

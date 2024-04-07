@@ -10,8 +10,6 @@ export const fetchWithToken = async (url: string, options: any) => {
 
     const accessToken = await getJwtAccessToken();
 
-    console.log(accessToken);
-
     if (accessToken) {
         const headers = {
             ...options.headers,

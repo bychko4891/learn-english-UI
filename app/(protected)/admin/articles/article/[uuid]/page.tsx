@@ -13,7 +13,7 @@ type Props = {
     }
 }
 
-export default async function CategoryEditPage({params: {uuid}}: Props) {
+export default async function ArticleEditPage({params: {uuid}}: Props) {
 
     const category = await getCategoryAPI(uuid) as CategoryResponse;
 
@@ -21,7 +21,7 @@ export default async function CategoryEditPage({params: {uuid}}: Props) {
         return (
             <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
                 <div className="main-content p-3 w-95 admin-h">
-                    <CategoryForm categoryRequest={category}/>
+                    {/*<CategoryForm categoryRequest={category}/>*/}
                 </div>
             </div>
         );

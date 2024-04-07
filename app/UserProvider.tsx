@@ -2,7 +2,8 @@
 
 import {ReactNode, useContext, useEffect, useState} from "react";
 import User from "@/user/User";
-import { createContext } from "react";
+import {createContext} from "react";
+import {getUserAPI} from "@/app/(protected)/user/profile/getUserAPI";
 
 type UserContextType = {
     user: User | null;
@@ -11,9 +12,10 @@ type UserContextType = {
 
 const UserContext = createContext<UserContextType>({
     user: null,
-    updateUser: () => {},
+    updateUser: () => {
+    },
 });
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+export const UserProvider = ({children}: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
 
     const updateUser = (userData: User | null) => {
@@ -30,10 +32,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
+        const userApi = async () => {
+            const user = await getUserAPI();
+            if (user) {
+                setUser(user);
+            }
+        }
+
+        // setUser(null);
+
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, updateUser }}>
+        <UserContext.Provider value={{user, updateUser}}>
             {children}
         </UserContext.Provider>
     );

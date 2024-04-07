@@ -1,5 +1,5 @@
 import {env} from "@/env.mjs";
-import {Category, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
+import { CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 
 
 export async function getCategory(uuid: string) {
@@ -10,7 +10,7 @@ export async function getCategory(uuid: string) {
             cache: 'no-store', next: {}
         });
 
-        return (await response.json()) as CategoryResponse[];
+        return (await response.json()) as CategoryResponse;
 
     } catch (error) {
 
