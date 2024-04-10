@@ -55,7 +55,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
                         statusbar: true,
                         branding: false,
                         skin: 'oxide-dark',
-                        images_upload_url: '/api/webimg-upload',
+                        images_upload_url: '/api/tinymce-img-upload',
                         automatic_uploads: true,
                         images_upload_base_path: "/api/webimg/",
                         setup: function (editor) {

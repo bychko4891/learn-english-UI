@@ -10,14 +10,14 @@ import {Category, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 import {saveCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/saveCategoryAPI";
 import Image from "next/image";
 
-export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryResponse }) => {
+export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryResponse }) => {
 
-    const [textContent, setTextContent] = useState<string>(categoryRequest.category.description);
-    const [mainCategory, setMainCategory] = useState(categoryRequest.category.mainCategory);
+    const [textContent, setTextContent] = useState<string>(categoryResponse.category.description);
+    const [mainCategory, setMainCategory] = useState(categoryResponse.category.mainCategory);
     const [showDescription, setShowDescription] = useState(true);
     const [selectedPage, setSelectedPage] = useState("NO_PAGE");
-    const [name, setName] = useState(categoryRequest.category.name);
-    const [uuid, setUuid] = useState(categoryRequest.category.uuid);
+    const [name, setName] = useState(categoryResponse.category.name);
+    const [uuid, setUuid] = useState(categoryResponse.category.uuid);
     const [image, setImage] = useState<File>();
     const [subCategories, setSubcategories] = useState<Category[]>();
     const [selectMainCategory, setSelectMainCategory] = useState<Category>();
@@ -54,7 +54,7 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryRespo
     };
 
     const handleSelectMainCategory = (uuid: string) => {
-        categoryRequest.mainCategories.forEach(category => {
+        categoryResponse.mainCategories.forEach(category => {
             if (category.uuid === uuid) {
                 setSelectMainCategory(category);
                 setSubcategories(category.subcategories);
@@ -155,8 +155,8 @@ export const CategoryForm = ({categoryRequest}: { categoryRequest: CategoryRespo
                         <label>Змінити категорію</label>
                         <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
                             <option>Батьківська категорія</option>
-                            {categoryRequest.mainCategories && categoryRequest.mainCategories.length > 0 &&
-                                categoryRequest.mainCategories.map(category => (
+                            {categoryResponse.mainCategories && categoryResponse.mainCategories.length > 0 &&
+                                categoryResponse.mainCategories.map(category => (
                                     <option key={category.uuid} value={category.uuid}>
                                         {category.name}
                                     </option>

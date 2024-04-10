@@ -3,33 +3,41 @@
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import "../../categories/categories.style.css"
+// import "../../categories/categories.style.css"
 import 'react-toastify/dist/ReactToastify.css';
 import {ReactSVG} from "react-svg";
-import {AppPage, AppPageContent, AppPageContentRequest} from "@/app/DefaultResponsesInterfaces";
-import {saveAppPageContentAPI} from "@/app/(protected)/admin/app-pages/contents/[uuid]/saveAppPageContentAPI";
+import {Article, ArticleResponse, Category} from "@/app/DefaultResponsesInterfaces";
 import {toast, ToastContainer, Zoom} from "react-toastify";
+import {saveArticleAPI} from "@/app/(protected)/admin/articles/article/[uuid]/saveArticleAPI";
 
-export const ArticleForm = ({pageContent}: { pageContent: AppPageContentRequest }) => {
+export const ArticleForm = ({articleResponse}: { articleResponse: ArticleResponse }) => {
 
-    const imgUrl = pageContent.applicationPageContent.image ? `/api/webimg/${pageContent.applicationPageContent.image.imageName}` : "";
+    const imgUrl = articleResponse.article.image ? `/api/webimg/${articleResponse.article.image.imageName}` : "";
 
-    const [textContent, setTextContent] = useState<string>(pageContent.applicationPageContent.description);
-    const [selectedPage, setPage] = useState<AppPage>(pageContent.applicationPageContent.applicationPage);
-    const [selectedPositionContent, setPositionContent] = useState<string[]>(pageContent.applicationPageContent?.positionContent);
-    const [name, setName] = useState(pageContent.applicationPageContent.name);
-    const [uuid, setUuid] = useState(pageContent.applicationPageContent.uuid);
+    const [textContent, setTextContent] = useState<string>(articleResponse.article.description);
+    const [tagTitle, setTagTitle] = useState(articleResponse.article.htmlTagTitle || "");
+    const [tagDescription, setTagDescription] = useState(articleResponse.article.htmlTagDescription || "");
+    const [h1, setH1] = useState(articleResponse.article.h1);
+    const [uuid, setUuid] = useState(articleResponse.article.uuid);
     const [image, setImage] = useState<File>();
+
+    const [subCategories, setSubcategories] = useState<Category[]>();
+    const [selectMainCategory, setSelectMainCategory] = useState<Category>();
+    const [selectSubcategory, setSelectSubcategory] = useState<Category>();
 
     const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
 
     const blockVisit = visit ? "block-h visit" : "block-h";
 
+    const [h1Error, setH1Error] = useState("");
+    const [descriptionError, setDescriptionError] = useState("");
+    const [titleError, setTitleError] = useState("");
+    // const [generalError, setGeneralError] = useState("");
+
     const handleClickVisit = () => {
         setVisit(!visit);
     }
-
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -51,10 +59,20 @@ export const ArticleForm = ({pageContent}: { pageContent: AppPageContentRequest 
         setTextContent(newContent);
     };
 
-    const handleSelectPage = (uuid: string) => {
-        pageContent.applicationPages.forEach(appPage => {
-            if (appPage.uuid === uuid) {
-                setPage(appPage);
+    const handleSelectMainCategory = (uuid: string) => {
+        articleResponse.mainCategories.forEach(category => {
+            if (category.uuid === uuid) {
+                setSelectMainCategory(category);
+                setSubcategories(category.subcategories);
+                return;
+            }
+        });
+    };
+
+    const handleSelectSubcategory = (uuid: string) => {
+        subCategories?.forEach(category => {
+            if (category.uuid === uuid) {
+                setSelectSubcategory(category);
                 return;
             }
         });
@@ -63,25 +81,35 @@ export const ArticleForm = ({pageContent}: { pageContent: AppPageContentRequest 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // setDisabled(true);
-        const pageContent = {
+        const selectCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
+
+        const article = {
             uuid: uuid,
-            name: name,
+            h1: h1,
             description: textContent,
-            applicationPage: selectedPage,
-            positionContent: selectedPositionContent
-        } as AppPageContent;
+            htmlTagDescription: tagDescription,
+            htmlTagTitle: tagTitle,
+            category: selectCategory,
+        } as Article;
         var formData = new FormData;
         formData.append('image', image as Blob);
-        formData.append('pageContent', new Blob([JSON.stringify(pageContent)], {type: 'application/json'}));
+        formData.append('article', new Blob([JSON.stringify(article)], {type: 'application/json'}));
         try {
-            const response = await saveAppPageContentAPI(formData, uuid);
+            const response = await saveArticleAPI(formData, uuid);
             if(response?.status ===200) {
                 toast.success(response.general);
+                setDescriptionError("");
+                setTitleError("");
+                setH1Error("");
+            }
+            if (response?.status === 400) {
+                setDescriptionError(response?.htmlTagDescription);
+                setTitleError(response?.htmlTagTitle);
+                setH1Error(response?.h1);
+                toast.error("Є помилки при введенні даних!");
             }
             // setDisabled(false);
-            // if(response) {
-            //     // setRespData(response);
-            // }
+
         } catch (error) {
             // setDisabled(false);
             // console.log("Server error: " + error)
@@ -95,7 +123,7 @@ export const ArticleForm = ({pageContent}: { pageContent: AppPageContentRequest 
             <div className="d-flex justify-content-between top-admin-block">
                 <ButtonBack backURL="/admin/app-pages/contents"/>
                 <div className="center">
-                    <h1>Редагування контента сторінки</h1>
+                    <h1>Редагування статті</h1>
                 </div>
                 <button form="form" type="submit" className="right save">
                     <ReactSVG src="/images/save.svg" className="back-arrow-color" beforeInjection={(svg) => {
@@ -114,39 +142,95 @@ export const ArticleForm = ({pageContent}: { pageContent: AppPageContentRequest 
                     <div className="col-md-3 col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>H1</label>
-                            <input type="text" className="w-100" name="name" value={name}
-                                   onChange={(e) => setName(e.target.value)}/>
+                            <input type="text" className="w-100" name="name" value={h1}
+                                   onChange={(e) => setH1(e.target.value)}/>
                         </div>
+                        {!!h1Error && <p className="p_error ms-3">{h1Error}</p>}
+                        <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
+                            <div className="d-flex flex-column align-items-start w-100">
+                                <label>Html tag «Title»</label>
+                                <textarea className="w-100" name="name" value={tagTitle}
+                                          onChange={(e) => setTagTitle(e.target.value)}/>
+                                <span className="counter-text text-end">
+                                     <span>{tagTitle.length}</span>
+                                        /
+                                    <span>360</span>
+                            </span>
+                            </div>
+                        </div>
+                        {!!titleError && <p className="p_error ms-3">{titleError}</p>}
 
-                           <label>Сторінка вивода:
-                            {selectedPage &&
-                                <span style={{paddingLeft: 10, color: "#307ed9"}}>{selectedPage.url}</span>
+                        <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
+                            <div className="d-flex flex-column align-items-start w-100">
+                                <label>Html tag «Description»</label>
+                                <textarea className="w-100" name="name" value={tagDescription}
+                                          onChange={(e) => setTagDescription(e.target.value)}/>
+                                <span className="counter-text text-end">
+                                     <span>{tagDescription.length}</span>
+                                        /
+                                    <span>360</span>
+                            </span>
+                            </div>
+                        </div>
+                        {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
+
+                        <label>Категорія:
+                            {articleResponse.article.category &&
+                                <span style={{paddingLeft: 10, color: "#307ed9"}}>{articleResponse.article.category.name}</span>
                             }
                         </label>
 
-                        <select className="w-100" onChange={(e) => handleSelectPage(e.target.value)}>
-                            <option>Змінити сторінку</option>
-                            {pageContent.applicationPages && pageContent.applicationPages.length > 0 &&
-                                pageContent.applicationPages.map(appPage => (
-                                    <option key={appPage.uuid} value={appPage.uuid}>
-                                        {appPage.url}
+                        <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
+                            <option>Батьківська категорія</option>
+                            {articleResponse.mainCategories && articleResponse.mainCategories.length > 0 &&
+                                articleResponse.mainCategories.map(category => (
+                                    <option key={category.uuid} value={category.uuid}>
+                                        {category.name}
                                     </option>
                                 ))}
 
                         </select>
 
+                        <select className="w-100" onChange={(e) => handleSelectSubcategory(e.target.value)}>
+                            <option>Оберіть підкатегорію</option>
+                            {subCategories && subCategories.length > 0 &&
+                                subCategories.map(category => (
+                                    <option key={category.uuid} value={category.uuid}>
+                                        {category.name}
+                                    </option>
+                                ))}
+
+                        </select>
+
+                        {/*<label>Сторінка вивода:*/}
+                        {/*    /!*{selectedPage &&*!/*/}
+                        {/*    /!*    <span style={{paddingLeft: 10, color: "#307ed9"}}>{selectedPage.url}</span>*!/*/}
+                        {/*    /!*}*!/*/}
+                        {/*</label>*/}
+
+                        {/*<select className="w-100" onChange={(e) => handleSelectPage(e.target.value)}>*/}
+                        {/*    <option>Змінити сторінку</option>*/}
+                        {/*    /!*{pageContent.applicationPages && pageContent.applicationPages.length > 0 &&*!/*/}
+                        {/*    /!*    pageContent.applicationPages.map(appPage => (*!/*/}
+                        {/*    /!*        <option key={appPage.uuid} value={appPage.uuid}>*!/*/}
+                        {/*    /!*            {appPage.url}*!/*/}
+                        {/*    /!*        </option>*!/*/}
+                        {/*    /!*    ))}*!/*/}
+
+                        {/*</select>*/}
+
                         <div className="d-flex flex-column w-100 align-items-start gap-2">
-                            <label htmlFor="page">Позиція контента:
-                                {selectedPositionContent && selectedPositionContent.length > 0 &&
-                                    <span
-                                        style={{paddingLeft: 10, color: "#307ed9"}}>{selectedPositionContent[0]}</span>
-                                }</label>
-                            <select id="page" name="categoryPage" className="w-100"
-                                    onChange={(e) => setPositionContent([e.target.value])}>
-                                <option>Змінити позицію контента</option>
-                                <option value="TOP">Верх</option>
-                                <option value="BOTTOM">Низ</option>
-                            </select>
+                            {/*<label htmlFor="page">Позиція контента:*/}
+                            {/*{selectedPositionContent && selectedPositionContent.length > 0 &&*/}
+                            {/*    <span*/}
+                            {/*        style={{paddingLeft: 10, color: "#307ed9"}}>{selectedPositionContent[0]}</span>*/}
+                            {/*}</label>*/}
+                            {/*<select id="page" name="categoryPage" className="w-100"*/}
+                            {/*        onChange={(e) => setPositionContent([e.target.value])}>*/}
+                            {/*    <option>Змінити позицію контента</option>*/}
+                            {/*    <option value="TOP">Верх</option>*/}
+                            {/*    <option value="BOTTOM">Низ</option>*/}
+                            {/*</select>*/}
                         </div>
 
                         <div className="d-flex flex-column align-items-start w-100 pt-2">

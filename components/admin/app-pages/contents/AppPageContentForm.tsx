@@ -3,7 +3,7 @@
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import "../../categories/categories.style.css"
+// import "../../categories/categories.style.css"
 import 'react-toastify/dist/ReactToastify.css';
 import {ReactSVG} from "react-svg";
 import {AppPage, AppPageContent, AppPageContentRequest} from "@/app/DefaultResponsesInterfaces";
@@ -95,7 +95,7 @@ export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentR
             <div className="d-flex justify-content-between top-admin-block">
                 <ButtonBack backURL="/admin/app-pages/contents"/>
                 <div className="center">
-                    <h1>Редагування контента сторінки</h1>
+                    <h1>Редагування статті</h1>
                 </div>
                 <button form="form" type="submit" className="right save">
                     <ReactSVG src="/images/save.svg" className="back-arrow-color" beforeInjection={(svg) => {

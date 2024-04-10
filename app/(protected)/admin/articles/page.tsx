@@ -11,11 +11,11 @@ export default async function ArticlesPage() {
                 <div className="d-flex justify-content-between top-admin-block">
                     <ButtonBack backURL="/admin"/>
                     <div className="center">
-                        <h1>Сторінки додатка</h1>
+                        <h1>Статті додатка</h1>
                     </div>
 
                     <div className="right d-flex gap-3">
-                        <ButtonNewEntity apiRequestURL="/app-pages/new-article" redirectURL="/admin/articles/article/"/>
+                        <ButtonNewEntity apiRequestURL="/articles/new-article" redirectURL="/admin/articles/article/"/>
                     </div>
                 </div>
                 <Articles/>

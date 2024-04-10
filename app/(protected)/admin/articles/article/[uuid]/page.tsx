@@ -1,10 +1,10 @@
 'use server'
 
 
-import {CategoryForm} from "@/components/admin/categories/edit/CategoryForm";
-import {getCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/getCategoryAPI";
-import {CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
+import {getArticleAPI} from "@/app/(protected)/admin/articles/article/[uuid]/getArticleAPI";
+import {ArticleResponse} from "@/app/DefaultResponsesInterfaces";
+import {ArticleForm} from "@/components/admin/articles/ArticleForm";
 
 
 type Props = {
@@ -15,13 +15,13 @@ type Props = {
 
 export default async function ArticleEditPage({params: {uuid}}: Props) {
 
-    const category = await getCategoryAPI(uuid) as CategoryResponse;
+    const article = await getArticleAPI(uuid) as ArticleResponse;
 
-    if(category) {
+    if(article) {
         return (
             <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
                 <div className="main-content p-3 w-95 admin-h">
-                    {/*<CategoryForm categoryRequest={category}/>*/}
+                    <ArticleForm articleResponse={article}/>
                 </div>
             </div>
         );

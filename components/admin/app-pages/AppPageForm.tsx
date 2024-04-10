@@ -22,6 +22,8 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
     const [urlError, setUrlError] = useState("");
     const [generalError, setGeneralError] = useState("");
 
+
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // setDisabled(true);
@@ -81,13 +83,13 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
                                    onChange={(e) => setH1(e.target.value)}/>
                         </div>
                     </div>
-                    {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
+                    {!!h1Error && <p className="p_error ms-3">{h1Error}</p>}
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>Html tag «Title»</label>
                             <textarea className="w-50" name="name" value={title}
                                       onChange={(e) => setTitle(e.target.value)}/>
-                            <span className="counter-text">
+                            <span className="counter-text w-50 text-end pe-3">
                                      <span>{title.length}</span>
                                         /
                                     <span>360</span>
@@ -101,7 +103,7 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
                             <label>Html tag «Description»</label>
                             <textarea className="w-50" name="name" value={description}
                                       onChange={(e) => setDescription(e.target.value)}/>
-                            <span className="counter-text">
+                            <span className="counter-text w-50 text-end pe-3">
                                      <span>{description.length}</span>
                                         /
                                     <span>360</span>

@@ -44,6 +44,11 @@ export interface Article {
     category: Category;
 }
 
+export interface ArticleResponse {
+    article: Article;
+    mainCategories: Category[];
+}
+
 export interface CategoryResponse {
     category: Category
     mainCategories: Category[];
