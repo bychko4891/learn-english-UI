@@ -181,6 +181,11 @@
     visibility: visible;
 }
 
+.block-edit-img {
+    max-width: 100%;
+    width: auto;
+}
+
 @media (min-width: 280px){
 
     .category-tree .w-50 {

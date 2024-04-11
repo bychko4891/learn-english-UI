@@ -45,9 +45,9 @@ export const Articles = () => {
                     <tr key={article.uuid}>
                         <th scope="row">{article.id}</th>
                         <td>{article.h1}</td>
-                        <td>{article.category.name}</td>
+                        <td>{article.category && article.category.name || "Відсутня"}</td>
                         <td>
-                            <Link href={'/admin/app-pages/' + article.uuid}>
+                            <Link href={'/admin/articles/article/' + article.uuid}>
                                 <div className="br-g edit-link">
                                     <Image src="/images/edit.svg" width="25" height="25" alt="" className="edit-svg"/>
                                 </div>

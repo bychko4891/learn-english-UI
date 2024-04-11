@@ -2,7 +2,7 @@
 
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
-import {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import "../categories.style.css"
 import {ReactSVG} from "react-svg";
 import {sendFormLoginAPI} from "@/app/login/sendFormLoginAPI";
@@ -12,9 +12,13 @@ import Image from "next/image";
 
 export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryResponse }) => {
 
+    const imgUrl = categoryResponse.category.image ? `/api/category-img/${categoryResponse.category.image.imageName}` : "";
+
     const [textContent, setTextContent] = useState<string>(categoryResponse.category.description);
     const [mainCategory, setMainCategory] = useState(categoryResponse.category.mainCategory);
     const [showDescription, setShowDescription] = useState(true);
+    const [tagTitle, setTagTitle] = useState(categoryResponse.category.htmlTagTitle || "");
+    const [tagDescription, setTagDescription] = useState(categoryResponse.category.htmlTagDescription || "");
     const [selectedPage, setSelectedPage] = useState("NO_PAGE");
     const [name, setName] = useState(categoryResponse.category.name);
     const [uuid, setUuid] = useState(categoryResponse.category.uuid);
@@ -23,7 +27,10 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
     const [selectMainCategory, setSelectMainCategory] = useState<Category>();
     const [selectSubcategory, setSelectSubcategory] = useState<Category>();
 
-    const [imageURL, setImageURL] = useState<string>('');
+    const [descriptionError, setDescriptionError] = useState("");
+    const [titleError, setTitleError] = useState("");
+
+    const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
 
     const blockVisit = visit ? "block-h visit" : "block-h";
@@ -80,6 +87,8 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
             uuid: uuid,
             name: name,
             description: textContent,
+            htmlTagTitle: tagTitle,
+            htmlTagDescription: tagDescription,
             mainCategory: mainCategory,
             parentCategory: parentCategory,
             categoryPage: [selectedPage],
@@ -128,6 +137,34 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                             <input type="text" className="w-100" name="name" value={name}
                                    onChange={(e) => setName(e.target.value)}/>
                         </div>
+
+                        <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
+                            <div className="d-flex flex-column align-items-start w-100">
+                                <label>Html tag «Title»</label>
+                                <textarea className="w-100" name="name" value={tagTitle}
+                                          onChange={(e) => setTagTitle(e.target.value)}/>
+                                <span className="counter-text text-end">
+                                     <span>{tagTitle.length}</span>
+                                        /
+                                    <span>360</span>
+                            </span>
+                            </div>
+                        </div>
+                        {!!titleError && <p className="p_error ms-3">{titleError}</p>}
+
+                        <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
+                            <div className="d-flex flex-column align-items-start w-100">
+                                <label>Html tag «Description»</label>
+                                <textarea className="w-100" name="name" value={tagDescription}
+                                          onChange={(e) => setTagDescription(e.target.value)}/>
+                                <span className="counter-text text-end">
+                                     <span>{tagDescription.length}</span>
+                                        /
+                                    <span>360</span>
+                            </span>
+                            </div>
+                        </div>
+                        {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
 
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>Батьківська категорія</label>
@@ -200,7 +237,14 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                                 <input type="file" className="w-100" accept="image/*" onChange={handleImageChange}/>
                                 <div className="category-edit-img-container">
                                     {imageURL &&
-                                        <Image src={imageURL} alt="Uploaded Image" width="450" height="280" className="category-edit-img"/>}
+                                        <Image src={imageURL} alt="Uploaded Image" width="450" height="280"
+                                               className="block-edit-img"/>}
+                                </div>
+                                <div className="d-flex w-100 pt-2">
+
+                                    <input className="w-40 " type="text" placeholder="width"/>
+                                    <input className="w-40 ms-auto" type="text" placeholder="height"/>
+
                                 </div>
                             </div>
                         </div>

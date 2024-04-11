@@ -3,7 +3,6 @@
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
 import React, {ChangeEvent, FormEvent, useState} from "react";
-// import "../../categories/categories.style.css"
 import 'react-toastify/dist/ReactToastify.css';
 import {ReactSVG} from "react-svg";
 import {Article, ArticleResponse, Category} from "@/app/DefaultResponsesInterfaces";
@@ -20,6 +19,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
     const [h1, setH1] = useState(articleResponse.article.h1);
     const [uuid, setUuid] = useState(articleResponse.article.uuid);
     const [image, setImage] = useState<File>();
+    const [articleCategory, setArticleCategory] = useState(articleResponse.article.category);
 
     const [subCategories, setSubcategories] = useState<Category[]>();
     const [selectMainCategory, setSelectMainCategory] = useState<Category>();
@@ -60,11 +60,17 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
     };
 
     const handleSelectMainCategory = (uuid: string) => {
+        console.log("selectMain: " + uuid);
         articleResponse.mainCategories.forEach(category => {
             if (category.uuid === uuid) {
+                console.log("UUID")
                 setSelectMainCategory(category);
+                setArticleCategory(category);
                 setSubcategories(category.subcategories);
                 return;
+            }
+            if (!uuid) {
+                setArticleCategory(articleResponse.article.category);
             }
         });
     };
@@ -73,8 +79,13 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
         subCategories?.forEach(category => {
             if (category.uuid === uuid) {
                 setSelectSubcategory(category);
+                setArticleCategory(category);
                 return;
             }
+            if (!uuid && selectMainCategory) {
+                setArticleCategory(selectMainCategory);
+            }
+
         });
     };
 
@@ -112,7 +123,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
 
         } catch (error) {
             // setDisabled(false);
-            // console.log("Server error: " + error)
+            toast.error("Помилка сервера!!!");
 
         }
     }
@@ -121,7 +132,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
         <>
             <ToastContainer autoClose={3000} transition={Zoom}/>
             <div className="d-flex justify-content-between top-admin-block">
-                <ButtonBack backURL="/admin/app-pages/contents"/>
+                <ButtonBack backURL="/admin/articles"/>
                 <div className="center">
                     <h1>Редагування статті</h1>
                 </div>
@@ -175,13 +186,13 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
                         {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
 
                         <label>Категорія:
-                            {articleResponse.article.category &&
-                                <span style={{paddingLeft: 10, color: "#307ed9"}}>{articleResponse.article.category.name}</span>
+                            {articleCategory &&
+                                <span style={{paddingLeft: 10, color: "#307ed9"}}>{articleCategory.name}</span>
                             }
                         </label>
 
                         <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
-                            <option>Батьківська категорія</option>
+                            <option value="">Оберіть категорію</option>
                             {articleResponse.mainCategories && articleResponse.mainCategories.length > 0 &&
                                 articleResponse.mainCategories.map(category => (
                                     <option key={category.uuid} value={category.uuid}>
@@ -192,7 +203,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
                         </select>
 
                         <select className="w-100" onChange={(e) => handleSelectSubcategory(e.target.value)}>
-                            <option>Оберіть підкатегорію</option>
+                            <option value="">Оберіть підкатегорію</option>
                             {subCategories && subCategories.length > 0 &&
                                 subCategories.map(category => (
                                     <option key={category.uuid} value={category.uuid}>
@@ -201,37 +212,6 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
                                 ))}
 
                         </select>
-
-                        {/*<label>Сторінка вивода:*/}
-                        {/*    /!*{selectedPage &&*!/*/}
-                        {/*    /!*    <span style={{paddingLeft: 10, color: "#307ed9"}}>{selectedPage.url}</span>*!/*/}
-                        {/*    /!*}*!/*/}
-                        {/*</label>*/}
-
-                        {/*<select className="w-100" onChange={(e) => handleSelectPage(e.target.value)}>*/}
-                        {/*    <option>Змінити сторінку</option>*/}
-                        {/*    /!*{pageContent.applicationPages && pageContent.applicationPages.length > 0 &&*!/*/}
-                        {/*    /!*    pageContent.applicationPages.map(appPage => (*!/*/}
-                        {/*    /!*        <option key={appPage.uuid} value={appPage.uuid}>*!/*/}
-                        {/*    /!*            {appPage.url}*!/*/}
-                        {/*    /!*        </option>*!/*/}
-                        {/*    /!*    ))}*!/*/}
-
-                        {/*</select>*/}
-
-                        <div className="d-flex flex-column w-100 align-items-start gap-2">
-                            {/*<label htmlFor="page">Позиція контента:*/}
-                            {/*{selectedPositionContent && selectedPositionContent.length > 0 &&*/}
-                            {/*    <span*/}
-                            {/*        style={{paddingLeft: 10, color: "#307ed9"}}>{selectedPositionContent[0]}</span>*/}
-                            {/*}</label>*/}
-                            {/*<select id="page" name="categoryPage" className="w-100"*/}
-                            {/*        onChange={(e) => setPositionContent([e.target.value])}>*/}
-                            {/*    <option>Змінити позицію контента</option>*/}
-                            {/*    <option value="TOP">Верх</option>*/}
-                            {/*    <option value="BOTTOM">Низ</option>*/}
-                            {/*</select>*/}
-                        </div>
 
                         <div className="d-flex flex-column align-items-start w-100 pt-2">
                             <button type="button" className="w-100 d-flex flex-row br-g" onClick={handleClickVisit}>
@@ -246,7 +226,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
                                 <input type="file" className="w-100" accept="image/*" onChange={handleImageChange}/>
                                 <div className="category-edit-img-container">
                                     {imageURL &&
-                                        <img src={imageURL} alt="Uploaded Image" className="category-edit-img"/>}
+                                        <img src={imageURL} alt="Uploaded Image" className="block-edit-img"/>}
                                 </div>
                                 <div className="d-flex w-100 pt-2">
 

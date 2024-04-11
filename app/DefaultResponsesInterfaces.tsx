@@ -20,6 +20,8 @@ export interface Category {
     uuid: string;
     name: string;
     description: string;
+    htmlTagTitle: string;
+    htmlTagDescription: string;
     mainCategory: boolean;
     parentCategory: Category;
     subcategories: Category[];
@@ -37,8 +39,8 @@ export interface Article {
     id: number;
     uuid: string;
     h1: string;
-    htmlTagDescription: string;
     htmlTagTitle: string;
+    htmlTagDescription: string;
     description: string;
     image: Image;
     category: Category;

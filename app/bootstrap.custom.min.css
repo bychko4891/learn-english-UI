@@ -214,6 +214,11 @@
     font-size: .75rem !important
 }
 
+.my-auto {
+    margin-top: auto !important;
+    margin-bottom: auto !important
+}
+
 .mt-0 {
     margin-top: 0 !important
 }

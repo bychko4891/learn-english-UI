@@ -162,7 +162,7 @@ export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentR
                                 <input type="file" className="w-100" accept="image/*" onChange={handleImageChange}/>
                                 <div className="category-edit-img-container">
                                     {imageURL &&
-                                        <img src={imageURL} alt="Uploaded Image" className="category-edit-img"/>}
+                                        <img src={imageURL} alt="Uploaded Image" className="block-edit-img"/>}
                                 </div>
                                 <div className="d-flex w-100 pt-2">
 
