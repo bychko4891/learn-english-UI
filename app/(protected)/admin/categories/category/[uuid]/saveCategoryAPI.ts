@@ -5,12 +5,14 @@ import {fetchWithToken} from "@/app/fetchWithToken";
 import {Category} from "@/app/DefaultResponsesInterfaces";
 
 
-// type Category = {
-//     uuid: string;
-//     name: string;
-//     mainCategory: boolean;
-//     subcategories: Category[];
-// }
+type ResMessage = {
+    status: number;
+    name: string;
+    htmlTagDescription: string,
+    htmlTagTitle: string,
+    general: string;
+
+}
 
 export async function saveCategoryAPI(data:FormData, uuid: string) {
 
@@ -21,11 +23,20 @@ export async function saveCategoryAPI(data:FormData, uuid: string) {
             body: data,
         });
 
+        if(response?.status === 400) {
+            const message = (await  response.json()) as ResMessage;
+            message.status = 400;
+            return message;
+        }
+
         if (!response?.ok) {
             throw new Error('Network response was not ok');
         }
 
-        return (await response.json()) as Category[];
+        const message = (await  response.json()) as ResMessage;
+        message.status = 200;
+
+        return message;
     } catch (error) {
         // console.error('Error save Category to  Admin page:', error);
         return undefined;

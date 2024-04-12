@@ -2,6 +2,7 @@ import {getCategory} from "@/app/vocabulary/category/[uuid]/getCategory";
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";
 import Image from "next/image";
+import {NoContent} from "@/components/noContent/NoContent";
 
 type Props = {
     params: {
@@ -11,7 +12,7 @@ type Props = {
 
 export async function generateMetadata({params: {uuid}}: Props) {
     const categoryResp = await getCategory(uuid);
-    if(categoryResp) {
+    if (categoryResp) {
         return {
             title: categoryResp.category.htmlTagTitle,
             description: categoryResp.category.htmlTagDescription,
@@ -19,9 +20,10 @@ export async function generateMetadata({params: {uuid}}: Props) {
     }
     return {
         title: "",
-        description:""
+        description: ""
     }
 }
+
 export default async function VocabularyCategories({params: {uuid}}: Props) {
 
     const categoryResp = await getCategory(uuid);
@@ -84,7 +86,8 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                                                 <h3 className="h3__link">{article.h1}</h3>
                                             </Link>
                                             <div className="border-lr w-100 mb-3">
-                                                <span dangerouslySetInnerHTML={{__html: (getDescriptionWithEllipsis(article.description))}}/>
+                                                <span
+                                                    dangerouslySetInnerHTML={{__html: (getDescriptionWithEllipsis(article.description))}}/>
 
                                             </div>
                                             <Link href={'/vocabulary/category/article/' + article.uuid}
@@ -92,6 +95,12 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                                         </div>
                                     </div>
                                 ))}
+                            </>
+                        }
+
+                        {(!subcategories || subcategories.length === 0) && (!categoryResp.articles || categoryResp.articles.length === 0) &&
+                            <>
+                                <NoContent/>
                             </>
                         }
 
@@ -111,6 +120,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
         <div className="app-content-area">
             <div className="main-content p-3 w-95">
                 <Breadcrumb breadcrumb={breadcrumbNavigation}/>
+                <NoContent/>
             </div>
         </div>
     );

@@ -3,12 +3,14 @@
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import "../categories.style.css"
 import {ReactSVG} from "react-svg";
-import {sendFormLoginAPI} from "@/app/login/sendFormLoginAPI";
 import {Category, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 import {saveCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/saveCategoryAPI";
 import Image from "next/image";
+import {toast, ToastContainer, Zoom} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import "../categories.style.css"
+
 
 export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryResponse }) => {
 
@@ -27,6 +29,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
     const [selectMainCategory, setSelectMainCategory] = useState<Category>();
     const [selectSubcategory, setSelectSubcategory] = useState<Category>();
 
+    const [nameError, setNameError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
     const [titleError, setTitleError] = useState("");
 
@@ -98,6 +101,18 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
         formData.append('category', new Blob([JSON.stringify(category)], {type: 'application/json'}));
         try {
             const response = await saveCategoryAPI(formData, uuid);
+            if(response?.status ===200) {
+                toast.success(response.general);
+                setDescriptionError("");
+                setTitleError("");
+                setNameError("");
+            }
+            if(response?.status ===400) {
+                setDescriptionError(response?.htmlTagDescription);
+                setTitleError(response?.htmlTagTitle);
+                setNameError(response?.name);
+                toast.error("Є помилки при введенні даних!");
+            }
             // setDisabled(false);
             // if(response) {
             //     // setRespData(response);
@@ -105,12 +120,13 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
         } catch (error) {
             // setDisabled(false);
             // console.log("Server error: " + error)
-
+            toast.error("Помилка сервера!!!");
         }
     }
 
     return (
         <>
+            <ToastContainer autoClose={3000} transition={Zoom}/>
             <div className="d-flex justify-content-between top-admin-block">
                 <ButtonBack backURL="/admin/categories"/>
                 <div className="center">
@@ -137,6 +153,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                             <input type="text" className="w-100" name="name" value={name}
                                    onChange={(e) => setName(e.target.value)}/>
                         </div>
+                        {!!nameError && <p className="p_error ms-3">{nameError}</p>}
 
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
