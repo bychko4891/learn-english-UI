@@ -62,9 +62,9 @@ export default async function Home() {
                                     <div className="col-md-5 col-12">
                                         {content.image && content.image.imageName &&
                                             <Image unoptimized src={'/api/webimg/' + content.image.imageName}
-                                                   width={280}
+                                                   width={580}
                                                    height={270}
-                                                   alt="" style={{borderRadius: 20}}/>
+                                                   alt="" style={{borderRadius: 20, maxWidth: "100%", height: "auto"}}/>
                                         }
                                     </div>
                                     <div className="d-flex flex-column col-md-5 col-12">

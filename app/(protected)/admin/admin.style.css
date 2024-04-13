@@ -126,33 +126,33 @@
     filter: brightness(0) saturate(100%) invert(0%) sepia(91%) saturate(22%) hue-rotate(8deg) brightness(100%) contrast(93%);
 }
 
-.category-tree {
+.block-form {
     margin-top: 20px;
     font-size: 20px;
 }
 
-.category-tree input,
-.category-tree select {
+.block-form input,
+.block-form select {
     height: 30px;
     border-radius: 10px;
     padding: 0 10px;
 }
-.category-tree select option {
+.block-form select option {
     font-size: 18px;
 }
 
-.category-tree .counter-box {
+.block-form .counter-box {
     position: relative;
     display: inline-block;
 }
 
-.category-tree textarea {
+.block-form textarea {
     height: 110px;
     border-radius: 10px;
     padding: 10px;
 }
 
-.category-tree .counter-text {
+.block-form .counter-text {
     position: absolute;
     right: 10px;
     bottom: 0;
@@ -188,7 +188,7 @@
 
 @media (min-width: 280px){
 
-    .category-tree .w-50 {
+    .block-form .w-50 {
         width: 100% !important;
     }
 
@@ -219,7 +219,7 @@
 }
 @media (min-width: 768px) {
 
-    .category-tree .w-50 {
+    .block-form .w-50 {
         width: 100% !important;
     }
 
@@ -237,7 +237,7 @@
 
 @media (min-width: 1200px) {
 
-    .category-tree .w-50 {
+    .block-form .w-50 {
         width: 50% !important;
     }
 

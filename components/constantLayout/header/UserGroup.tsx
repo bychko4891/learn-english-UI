@@ -41,7 +41,7 @@ export const UserGroup = () => {
             <a className="rounded-circle" href="#!" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div className="avatar avatar-md avatar-indicators avatar-online">
 
-                    <Image id="userAvatar"  src={avatar}  alt="User avatar" className="rounded-circle" width="40" height="40" />
+                    <Image unoptimized id="userAvatar"  src={avatar}  alt="User avatar" className="rounded-circle" width="40" height="40" />
 
                 </div>
             </a>
@@ -59,21 +59,21 @@ export const UserGroup = () => {
 
                     <li>
                         <Link className="dropdown-item d-flex align-items-center" href="/user/edit">
-                            <Image className="colored-svg reset-styles me-2" src="/images/edit-user.svg" alt="User edit profile"
+                            <Image unoptimized className="colored-svg reset-styles me-2" src="/images/edit-user.svg" alt="User edit profile"
                                  width="15" height="15"/>
                             Редагувати
                         </Link>
                     </li>
                     <li>
                         <Link className="dropdown-item d-flex align-items-center" href="/user/statistics">
-                            <Image className="colored-svg reset-styles me-2" src="/images/statistics.svg"
+                            <Image unoptimized className="colored-svg reset-styles me-2" src="/images/statistics.svg"
                                  alt="User statistics" width="15" height="15"/>
                             Статистика
                         </Link>
                     </li>
                     <li>
                         <Link className="dropdown-item d-flex align-items-center" href="/user/settings">
-                            <Image className="colored-svg reset-styles me-2" src="/images/settings.svg"
+                            <Image unoptimized className="colored-svg reset-styles me-2" src="/images/settings.svg"
                                  alt="User statistics" width="15" height="15"/>
                             Налаштування
                         </Link>
@@ -81,7 +81,7 @@ export const UserGroup = () => {
                     <li>
                         {/*<Link className="dropdown-item d-flex align-items-center"  href="#">*/}
                         <Link className="dropdown-item d-flex align-items-center" onClick={signOut} href="#">
-                            <Image className="colored-svg reset-styles me-2" src="/images/power-off.svg"
+                            <Image unoptimized className="colored-svg reset-styles me-2" src="/images/power-off.svg"
                                  alt="User statistics" width="15" height="15"/>
                             Вихід
                         </Link>

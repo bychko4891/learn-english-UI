@@ -9,6 +9,7 @@ import {ReactSVG} from "react-svg";
 import {AppPage, AppPageContent, AppPageContentRequest} from "@/app/DefaultResponsesInterfaces";
 import {saveAppPageContentAPI} from "@/app/(protected)/admin/app-pages/contents/[uuid]/saveAppPageContentAPI";
 import {toast, ToastContainer, Zoom} from "react-toastify";
+import Image from "next/image";
 
 export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentRequest }) => {
 
@@ -104,7 +105,7 @@ export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentR
                     }}/>
                 </button>
             </div>
-            <div className="category-tree">
+            <div className="block-form">
                 <form id="form" className=" d-flex flex-row mt-3" onSubmit={handleSubmit}>
 
                     <div className="col-md-9 col-12">
@@ -162,7 +163,7 @@ export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentR
                                 <input type="file" className="w-100" accept="image/*" onChange={handleImageChange}/>
                                 <div className="category-edit-img-container">
                                     {imageURL &&
-                                        <img src={imageURL} alt="Uploaded Image" className="block-edit-img"/>}
+                                        <Image src={imageURL} alt="Uploaded Image" className="block-edit-img" width={360} height={250} />}
                                 </div>
                                 <div className="d-flex w-100 pt-2">
 

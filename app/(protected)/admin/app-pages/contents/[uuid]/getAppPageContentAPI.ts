@@ -18,17 +18,19 @@ export async function getAppPageContentAPI(uuid: string) {
         });
 
 
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+        if (response.ok) {
+            return (await response.json()) as AppPageContentRequest;
+            // throw new Error('Network response was not ok');
         }
         // console.log(JSON.stringify(response));
         // const s = (await response.json()) as AppPageContentRequest;
         // console.log(s.applicationPageContent.description + " descr!!!!!! !!!!");
 
-        return (await response.json()) as AppPageContentRequest;
+        return undefined;
     } catch (error) {
-        console.error('Error fetching get data Category to  Admin page:', error);
+        // console.error('Error fetching get data Category to  Admin page:', error);
         // Обробка помилки, якщо запит не вдалося виконати
+        return undefined;
     }
 
 }

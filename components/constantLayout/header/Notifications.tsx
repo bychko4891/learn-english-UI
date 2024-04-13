@@ -10,7 +10,7 @@ export const Notifications = () => {
 
             <a className="btn btn-ghost btn-icon rounded-circle" href="#!" role="button" id="dropdownNotification" data-bs-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false">
-                <Image className="colored-svg reset-styles ms-auto" src="/images/bell-alert.svg"
+                <Image unoptimized className="colored-svg reset-styles ms-auto" src="/images/bell-alert.svg"
                      alt="profile" width="25" height="25"/>
             </a>
 
@@ -19,7 +19,7 @@ export const Notifications = () => {
                     <div className="border-bottom px-3 pt-2 pb-3 d-flex justify-content-between align-items-center">
                         <p className="mb-0 text-dark fw-medium fs-4">Notifications</p>
                         <a href="#!" className="text-muted">
-                            <Image className="colored-svg reset-styles ms-auto" src="/images/settings.svg" alt="Settings" width="20" height="20"/>
+                            <Image unoptimized className="colored-svg reset-styles ms-auto" src="/images/settings.svg" alt="Settings" width="20" height="20"/>
                         </a>
                     </div>
 

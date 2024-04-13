@@ -9,8 +9,8 @@ export const UserPhoto = async ({avatarName}: {avatarName: string }) => {
 
     return (
         <div className="user-photo-block overflow-visible">
-            <Image className="background-image" src={ProfileFon} alt="profile" />
-            <Image className="user-avatar" src={userAvatar} alt="profile" width={200}  height={200} />
+            <Image unoptimized className="background-image" src={ProfileFon} alt="profile" />
+            <Image unoptimized className="user-avatar" src={userAvatar} alt="profile" width={200}  height={200} />
         </div>
     );
 };

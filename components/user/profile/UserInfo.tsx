@@ -10,9 +10,6 @@ export const UserInfo = async ({user}: { user: User }) => {
 
     const date: string = await formatDate(user?.dateOfCreated!);
 
-    console.log(user?.userRole[0] + " User Role user profile")
-    console.log(user?.gender[0] + " User gender user profile")
-
     return (
         <>
             <SaveUserForContext user={user}/>
@@ -24,12 +21,12 @@ export const UserInfo = async ({user}: { user: User }) => {
                     <UserGender gender={gender}/>
                 </div>
                 <div className="d-flex align-items-center ma-10-0">
-                    <Image className="colored-svg reset-styles me-1" src="/images/mail.svg" alt="profile" width="20"
+                    <Image unoptimized className="colored-svg reset-styles me-1" src="/images/mail.svg" alt="profile" width="20"
                            height="20"/>
                     <span>{user?.email}</span>
                 </div>
                 <div className="d-flex align-items-center ma-10-0">
-                    <Image className="colored-svg reset-styles me-1" src="/images/date.svg" alt="profile" width="20"
+                    <Image unoptimized className="colored-svg reset-styles me-1" src="/images/date.svg" alt="profile" width="20"
                            height="20"/>
                     <span>{date && date || ""}</span>
                 </div>

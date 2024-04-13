@@ -25,20 +25,22 @@ export const Login = () => {
                     <p>або</p>
                     <GoogleButtonSignUp />
                     <div className="text-center p-t-12">
-                        <Link className="txt2" href="/forgot-password">Забув/ла свій пароль?</Link>
+                        <Link className="txt2" href="/forgot-password">
+                            <span>Забув/ла свій пароль?</span>
+                        </Link>
                     </div>
 
                     <div className="text-center p-t-136 mx-auto">
                         <Link className="txt2 d-flex align-items-center" href="/signup">
                             <span>Створити аккаунт</span>
-                            <Image className="colored-svg reset-styles ms-2 position-relative" src="/images/arrow.svg"
+                            <Image unoptimized className="colored-svg reset-styles ms-2 position-relative" src="/images/arrow.svg"
                                  alt="Create accaunt" width="20" height="20"/>
                         </Link>
                     </div>
                 </div>
 
                 <div className="login100-pic js-tilt">
-                    <Image src="/images/login-img.png" alt="User login" width="316" height="289"/>
+                    <Image unoptimized src="/images/login-img.png" alt="User login" width="316" height="289"/>
                 </div>
 
             </div>

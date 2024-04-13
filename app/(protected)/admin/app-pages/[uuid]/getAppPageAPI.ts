@@ -12,15 +12,17 @@ export async function getAppPageAPI(uuid: string) {
             method: 'GET',
         });
 
-        if (!response?.ok) {
-            throw new Error('Network response was not ok');
+        if (response?.ok) {
+            // throw new Error('Network response was not ok');
+            return (await response.json()) as AppPage;
         }
 
 
-        return (await response.json()) as AppPage;
+        return undefined;
     } catch (error) {
-        console.error('Error fetching get data Category to  Admin page:', error);
+        // console.error('Error fetching get data Category to  Admin page:', error);
         // Обробка помилки, якщо запит не вдалося виконати
+        return undefined;
     }
 
 }

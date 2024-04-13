@@ -143,7 +143,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
                     }}/>
                 </button>
             </div>
-            <div className="category-tree">
+            <div className="block-form">
                 <form id="form" className=" d-flex flex-row mt-3" onSubmit={handleSubmit}>
 
                     <div className="col-md-9 col-12">

@@ -30,7 +30,7 @@ export default async function CategoriesPage() {
                         </div>
                         <ButtonNewEntity apiRequestURL={apiRequestURL} redirectURL="/admin/categories/category/"/>
                     </div>
-                    <div className="category-tree d-flex flex-column">
+                    <div className="block-form d-flex flex-column">
 
                         {categories.length > 0 && categories.map((category) => (
                             <ul key={category.uuid} className="d-flex">

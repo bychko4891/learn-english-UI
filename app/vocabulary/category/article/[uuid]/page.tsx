@@ -42,7 +42,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                     <div className="d-flex flex-column">
                         <h1>{article.h1}</h1>
                         {article.image && article.image.imageName &&
-                            <Image src={'/api/webimg/' + article.image.imageName} alt="" width={600} height={400} style={{marginLeft: "auto", marginRight: "auto"}}/>
+                            <Image unoptimized src={'/api/webimg/' + article.image.imageName} alt="" width={600} height={400} style={{marginLeft: "auto", marginRight: "auto", maxWidth: "100%", height: "auto"}}/>
                         }
                         <div dangerouslySetInnerHTML={{__html: (article.description)}}/>
                         {/*{subcategories && subcategories.length > 0 && subcategories.map(category => (*/}

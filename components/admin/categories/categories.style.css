@@ -1,4 +1,4 @@
-.category-tree ul li {
+.block-form ul li {
     list-style-type: disc !important;
     width: fit-content;
 }
@@ -60,7 +60,7 @@
 }
 
 
-.category-tree button {
+.block-form button {
     height: 32px;
     text-align: center;
     /*padding: 7px 0 0 15px;*/

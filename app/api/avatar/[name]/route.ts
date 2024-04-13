@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import { env } from "@/env.mjs";
+import {fetchWithToken} from "@/app/fetchWithToken";
 
 export async function GET(req: NextRequest) {
 
@@ -7,11 +8,11 @@ export async function GET(req: NextRequest) {
 
     const newReqURL = req.url.replace(localUrl, '');
 
-    const res = await fetch(env.SERVER_API_URL + newReqURL, {
+    const res = await fetchWithToken(env.SERVER_API_URL + newReqURL, {
         method: "GET"
     });
 
 
-    return new Response(res.body);
+    return new Response(res?.body);
 
 }

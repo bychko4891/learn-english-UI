@@ -14,7 +14,7 @@ export const Breadcrumb = ({breadcrumb}: Props) => {
             <ol className="breadcrumb d-flex gap-3 p-0">
                 <li className="breadcrumb-item">
                     <Link href="/">
-                        <Image className="colored-svg reset-styles ms-auto" src="/images/home.svg" alt="Головна"
+                        <Image unoptimized className="colored-svg reset-styles ms-auto" src="/images/home.svg" alt="Головна"
                              width="20" height="20"/>
                     </Link>
                 </li>

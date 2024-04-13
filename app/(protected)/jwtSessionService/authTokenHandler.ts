@@ -25,26 +25,31 @@ export async function getJwtRefreshToken(): Promise<string | undefined> {
 }
 
 export async function regenerateAccessToken(refreshToken: string,): Promise<string | undefined> {
+    try {
+        const response = await fetch(env.SERVER_API_URL + '/api/auth/refresh/access-token', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ jwtRefreshToken: refreshToken }),
+        });
 
-    const response = await fetch(env.SERVER_API_URL + '/api/auth/refresh/access-token', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ jwtRefreshToken: refreshToken }),
-    });
+        if(response.status === 200) {
+            const json = (await response.json()) as ResponseTokens;
+            return json.jwtAccessToken;
+        } if(response.status === 401) {
+            return undefined;
+        }
 
-    if(response.status === 200) {
-        const json = (await response.json()) as ResponseTokens;
-        return json.jwtAccessToken;
-    } if(response.status === 401) {
+    } catch (error) {
         return undefined;
     }
     return undefined;
 }
 
 export async function regenerateAllTokens(refreshToken: string,): Promise<ResponseTokens | undefined> {
-    // if(refreshToken) {
+    try {
+
         const response = await fetch(env.SERVER_API_URL + '/api/auth/refresh/refresh-token', {
             method: "POST",
             headers: {
@@ -54,6 +59,10 @@ export async function regenerateAllTokens(refreshToken: string,): Promise<Respon
         });
 
         return (await response.json()) as ResponseTokens;
-    // }
-    // return undefined;
+
+    } catch (error) {
+        return undefined;
+    }
+
+    return undefined;
 }

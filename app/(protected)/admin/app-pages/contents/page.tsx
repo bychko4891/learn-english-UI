@@ -40,7 +40,7 @@ export default async function ApplicationPage() {
                             <td>
                                 <Link href={'/admin/app-pages/contents/' + pageContent.uuid} >
                                     <div className="br-g edit-link">
-                                        <Image src="/images/edit.svg" width="25" height="25" alt="" className="edit-svg"/>
+                                        <Image unoptimized src="/images/edit.svg" width="25" height="25" alt="" className="edit-svg"/>
                                     </div>
                                 </Link>
                             </td>

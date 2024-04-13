@@ -140,7 +140,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                     }}/>
                 </button>
             </div>
-            <div className="category-tree">
+            <div className="block-form">
                 <form id="form" className=" d-flex flex-row mt-3" onSubmit={handleSubmit}>
 
                     <div className="col-md-9 col-12">
@@ -254,7 +254,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                                 <input type="file" className="w-100" accept="image/*" onChange={handleImageChange}/>
                                 <div className="category-edit-img-container">
                                     {imageURL &&
-                                        <Image src={imageURL} alt="Uploaded Image" width="450" height="280"
+                                        <Image unoptimized src={imageURL} alt="Uploaded Image" width="450" height="280"
                                                className="block-edit-img"/>}
                                 </div>
                                 <div className="d-flex w-100 pt-2">

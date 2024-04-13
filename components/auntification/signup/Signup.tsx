@@ -31,7 +31,7 @@ export const Signup = () => {
                 </div>
 
                 <div className="login100-pic js-tilt">
-                    <Image src="/images/login-img.png" alt="User login" width="316" height="289"/>
+                    <Image unoptimized src="/images/login-img.png" alt="User login" width="316" height="289"/>
                 </div>
 
             </div>

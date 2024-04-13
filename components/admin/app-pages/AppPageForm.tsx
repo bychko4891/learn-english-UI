@@ -74,7 +74,7 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
                     }}/>
                 </button>
             </div>
-            <div className="category-tree">
+            <div className="block-form">
                 <form id="form" className="d-flex flex-column mt-3 gap-3" onSubmit={handleSubmit}>
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-3 pe-4">
                         <div className="d-flex flex-column align-items-start w-100">

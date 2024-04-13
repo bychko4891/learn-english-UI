@@ -84,12 +84,24 @@ export interface AppPageContentRequest {
 }
 
 export interface Word {
+    id: number;
     uuid: string;
+    name: string;
     translate: string;
     brTranscription: string;
     usaTranscription: string;
-
+    irregularVerbPt: string;
+    irregularVerbPp: string;
+    activeURL: boolean;
+    audio: Audio;
 }
+
+export interface Audio {
+    name: string ;
+    brAudioName: string ;
+    usaAudioName: string ;
+}
+
 export interface VocabularyPage {
     uuid: string;
     name: string;
@@ -101,3 +113,9 @@ export interface VocabularyPage {
     category: Category;
 }
 
+export interface PaginationObject<T> {
+    t: T[];
+    totalPages: number;
+    totalElements: number;
+    currentPage: number;
+}

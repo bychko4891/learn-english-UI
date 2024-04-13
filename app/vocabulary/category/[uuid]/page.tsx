@@ -75,10 +75,9 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                                          style={{marginBottom: 20, border: "1px solid", borderRadius: 20, padding: 10}}>
                                         {article.image && article.image.imageName &&
                                             <div className="col-md-3 col-12 c-img my-auto">
-                                                <Image src={'/api/webimg/' + article.image.imageName} alt=""
+                                                <Image unoptimized src={'/api/webimg/' + article.image.imageName} alt=""
                                                        width={250}
                                                        height={250} style={{borderRadius: 20}}/>
-                                                {/*<img src={'/api/category-img/' + category.image.imageName} alt="" style={{borderRadius: 20}}/>*/}
                                             </div>
                                         }
                                         <div className="d-flex flex-column col-md-9 col-12 align-items-start">

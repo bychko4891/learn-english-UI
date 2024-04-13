@@ -1,24 +1,32 @@
 'use client'
 
-import {getAppPagesAPI} from "@/app/(protected)/admin/app-pages/getAppPagesAPI";
 import Link from "next/link";
 import Image from "next/image";
 import {useEffect, useState} from "react";
-import {AppPage} from "@/app/DefaultResponsesInterfaces";
+import {Word} from "@/app/DefaultResponsesInterfaces";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 import {NoContent} from "@/components/noContent/NoContent";
+import {getWordsAPI} from "@/app/(protected)/admin/words/getWordsAPI";
 
-export const AppPages = () => {
+export const Words = () => {
 
-    const [appPages, setAppPages] = useState<AppPage[]>();
+    const [words, setWords] = useState<Word[]>();
+    const [totalPages, setTotalPages] = useState<number>();
+    const [currentPage, setCurrentPage] = useState<number>();
+    const [totalElements, setTotalElements] = useState<number>();
     const [error, setError] = useState<Error>();
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getAppPagesAPI();
-                if (res) setAppPages(res as AppPage[]);
+                const res = await getWordsAPI();
+                if (res) {
+                    setWords(res.t);
+                    setTotalPages(res.totalPages);
+                    setCurrentPage(res.currentPage);
+                    setTotalElements(res.totalElements);
+                }
                 else setError(new Error());
             } catch (error) {
                 setError(new Error());
@@ -33,20 +41,20 @@ export const AppPages = () => {
                 <thead className="table-dark">
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">h1</th>
+                    <th scope="col">Ім`я</th>
 
-                    <th scope="col">url</th>
+                    <th scope="col">Переклад</th>
                     <th scope="col">#</th>
                 </tr>
                 </thead>
                 <tbody>
-                {!!appPages && appPages.length > 0 && appPages.map((appPage) => (
-                    <tr key={appPage.uuid}>
-                        <th scope="row">{appPage.id}</th>
-                        <td>{appPage.h1}</td>
-                        <td>{appPage.url}</td>
+                {!!words && words.length > 0 && words.map((word) => (
+                    <tr key={word.uuid}>
+                        <th scope="row">{word.id}</th>
+                        <td>{word.name}</td>
+                        <td>{word.translate}</td>
                         <td>
-                            <Link href={'/admin/app-pages/' + appPage.uuid}>
+                            <Link href={'/admin/words/word/' + word.uuid}>
                                 <div className="br-g edit-link">
                                     <Image unoptimized src="/images/edit.svg" width="25" height="25" alt=""
                                            className="edit-svg"/>
