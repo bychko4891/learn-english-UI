@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" width="50"
+     height="50" preserveAspectRatio="xMidYMid meet"
+     style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
+    <defs>
+        <clipPath id="__lottie_element_3">
+            <rect width="50" height="50" x="0" y="0"></rect>
+        </clipPath>
+        <g id="__lottie_element_4">
+            <g style="display: block;" transform="matrix(1,0,0,1,25,25)" opacity="1">
+                <g opacity="1" transform="matrix(1,0,0,1,0,0)">
+                    <path fill="rgb(39,179,99)" fill-opacity="1"
+                          d=" M-7.375,-12.5 C-7.375,-12.5 -7.375,12.875 -7.375,12.875 C-7.375,12.875 13.75,0 13.75,0 C13.75,0 -7.375,-12.5 -7.375,-12.5z"></path>
+                    <path stroke-linecap="butt" stroke-linejoin="miter" fill-opacity="0" stroke-miterlimit="4"
+                          stroke="rgb(63,80,181)" stroke-opacity="1" stroke-width="0"
+                          d=" M-7.375,-12.5 C-7.375,-12.5 -7.375,12.875 -7.375,12.875 C-7.375,12.875 13.75,0 13.75,0 C13.75,0 -7.375,-12.5 -7.375,-12.5z"></path>
+                </g>
+            </g>
+        </g>
+        <filter id="__lottie_element_10" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%">
+            <feComponentTransfer in="SourceGraphic">
+                <feFuncA type="table" tableValues="1.0 0.0"></feFuncA>
+            </feComponentTransfer>
+        </filter>
+        <mask id="__lottie_element_4_2" mask-type="alpha">
+            <g filter="url(#__lottie_element_10)">
+                <rect width="50" height="50" x="0" y="0" fill="#ffffff" opacity="0"></rect>
+                <use xlink:href="#__lottie_element_4"></use>
+            </g>
+        </mask>
+        <g id="__lottie_element_14">
+            <g transform="matrix(1,0,0,1,25,25)" opacity="1" style="display: none;">
+                <g opacity="1" transform="matrix(1,0,0,1,0,0)">
+                    <path fill="rgb(39,179,99)" fill-opacity="1"
+                          d=" M-7.946331024169922,-1.9875130653381348 C-7.946331024169922,-1.9875130653381348 -7.946331024169922,0.30572208762168884 -7.946331024169922,0.30572208762168884 C-7.946331024169922,0.30572208762168884 13.75,0 13.75,0 C13.75,0 -7.946331024169922,-1.9875130653381348 -7.946331024169922,-1.9875130653381348z"></path>
+                    <path stroke-linecap="butt" stroke-linejoin="miter" fill-opacity="0" stroke-miterlimit="4"
+                          stroke="rgb(63,80,181)" stroke-opacity="1" stroke-width="0"
+                          d=" M-7.946331024169922,-1.9875130653381348 C-7.946331024169922,-1.9875130653381348 -7.946331024169922,0.30572208762168884 -7.946331024169922,0.30572208762168884 C-7.946331024169922,0.30572208762168884 13.75,0 13.75,0 C13.75,0 -7.946331024169922,-1.9875130653381348 -7.946331024169922,-1.9875130653381348z"></path>
+                </g>
+            </g>
+        </g>
+        <filter id="__lottie_element_20" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%">
+            <feComponentTransfer in="SourceGraphic">
+                <feFuncA type="table" tableValues="1.0 0.0"></feFuncA>
+            </feComponentTransfer>
+        </filter>
+        <mask id="__lottie_element_14_2" mask-type="alpha">
+            <g filter="url(#__lottie_element_20)">
+                <rect width="50" height="50" x="0" y="0" fill="#ffffff" opacity="0"></rect>
+                <use xlink:href="#__lottie_element_14"></use>
+            </g>
+        </mask>
+    </defs>
+    <g clip-path="url(#__lottie_element_3)">
+        <g transform="matrix(1,0,0,1,0,0)" opacity="1" style="display: none;">
+            <g opacity="1" transform="matrix(1,0,0,1,26.304000854492188,25)">
+                <path stroke-linecap="butt" stroke-linejoin="miter" fill-opacity="0" stroke-miterlimit="10"
+                      stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="2"
+                      d=" M-15.303999900817871,-18.009000778198242 C-15.303999900817871,-18.009000778198242 15.303999900817871,0 15.303999900817871,0 C15.303999900817871,0 -15.303999900817871,18.009000778198242 -15.303999900817871,18.009000778198242 C-15.303999900817871,18.009000778198242 -15.303999900817871,-18.009000778198242 -15.303999900817871,-18.009000778198242z"></path>
+            </g>
+        </g>
+        <g mask="url(#__lottie_element_14_2)" style="display: none;">
+            <g transform="matrix(1,0,0,1,0,0)" opacity="1">
+                <g opacity="1" transform="matrix(1,0,0,1,25,25)">
+                    <path stroke-linecap="butt" stroke-linejoin="miter" fill-opacity="0" stroke-miterlimit="10"
+                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="2"
+                          d=" M4,-16 C4,-16 12,-16 12,-16 C12,-16 12,16 12,16 C12,16 4,16 4,16 C4,16 4,-16 4,-16z M-12,-16 C-12,-16 -4,-16 -4,-16 C-4,-16 -4,16 -4,16 C-4,16 -12,16 -12,16 C-12,16 -12,-16 -12,-16z"></path>
+                </g>
+            </g>
+        </g>
+        <g style="display: block;" transform="matrix(1,0,0,1,0,0)" opacity="1">
+            <g opacity="1" transform="matrix(1,0,0,1,26.304000854492188,25)">
+                <path stroke-linecap="butt" stroke-linejoin="miter" fill-opacity="0" stroke-miterlimit="10"
+                      stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="2"
+                      d=" M-15.303999900817871,-18.009000778198242 C-15.303999900817871,-18.009000778198242 15.303999900817871,0 15.303999900817871,0 C15.303999900817871,0 -15.303999900817871,18.009000778198242 -15.303999900817871,18.009000778198242 C-15.303999900817871,18.009000778198242 -15.303999900817871,-18.009000778198242 -15.303999900817871,-18.009000778198242z"></path>
+            </g>
+        </g>
+        <g mask="url(#__lottie_element_4_2)" style="display: none;">
+            <g transform="matrix(1,0,0,1,0,0)" opacity="1">
+                <g opacity="1" transform="matrix(1,0,0,1,25,25)">
+                    <path stroke-linecap="butt" stroke-linejoin="miter" fill-opacity="0" stroke-miterlimit="10"
+                          stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="2"
+                          d=" M-1.590999960899353,-10.737000465393066 C-1.590999960899353,-10.737000465393066 16.547000885009766,0.0729999989271164 16.547000885009766,0.0729999989271164 C16.547000885009766,0.0729999989271164 16.547000885009766,0.0729999989271164 16.547000885009766,0.0729999989271164 C16.547000885009766,0.0729999989271164 -1.75,10.826000213623047 -1.75,10.826000213623047 C-1.75,10.826000213623047 -1.590999960899353,-10.737000465393066 -1.590999960899353,-10.737000465393066z M-13.984000205993652,-17.95800018310547 C-13.984000205993652,-17.95800018310547 -1.5889999866485596,-10.739999771118164 -1.5889999866485596,-10.739999771118164 C-1.5889999866485596,-10.739999771118164 -1.75,10.854000091552734 -1.75,10.854000091552734 C-1.75,10.854000091552734 -14.010000228881836,18.010000228881836 -14.010000228881836,18.010000228881836 C-14.010000228881836,18.010000228881836 -13.984000205993652,-17.95800018310547 -13.984000205993652,-17.95800018310547z"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
