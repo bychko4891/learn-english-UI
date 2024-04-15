@@ -1,69 +1,69 @@
 'use client'
 
 import {ButtonBack} from "@/components/admin/ButtonBack";
-import React, {FormEvent, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {ReactSVG} from "react-svg";
 import {Audio, Word} from "@/app/DefaultResponsesInterfaces";
-import {saveAppPageContentAPI} from "@/app/(protected)/admin/app-pages/contents/[uuid]/saveAppPageContentAPI";
 import {toast, ToastContainer, Zoom} from "react-toastify";
-import Lottie, {LottieRefCurrentProps} from 'lottie-react';
-import PlayPause from "@/public/images/play-pause.json"
-import "./word.style.css";
-import {AudiPlayerMini} from "@/components/AudiPlayerMini";
+import {AudiPlayerMini} from "@/components/audioPlayers/AudiPlayerMini";
+import {saveWordAPI} from "@/app/(protected)/admin/words/word/[uuid]/saveWordAPI";
 
 export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
-    const lottieRefUsaPlayer = React.useRef<LottieRefCurrentProps>(null)
-    const lottieRefBrPlayer = React.useRef<LottieRefCurrentProps>(null)
-
     const [name, setName] = useState(wordResp.name);
     const [translate, setTranslate] = useState(wordResp.translate);
-    const [brTranscription, setBrTranscription] = useState(wordResp.brTranscription);
-    const [usaTranscription, setUsaTranscription] = useState(wordResp.usaTranscription);
-    const [irregularVerbPt, setIrregularVerbPt] = useState(wordResp.irregularVerbPt);
-    const [irregularVerbPp, setIrregularVerbPp] = useState(wordResp.irregularVerbPp);
+    const [brTranscription, setBrTranscription] = useState(wordResp.brTranscription ? wordResp.brTranscription : "");
+    const [usaTranscription, setUsaTranscription] = useState(wordResp.usaTranscription ? wordResp.usaTranscription : "");
+    const [irregularVerbPt, setIrregularVerbPt] = useState(wordResp.irregularVerbPt ? wordResp.irregularVerbPt : "");
+    const [irregularVerbPp, setIrregularVerbPp] = useState(wordResp.irregularVerbPp ? wordResp.irregularVerbPp : "");
     const [activeURL, setActiveURL] = useState(wordResp.activeURL);
     const [audio, setAudio] = useState<Audio>(wordResp.audio);
     const [uuid, setUuid] = useState(wordResp.uuid);
 
     const [nameError, setNameError] = useState<string>();
 
-    const [isUsaAudioPlaying, setIsUsaAudioPlaying] = useState(false);
-    const [isBrAudioPlaying, setIsBrAudioPlaying] = useState(false);
+    const [brAudioFile, setBrAudioFile] = useState<File>();
+
+    const [brAudioFileURL, setBrAudioFileURL] = useState<string | undefined>(
+        wordResp.audio && wordResp.audio.brAudioName ? `/api/audio/${wordResp.audio.brAudioName}` : undefined
+    );
+
+    const [usaAudioFile, setUsaAudioFile] = useState<File>();
+    const [usaAudioFileURL, setUsaAudioFileURL] = useState<string>();
+
+    const [brSource, setBrSource] = useState<string>();
 
 
-    useEffect(() => {
-        if (lottieRefBrPlayer && lottieRefBrPlayer.current) {
-            // lottieRef.current.play();
-            lottieRefBrPlayer.current.goToAndStop(14, true);
-            if (isBrAudioPlaying) {
-                lottieRefBrPlayer.current.playSegments([14, 27], true);
-            } else {
-                lottieRefBrPlayer.current.playSegments([0, 14], true);
+    const handleBrAudioChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        setBrAudioFile(file);
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            if (typeof reader.result === 'string') {
+                setBrAudioFileURL(reader.result);
             }
+        };
+        if (file) {
+            reader.readAsDataURL(file);
         }
-    });
+    };
+    const handleUsaAudioChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        setUsaAudioFile(file);
+        const reader = new FileReader();
 
-    useEffect(() => {
-        if (lottieRefUsaPlayer && lottieRefUsaPlayer.current) {
-            // lottieRef.current.play();
-            lottieRefUsaPlayer.current.goToAndStop(14, true);
-            if (isUsaAudioPlaying) {
-                lottieRefUsaPlayer.current.playSegments([14, 27], true);
-            } else {
-                lottieRefUsaPlayer.current.playSegments([0, 14], true);
+        reader.onloadend = () => {
+            if (typeof reader.result === 'string') {
+                setUsaAudioFileURL(reader.result);
             }
+        };
+        if (file) {
+            reader.readAsDataURL(file);
         }
-    });
-
-    const handleTogglePlayBrPlayer = () => {
-        setIsBrAudioPlaying(!isBrAudioPlaying);
     };
 
-    const handleTogglePlayUsaPlayer = () => {
-        setIsUsaAudioPlaying(!isUsaAudioPlaying);
-    };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -79,13 +79,14 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
             activeURL: activeURL
         } as Word;
         var formData = new FormData;
-        // formData.append('image', image as Blob);
-        formData.append('pageContent', new Blob([JSON.stringify(word)], {type: 'application/json'}));
+        formData.append('br', brAudioFile as Blob);
+        formData.append('usa', usaAudioFile as Blob);
+        formData.append('word', new Blob([JSON.stringify(word)], {type: 'application/json'}));
         try {
-            const response = await saveAppPageContentAPI(formData, uuid);
-            if (response?.status === 200) {
-                toast.success(response.general);
-            }
+            const response = await saveWordAPI(formData, uuid);
+            // if (response?.status === 200) {
+            //     toast.success(response.general);
+            // }
             // setDisabled(false);
             // if(response) {
             //     // setRespData(response);
@@ -102,7 +103,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
         <>
             <ToastContainer autoClose={3000} transition={Zoom}/>
             <div className="d-flex justify-content-between top-admin-block">
-                <ButtonBack backURL="/admin/app-pages"/>
+                <ButtonBack backURL="/admin/words"/>
                 <div className="center">
                     <h1>Редагування слова для словника</h1>
                 </div>
@@ -113,14 +114,14 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                     }}/>
                 </button>
             </div>
-            <div className="block-form">
+            <div className="block-form word__form">
                 <form id="form" className="d-flex flex-row mt-3 gap-3" onSubmit={handleSubmit}>
                     <div className="col-md-6 col-12">
                         <div className="col-12 d-flex flex-column align-items-start ms-3 gap-3 pe-4">
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>Слово</label>
                                 <input type="text" className="w-100" name="name" value={name}
-                                       onChange={(e) => setName(e.target.value)}/>
+                                       onChange={(e) => setName(e.target.value)} required={true}/>
                             </div>
                         </div>
                         {!!nameError && <p className="p_error ms-3">{nameError}</p>}
@@ -144,7 +145,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>Американська транскрипція</label>
                                 <input type="text" className="w-100" name="usaTranscription" value={usaTranscription}
-                                       onChange={(e) => setUsaTranscription(e.target.value)} required={true}/>
+                                       onChange={(e) => setUsaTranscription(e.target.value)} />
                             </div>
                         </div>
 
@@ -152,7 +153,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>URL сторінки</label>
                                 <input type="text" className="w-100" name="usaTranscription" value={irregularVerbPt}
-                                       onChange={(e) => setIrregularVerbPt(e.target.value)} required={true}/>
+                                       onChange={(e) => setIrregularVerbPt(e.target.value)} />
                             </div>
                         </div>
 
@@ -160,7 +161,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>URL сторінки</label>
                                 <input type="text" className="w-100" name="irregularVerbPp" value={irregularVerbPp}
-                                       onChange={(e) => setIrregularVerbPp(e.target.value)} required={true}/>
+                                       onChange={(e) => setIrregularVerbPp(e.target.value)} />
                             </div>
                         </div>
 
@@ -176,28 +177,28 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                         </div>
 
                         <div className="d-flex flex-column gap-4">
-                            <div>
-                                <AudiPlayerMini audioName="re" blockName="Амер. аудіо"/>
+
+                            <div className="d-flex flex-column align-items-start gap-2">
+                                <label>Британське аудіо</label>
+                                <div className="d-flex flex-column w-100">
+                                    <input type="file" accept=".mp3" onChange={handleBrAudioChange}/>
+                                </div>
+                                {brAudioFileURL &&
+                                    <AudiPlayerMini audioSource={brAudioFileURL} blockName="Бр. аудіо"/>}
                             </div>
 
-                            <div>
-                                <AudiPlayerMini audioName="ree" blockName="Бр. аудіо"/>
-                                {/*<div onClick={handleTogglePlayUsaPlayer} className="play__button">*/}
-                                {/*    <Lottie*/}
-                                {/*        lottieRef={lottieRefUsaPlayer}*/}
-                                {/*        animationData={PlayPause}*/}
-                                {/*        autoplay={false}*/}
-                                {/*        loop={false}*/}
-                                {/*        style={{width: '100%', height: '100%'}}*/}
-                                {/*        // initialSegment={play}*/}
-                                {/*    />*/}
-                                {/*</div>*/}
+                            <div className="d-flex flex-column align-items-start gap-2">
+                                <label>Американське аудіо</label>
+                                <div className="d-flex flex-column w-100">
+                                    <input type="file" accept=".mp3" onChange={handleUsaAudioChange}/>
+                                </div>
+                                {usaAudioFileURL &&
+                                    <AudiPlayerMini audioSource={usaAudioFileURL} blockName="Амер. аудіо"/>}
                             </div>
-
 
                         </div>
 
-                     </div>
+                    </div>
 
 
                     <input type="hidden" name="uuid" value={uuid} onChange={(e) => setUuid(e.target.value)}/>
