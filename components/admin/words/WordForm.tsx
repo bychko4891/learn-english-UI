@@ -24,15 +24,15 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
     const [nameError, setNameError] = useState<string>();
 
     const [brAudioFile, setBrAudioFile] = useState<File>();
-
     const [brAudioFileURL, setBrAudioFileURL] = useState<string | undefined>(
         wordResp.audio && wordResp.audio.brAudioName ? `/api/audio/${wordResp.audio.brAudioName}` : undefined
     );
 
     const [usaAudioFile, setUsaAudioFile] = useState<File>();
-    const [usaAudioFileURL, setUsaAudioFileURL] = useState<string>();
+    const [usaAudioFileURL, setUsaAudioFileURL] = useState<string | undefined>(
+        wordResp.audio && wordResp.audio.usaAudioName ? `/api/audio/${wordResp.audio.usaAudioName}` : undefined
+    );
 
-    const [brSource, setBrSource] = useState<string>();
 
 
     const handleBrAudioChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +115,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                 </button>
             </div>
             <div className="block-form word__form">
-                <form id="form" className="col-12 mt-3 gap-3" onSubmit={handleSubmit}>
+                <form id="form" className="row mt-3 gap-3" onSubmit={handleSubmit}>
                     <div className="col-md-6 col-12">
                         <div className="col-12 d-flex flex-column align-items-start ms-3 gap-3 pe-4">
                             <div className="d-flex flex-column align-items-start w-100">
@@ -167,7 +167,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
 
                     </div>
-                    <div className="col-md-6 col-12">
+                    <div className="col-md-5 col-12">
                         <div className="d-flex flex-row w-100 align-items-center">
                             <span>URL слова (активне / не активне): </span>
                             <input id="toggleSwitch" type="checkbox" checked={activeURL} className="toggle-switch"
