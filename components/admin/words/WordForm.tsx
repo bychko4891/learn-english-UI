@@ -115,7 +115,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                 </button>
             </div>
             <div className="block-form word__form">
-                <form id="form" className="d-flex flex-row mt-3 gap-3" onSubmit={handleSubmit}>
+                <form id="form" className="col-12 mt-3 gap-3" onSubmit={handleSubmit}>
                     <div className="col-md-6 col-12">
                         <div className="col-12 d-flex flex-column align-items-start ms-3 gap-3 pe-4">
                             <div className="d-flex flex-column align-items-start w-100">
