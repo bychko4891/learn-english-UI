@@ -1,7 +1,7 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {GeneralMessage} from "@/app/DefaultResponsesInterfaces";
+import {ResponseMessages} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 
@@ -14,21 +14,21 @@ export async function saveWordAPI(data:FormData, uuid: string) {
         });
 
         if (response?.ok) {
-            const message = (await  response.json()) as GeneralMessage;
+            const message = (await  response.json()) as ResponseMessages;
             message.status = 200;
-            // throw new Error('Network response was not ok');
+            return message;
         }
 
         if (response?.status === 400) {
-            const message = (await  response.json()) as GeneralMessage;
+            const message = (await  response.json()) as ResponseMessages;
             message.status = 400;
-            // throw new Error('Network response was not ok');
+            return message;
         }
 
         return undefined;
     } catch (error) {
-        console.error('Error fetching data App content page to  Admin page:', error);
-        // Обробка помилки, якщо запит не вдалося виконати
+        // console.error('Error fetching data App content page to  Admin page:', error);
+        return undefined;
     }
 
 }

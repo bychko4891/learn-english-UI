@@ -12,6 +12,7 @@ import {saveWordAPI} from "@/app/(protected)/admin/words/word/[uuid]/saveWordAPI
 export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
     const [name, setName] = useState(wordResp.name);
+    const [nameError, setNameError] = useState<string>();
     const [translate, setTranslate] = useState(wordResp.translate);
     const [brTranscription, setBrTranscription] = useState(wordResp.brTranscription ? wordResp.brTranscription : "");
     const [usaTranscription, setUsaTranscription] = useState(wordResp.usaTranscription ? wordResp.usaTranscription : "");
@@ -21,23 +22,20 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
     const [audio, setAudio] = useState<Audio>(wordResp.audio);
     const [uuid, setUuid] = useState(wordResp.uuid);
 
-    const [nameError, setNameError] = useState<string>();
-
     const [brAudioFile, setBrAudioFile] = useState<File>();
-    const [brAudioFileURL, setBrAudioFileURL] = useState<string | undefined>(
-        wordResp.audio && wordResp.audio.brAudioName ? `/api/audio/${wordResp.audio.brAudioName}` : undefined
+    const [brAudioFileURL, setBrAudioFileURL] = useState<string>(
+        wordResp.audio && wordResp.audio.brAudioName ? `/api/audio/${wordResp.audio.brAudioName}` : ""
     );
 
     const [usaAudioFile, setUsaAudioFile] = useState<File>();
-    const [usaAudioFileURL, setUsaAudioFileURL] = useState<string | undefined>(
-        wordResp.audio && wordResp.audio.usaAudioName ? `/api/audio/${wordResp.audio.usaAudioName}` : undefined
+    const [usaAudioFileURL, setUsaAudioFileURL] = useState<string>(
+        wordResp.audio && wordResp.audio.usaAudioName ? `/api/audio/${wordResp.audio.usaAudioName}` : ""
     );
-
-
 
     const handleBrAudioChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         setBrAudioFile(file);
+
         const reader = new FileReader();
 
         reader.onloadend = () => {
@@ -49,6 +47,9 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
             reader.readAsDataURL(file);
         }
     };
+
+
+
     const handleUsaAudioChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         setUsaAudioFile(file);
@@ -67,7 +68,6 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // setDisabled(true);
         const word = {
             uuid: uuid,
             name: name,
@@ -84,20 +84,22 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
         formData.append('word', new Blob([JSON.stringify(word)], {type: 'application/json'}));
         try {
             const response = await saveWordAPI(formData, uuid);
-            // if (response?.status === 200) {
-            //     toast.success(response.general);
-            // }
-            // setDisabled(false);
-            // if(response) {
-            //     // setRespData(response);
-            // }
-        } catch (error) {
-            // setDisabled(false);
-            // console.log("Server error: " + error)
+            if(response){
+                if (response.status === 200) {
+                    toast.success(response.general);
+                }
+                if (response.status === 400) {
+                    toast.error("Є помилки при введенні даних!");
+                    setNameError(response.general);
+                    setNameError(response.name);
+                }
+            }
 
+            toast.error("Щось зламалось і запит не пройшов! Зверніться до адміністратора будь ласка.");
+        } catch (error) {
+            toast.error("Помилка на сервері!");
         }
     }
-
 
     return (
         <>
@@ -183,7 +185,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                                 <div className="d-flex flex-column w-100">
                                     <input type="file" accept=".mp3" onChange={handleBrAudioChange}/>
                                 </div>
-                                {brAudioFileURL &&
+                                {!!brAudioFileURL &&
                                     <AudiPlayerMini audioSource={brAudioFileURL} blockName="Бр. аудіо"/>}
                             </div>
 
@@ -192,14 +194,12 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                                 <div className="d-flex flex-column w-100">
                                     <input type="file" accept=".mp3" onChange={handleUsaAudioChange}/>
                                 </div>
-                                {usaAudioFileURL &&
+                                {!!usaAudioFileURL &&
                                     <AudiPlayerMini audioSource={usaAudioFileURL} blockName="Амер. аудіо"/>}
                             </div>
 
                         </div>
-
                     </div>
-
 
                     <input type="hidden" name="uuid" value={uuid} onChange={(e) => setUuid(e.target.value)}/>
                 </form>

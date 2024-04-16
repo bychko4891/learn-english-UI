@@ -1,6 +1,6 @@
 import {env} from "@/env.mjs";
 import {NextRequest, NextResponse} from "next/server";
-import {GeneralMessage, ResponseTokens} from "@/app/DefaultResponsesInterfaces";
+import {ResponseMessages, ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 
 
 export async function GET(req: NextRequest) {
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({tokens}, {status: 200});
         }
 
-        const badResponse = (await response.json()) as GeneralMessage;
+        const badResponse = (await response.json()) as ResponseMessages;
 
         return NextResponse.json({badResponse}, {status: 400});
 

@@ -28,7 +28,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: ArticleRespons
     const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
 
-    const blockVisit = visit ? "block-h visit" : "block-h";
+    const blockVisit = visit ? "block-h mt-2 visit" : "block-h";
 
     const [h1Error, setH1Error] = useState("");
     const [descriptionError, setDescriptionError] = useState("");

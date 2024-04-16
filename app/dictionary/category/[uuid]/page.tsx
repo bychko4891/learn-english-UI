@@ -1,4 +1,4 @@
-import {getCategory} from "@/app/vocabulary/category/[uuid]/getCategory";
+import {getCategory} from "@/app/dictionary/category/[uuid]/getCategory";
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";
 import Image from "next/image";
@@ -41,7 +41,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
         };
 
         const breadcrumbNavigation = {
-            href: "/vocabulary",
+            href: "/dictionary",
             name: "Англо-український словник"
         }
 
@@ -55,7 +55,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                                 <b>{category.name} - </b>
                                 {category.subcategories && category.subcategories.length > 0 && category.subcategories.map(subcategory => (
                                     <div key={subcategory.uuid}>
-                                        <Link href={'/vocabulary/category/words/' + subcategory.uuid}><span
+                                        <Link href={'/dictionary/category/words/' + subcategory.uuid}><span
                                             className="sub-cat">{subcategory.name}</span></Link>
                                     </div>
                                 ))}
@@ -81,7 +81,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                                             </div>
                                         }
                                         <div className="d-flex flex-column col-md-9 col-12 align-items-start">
-                                            <Link href={'/vocabulary/category/article/' + article.uuid}>
+                                            <Link href={'/dictionary/category/article/' + article.uuid}>
                                                 <h3 className="h3__link">{article.h1}</h3>
                                             </Link>
                                             <div className="border-lr w-100 mb-3">
@@ -89,7 +89,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                                                     dangerouslySetInnerHTML={{__html: (getDescriptionWithEllipsis(article.description))}}/>
 
                                             </div>
-                                            <Link href={'/vocabulary/category/article/' + article.uuid}
+                                            <Link href={'/dictionary/category/article/' + article.uuid}
                                                   className="custom-btn ms-auto mt-auto">Перейти</Link>
                                         </div>
                                     </div>

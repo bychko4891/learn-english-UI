@@ -1,14 +1,11 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
-import {AppPageContent, GeneralMessage} from "@/app/DefaultResponsesInterfaces";
+import {ResponseMessages} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 
 export async function saveAppPageContentAPI(data:FormData, uuid: string) {
-
-    const token = await getJwtAccessToken();
 
     try {
         const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/app-pages-contents/page-content/' + uuid, {
@@ -19,7 +16,7 @@ export async function saveAppPageContentAPI(data:FormData, uuid: string) {
         if (!response?.ok) {
             throw new Error('Network response was not ok');
         }
-        const message = (await  response.json()) as GeneralMessage;
+        const message = (await  response.json()) as ResponseMessages;
         message.status = 200;
 
         return message;

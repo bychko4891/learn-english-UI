@@ -9,8 +9,9 @@ export interface ResponseTokens {
     jwtRefreshToken: string;
 }
 
-export interface BadRequestMessages {
+export interface ResponseMessages {
     status: number;
+    name: string;
     email: string;
     password: string;
     general: string;

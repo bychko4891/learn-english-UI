@@ -5,7 +5,7 @@ import { Category } from "@/app/DefaultResponsesInterfaces";
 export async function getMainCategories() {
 
     try {
-        const response = await fetch(`${env.SERVER_API_URL}/api/category/main-categories?categoryPage=vocabulary`, {
+        const response = await fetch(`${env.SERVER_API_URL}/api/category/main-categories?categoryPage=dictionary`, {
             method: 'GET',
             cache: 'no-store', next: {}
         });

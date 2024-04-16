@@ -9,7 +9,7 @@ export const SideBar = () => {
         {label: "Головна", href: "/", imageName: "home.svg"},
         {label: "Вправи по фразам", href:"#", imageName: "lesson.svg"},
         {label: "Вправи по словам", href:"#", imageName: "word-card.svg"},
-        {label: "Словник", href:"/vocabulary", imageName: "vocabulary.svg"},
+        {label: "Словник", href:"/dictionary", imageName: "dictionary.svg"},
         {label: "Міні історії", href:"/mini-stories", imageName: "mini-stories.svg"},
         {label: "Про нас", href:"/about", imageName: "info.svg"},
         {label: "Задонатити", href:"", imageName: "donate.svg"}

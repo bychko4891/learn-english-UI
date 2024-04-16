@@ -36,7 +36,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
     const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
 
-    const blockVisit = visit ? "block-h visit" : "block-h";
+    const blockVisit = visit ? "block-h mt-2 visit" : "block-h";
 
     const handleClickVisit = () => {
         setVisit(!visit);
@@ -234,7 +234,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                             <select id="page" name="categoryPage" className="w-100"
                                     onChange={(e) => setSelectedPage(e.target.value)}>
                                 <option value="NO_PAGE">Оберіть сторінку вивода</option>
-                                <option value="VOCABULARY_PAGE">Словник</option>
+                                <option value="DICTIONARY_PAGE">Словник</option>
                                 <option value="MINI_STORIES">Міні історії</option>
                                 <option value="LESSON_WORDS">Заняття для слів</option>
                                 <option value="LESSON_PHRASES">Заняття для фпаз</option>

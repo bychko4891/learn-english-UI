@@ -25,7 +25,7 @@ export const AppPageContentForm = ({pageContent}: { pageContent: AppPageContentR
     const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
 
-    const blockVisit = visit ? "block-h visit" : "block-h";
+    const blockVisit = visit ? "block-h visit mt-2" : "block-h";
 
     const handleClickVisit = () => {
         setVisit(!visit);

@@ -1,7 +1,7 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {AppPage, GeneralMessage} from "@/app/DefaultResponsesInterfaces";
+import {AppPage} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 type ResMessage = {

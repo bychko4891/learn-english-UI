@@ -7,6 +7,8 @@ import "./player.style.css";
 
 export const AudiPlayerMini = ({audioSource, blockName}: {audioSource: string, blockName: string }) => {
 
+    console.log("RERERERERERERERER^ : " + audioSource)
+
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const lottieRef = useRef<LottieRefCurrentProps>(null)
@@ -17,6 +19,12 @@ export const AudiPlayerMini = ({audioSource, blockName}: {audioSource: string, b
         setIsAudioPlaying(!isAudioPlaying);
 
     };
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.src = audioSource;
+        }
+    }, [audioSource]);
 
     useEffect(() => {
         const audioElement = document.getElementById('audio') as HTMLAudioElement;
@@ -31,7 +39,7 @@ export const AudiPlayerMini = ({audioSource, blockName}: {audioSource: string, b
                 if(audioRef.current) audioRef.current.pause();
             }
         }
-    });
+    },[isAudioPlaying]);
 
     const handleAudioEnded = () => {
         setIsAudioPlaying(false);

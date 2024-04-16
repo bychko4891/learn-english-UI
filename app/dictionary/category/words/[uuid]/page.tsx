@@ -1,6 +1,6 @@
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";
-import {getWords} from "@/app/vocabulary/category/words/[uuid]/getWords";
+import {getWords} from "@/app/dictionary/category/words/[uuid]/getWords";
 
 type Props = {
     params: {
@@ -15,7 +15,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
     if (wordsRes) {
 
         const breadcrumbNavigation = {
-            href: "/vocabulary",
+            href: "/dictionary",
             name: "Англо-український словник"
         }
 

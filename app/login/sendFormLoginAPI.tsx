@@ -3,7 +3,7 @@
 import {env} from "@/env.mjs";
 import {setJwtAccessToken, setJwtRefreshToken} from "@/app/(protected)/jwtSessionService/SetHttpOnlyCookies";
 import {redirect} from "next/navigation";
-import {BadRequestMessages, ResponseTokens} from "@/app/DefaultResponsesInterfaces";
+import {ResponseMessages, ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 
 type DataSend = {
     email: string;
@@ -29,6 +29,6 @@ export async function sendFormLoginAPI(data: DataSend) {
     }
     if (response.status === 401 || response.status === 400) {
 
-        return (await response.json()) as BadRequestMessages
+        return (await response.json()) as ResponseMessages
     }
 }

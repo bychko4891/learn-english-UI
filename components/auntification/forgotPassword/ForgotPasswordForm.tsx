@@ -5,7 +5,6 @@ import "./style.css";
 import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
 import {SendFormForgotPasswordAPI} from "@/app/forgot-password/SendFormForgotPasswordAPI";
-import {BadRequestMessages, GeneralMessage} from "@/app/DefaultResponsesInterfaces";
 import {toast, ToastContainer, Zoom} from "react-toastify";
 
 
@@ -64,25 +63,26 @@ export const ForgotPasswordForm = () => {
                 email: email,
             }
             try {
-                const responseData = await SendFormForgotPasswordAPI(data);
+                const response = await SendFormForgotPasswordAPI(data);
                 setDisabled(false);
-                if (responseData.status === 200) {
-                    const success = responseData as GeneralMessage;
-                    setSuccessMessage(success.general);
-                    toast.success(success.general);
+                if(response) {
+                    if (response.status === 200) {
+                        setSuccessMessage(response.general);
+                        toast.success(response.general);
+                    }
+                    if (response.status === 400) {
+                        setSuccessMessage(response.general);
+                        toast.success(response.general);
+                    }
+                    if (response.status === 404) {
+                        setNotFoundMessage(response.general);
+                        toast.error(response.general);
+                    }
                 }
-                if (responseData.status === 400) {
-                    const success = responseData as BadRequestMessages;
-                    setSuccessMessage(success.general);
-                    toast.success(success.general);
-                }
-                if (responseData.status === 404) {
-                    const notFound =  responseData as GeneralMessage;
-                    setNotFoundMessage(notFound.general);
-                    toast.error(notFound.general);
-                }
+                toast.error("Щось зламалось і запит не пройшов! Зверніться до адміністратора будь ласка.");
             } catch (error) {
-                console.log("Server error (Forgot password): " + error)
+                toast.error("Помилка на сервері!");
+                // console.log("Server error (Forgot password): " + error)
 
             } finally {
                 setDisabled(false);
