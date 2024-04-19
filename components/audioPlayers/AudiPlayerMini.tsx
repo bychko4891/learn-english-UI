@@ -7,8 +7,6 @@ import "./player.style.css";
 
 export const AudiPlayerMini = ({audioSource, blockName}: {audioSource: string, blockName: string }) => {
 
-    console.log("RERERERERERERERER^ : " + audioSource)
-
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const lottieRef = useRef<LottieRefCurrentProps>(null)

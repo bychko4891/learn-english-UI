@@ -23,6 +23,7 @@ export const SideBar = () => {
         {label: "Категорії", href:"/admin/categories", imageName: "category.svg"},
         {label: "Міні історії", href:"/mini-stories", imageName: "mini-stories.svg"},
         {label: "Слова", href:"/admin/words", imageName: "words.svg"},
+        {label: "Сторінки словника", href:"/admin/dictionary-pages", imageName: "dictionary.svg"},
         {label: "Статті", href:"/admin/articles", imageName: "articles.svg"},
         {label: "Юзер інтерфес", href:"/user/profile", imageName: "user-interface.svg"}
 

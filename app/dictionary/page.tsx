@@ -35,7 +35,7 @@ export default async function VocabularyMainCategories() {
             <div className="main-content p-3 w-95">
                 <Breadcrumb breadcrumb={breadcrumbNavigation}/>
                 <div className="d-flex flex-column align-items-center gap-4">
-                    <h1>Англо-український словник</h1>
+                    <h1>Словник, часи та неправильні дієслова в англійській мові</h1>
                     {categories && categories.length > 0 && categories.map(category => (
                         <div key={category.uuid} className="row me-auto col-12" style={{margin: 0, border: "1px solid", borderRadius: 20, padding: 10}}>
                             {category.image && category.image.imageName &&

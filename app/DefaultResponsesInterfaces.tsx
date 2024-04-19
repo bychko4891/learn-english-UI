@@ -12,6 +12,8 @@ export interface ResponseTokens {
 export interface ResponseMessages {
     status: number;
     name: string;
+    htmlTagDescription: string,
+    htmlTagTitle: string,
     email: string;
     password: string;
     general: string;
@@ -47,8 +49,8 @@ export interface Article {
     category: Category;
 }
 
-export interface ArticleResponse {
-    article: Article;
+export interface EntityAndMainCategoriesResp <T>{
+    t: T;
     mainCategories: Category[];
 }
 
@@ -119,4 +121,18 @@ export interface PaginationObject<T> {
     totalPages: number;
     totalElements: number;
     currentPage: number;
+}
+
+export interface DictionaryPage {
+    id: number;
+    uuid: string;
+    name: string;
+    description: string;
+    htmlTagDescription: string;
+    htmlTagTitle: string;
+    published: boolean;
+    isRepeatable: boolean;
+    word: Word;
+    image: Image;
+    category: Category;
 }

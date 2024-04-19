@@ -2,26 +2,33 @@
 
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
-import React, {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {ReactSVG} from "react-svg";
-import {Article, Category, EntityAndMainCategoriesResp} from "@/app/DefaultResponsesInterfaces";
+import {Article, Category, DictionaryPage, EntityAndMainCategoriesResp, Word} from "@/app/DefaultResponsesInterfaces";
 import {toast, ToastContainer, Zoom} from "react-toastify";
 import {saveArticleAPI} from "@/app/(protected)/admin/articles/article/[uuid]/saveArticleAPI";
+import {SearchWord} from "@/components/admin/dictionary/SearchWord";
+import {WordSearchResult} from "@/components/admin/dictionary/WordSearchResult";
 
-export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainCategoriesResp<Article> }) => {
+export const DictionaryPageForm = ({dictionaryPageResp}: {
+    dictionaryPageResp: EntityAndMainCategoriesResp<DictionaryPage>
+}) => {
 
-    const article = articleResponse.t;
+    const dictionaryPage = dictionaryPageResp.t;
 
-    const imgUrl = article.image ? `/api/webimg/${article.image.imageName}` : "";
+    const imgUrl = dictionaryPage.image ? `/api/webimg/${dictionaryPage.image.imageName}` : "";
 
-    const [textContent, setTextContent] = useState<string>(article.description);
-    const [tagTitle, setTagTitle] = useState(article.htmlTagTitle || "");
-    const [tagDescription, setTagDescription] = useState(article.htmlTagDescription || "");
-    const [h1, setH1] = useState(article.h1);
-    const [uuid, setUuid] = useState(article.uuid);
+    const [words, setWords] = useState<Word[]>();
+    const [word, setWord] = useState<Word>();
+
+    const [textContent, setTextContent] = useState<string>(dictionaryPage.description);
+    const [tagTitle, setTagTitle] = useState(dictionaryPage.htmlTagTitle || "");
+    const [tagDescription, setTagDescription] = useState(dictionaryPage.htmlTagDescription || "");
+    const [published, setPublished] = useState(dictionaryPage.published);
+    const [uuid, setUuid] = useState(dictionaryPage.uuid);
     const [image, setImage] = useState<File>();
-    const [articleCategory, setArticleCategory] = useState(article.category);
+    const [articleCategory, setArticleCategory] = useState(dictionaryPage.category);
 
     const [subCategories, setSubcategories] = useState<Category[]>();
     const [selectMainCategory, setSelectMainCategory] = useState<Category>();
@@ -35,6 +42,12 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
     const [h1Error, setH1Error] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
     const [titleError, setTitleError] = useState("");
+
+    useEffect(() => {
+        if(!!word) {
+            setWords([]);
+        }
+    }, [word]);
     // const [generalError, setGeneralError] = useState("");
 
     const handleClickVisit = () => {
@@ -63,7 +76,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
 
     const handleSelectMainCategory = (uuid: string) => {
         console.log("selectMain: " + uuid);
-        articleResponse.mainCategories.forEach(category => {
+        dictionaryPageResp.mainCategories.forEach(category => {
             if (category.uuid === uuid) {
                 console.log("UUID")
                 setSelectMainCategory(category);
@@ -72,7 +85,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
                 return;
             }
             if (!uuid) {
-                setArticleCategory(article.category);
+                setArticleCategory(dictionaryPage.category);
             }
         });
     };
@@ -91,14 +104,17 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
         });
     };
 
+    const handleClickWordDelete = () => {
+        setWord(undefined);
+    }
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // setDisabled(true);
         const selectCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
 
-        const article = {
+        const dictionaryPage = {
             uuid: uuid,
-            h1: h1,
+            // h1: h1,
             description: textContent,
             htmlTagDescription: tagDescription,
             htmlTagTitle: tagTitle,
@@ -106,10 +122,10 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
         } as Article;
         var formData = new FormData;
         formData.append('image', image as Blob);
-        formData.append('article', new Blob([JSON.stringify(article)], {type: 'application/json'}));
+        formData.append('dictionaryPage', new Blob([JSON.stringify(dictionaryPage)], {type: 'application/json'}));
         try {
             const response = await saveArticleAPI(formData, uuid);
-            if(response?.status ===200) {
+            if (response?.status === 200) {
                 toast.success(response.general);
                 setDescriptionError("");
                 setTitleError("");
@@ -136,7 +152,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
             <div className="d-flex justify-content-between top-admin-block">
                 <ButtonBack backURL="/admin/articles"/>
                 <div className="center">
-                    <h1>Редагування статті</h1>
+                    <h1>Редагування сторінки словника</h1>
                 </div>
                 <button form="form" type="submit" className="right save">
                     <ReactSVG src="/images/save.svg" className="back-arrow-color" beforeInjection={(svg) => {
@@ -153,12 +169,31 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
                     </div>
 
                     <div className="col-md-3 col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
-                        <div className="d-flex flex-column align-items-start w-100">
-                            <label>H1</label>
-                            <input type="text" className="w-100" name="name" value={h1}
-                                   onChange={(e) => setH1(e.target.value)}/>
+                        {/*<div className="d-flex flex-column align-items-start w-100">*/}
+                        {/*    <label>H1</label>*/}
+                        {/*    <input type="text" className="w-100" name="name" value={h1}*/}
+                        {/*           onChange={(e) => setH1(e.target.value)}/>*/}
+                        {/*</div>*/}
+                        {/*{!!h1Error && <p className="p_error ms-3">{h1Error}</p>}*/}
+                        <div className="d-flex flex-column w-100" style={{height: 90}}>
+                            <div className="d-flex flex-row">
+                                <label className="">Слово сторінки словника: </label>
+                                <div className="needs"></div>
+                            </div>
+                            <SearchWord onSearch={setWords}/>
+                            {words && words.length > 0 && <div className="col-md-2 search__result flex-column">
+                                {words.map(word => (
+                                    <div key={word.uuid} >
+                                        <WordSearchResult word={word} wordChange={setWord}/>
+                                    </div>
+                                ))}
+                            </div>}
+                            {word && <div className="d-flex flex-row gap-2">
+                                <label>Вибрано слово: </label>
+                                <span style={{color: "#0d93dc"}}>{word.name}</span>
+                                <button type="button" onClick={handleClickWordDelete} className="delete__b">X</button>
+                            </div>}
                         </div>
-                        {!!h1Error && <p className="p_error ms-3">{h1Error}</p>}
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>Html tag «Title»</label>
@@ -195,8 +230,8 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
 
                         <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
                             <option value="">Оберіть категорію</option>
-                            {articleResponse.mainCategories && articleResponse.mainCategories.length > 0 &&
-                                articleResponse.mainCategories.map(category => (
+                            {dictionaryPageResp.mainCategories && dictionaryPageResp.mainCategories.length > 0 &&
+                                dictionaryPageResp.mainCategories.map(category => (
                                     <option key={category.uuid} value={category.uuid}>
                                         {category.name}
                                     </option>
@@ -214,6 +249,14 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
                                 ))}
 
                         </select>
+                        <div className="d-flex flex-row w-100 align-items-center">
+                            <span className="me-auto">Опубліковано (так\ні):</span>
+                            <input id="toggleSwitch" type="checkbox" checked={published} className="toggle-switch"
+                                   name="showDescriptionInPage"
+                                   onChange={(e) => setPublished(e.target.checked)}/>
+                            <label htmlFor="toggleSwitch" className="toggle-switch-label"></label>
+                        </div>
+
 
                         <div className="d-flex flex-column align-items-start w-100 pt-2">
                             <button type="button" className="w-100 d-flex flex-row br-g" onClick={handleClickVisit}>

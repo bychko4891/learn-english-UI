@@ -1,15 +1,15 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {Article, EntityAndMainCategoriesResp} from "@/app/DefaultResponsesInterfaces";
+import {DictionaryPage, EntityAndMainCategoriesResp} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 
-export async function getArticleAPI(uuid: string) {
+export async function getDictionaryPageAPI(uuid: string) {
 
 
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/article/' + uuid, {
+        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/dictionary-page/' + uuid, {
             method: 'GET',
         });
 
@@ -19,7 +19,7 @@ export async function getArticleAPI(uuid: string) {
         }
 
 
-        return (await response.json()) as EntityAndMainCategoriesResp<Article>;
+        return (await response.json()) as EntityAndMainCategoriesResp<DictionaryPage>;
     } catch (error) {
         // console.error('Error fetching get data Category to  Admin page:', error);
         return undefined;
