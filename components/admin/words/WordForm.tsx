@@ -12,7 +12,7 @@ import {saveWordAPI} from "@/app/(protected)/admin/words/word/[uuid]/saveWordAPI
 export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
     const [name, setName] = useState(wordResp.name);
-    const [nameError, setNameError] = useState<string>();
+    const [nameError, setNameError] = useState("");
     const [translate, setTranslate] = useState(wordResp.translate);
     const [brTranscription, setBrTranscription] = useState(wordResp.brTranscription ? wordResp.brTranscription : "");
     const [usaTranscription, setUsaTranscription] = useState(wordResp.usaTranscription ? wordResp.usaTranscription : "");
@@ -89,12 +89,11 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                     toast.success(response.general);
                 }
                 if (response.status === 400) {
+                    if(!!response.general) setNameError(response.general);
+                    else setNameError(response.name);
                     toast.error("Є помилки при введенні даних!");
-                    setNameError(response.general);
-                    setNameError(response.name);
                 }
-            }
-
+            }else
             toast.error("Щось зламалось і запит не пройшов! Зверніться до адміністратора будь ласка.");
         } catch (error) {
             toast.error("Помилка на сервері!");

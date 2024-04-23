@@ -1,15 +1,10 @@
 'use server'
 
 import "./categories.style.css";
-import {Category} from "./Category";
+import {OneCategory} from "./OneCategory";
 import {CategoryCategories} from "@/components/admin/categories/CategoryCategories";
+import {Category} from "@/app/DefaultResponsesInterfaces";
 
-type Category = {
-    uuid: string;
-    name: string;
-    mainCategory: boolean;
-    subcategories: Category[];
-}
 
 export const Categories = ({category}: { category: Category }) => {
 
@@ -24,7 +19,7 @@ export const Categories = ({category}: { category: Category }) => {
                             categories={<Categories category={subcategory}/>}
                         />
                     ) : (
-                        <Category category={subcategory}/>
+                        <OneCategory category={subcategory}/>
                     )}
                 </li>
             ))

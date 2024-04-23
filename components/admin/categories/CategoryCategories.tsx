@@ -1,17 +1,10 @@
 'use client'
 
 import Link from "next/link";
-import {ReactElement, ReactNode, useState} from "react";
+import {ReactNode, useState} from "react";
 import {ReactSVG} from "react-svg";
 
-export const CategoryCategories = ({
-                                       categoryName, categoryUuid,
-                                       categories
-                                   }: {
-    categoryName: string,
-    categoryUuid: string,
-    categories: ReactNode
-}) => {
+export const CategoryCategories = ({categoryName, categoryUuid, categories}: {categoryName: string, categoryUuid: string, categories: ReactNode}) => {
 
 
     const [isCategoryActive, setIsCategoryActive] = useState(false);

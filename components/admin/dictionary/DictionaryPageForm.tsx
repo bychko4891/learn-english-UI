@@ -5,11 +5,13 @@ import TinyMCEEditor from "@/app/TinyMCEEditor";
 import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {ReactSVG} from "react-svg";
-import {Article, Category, DictionaryPage, EntityAndMainCategoriesResp, Word} from "@/app/DefaultResponsesInterfaces";
+import {Category, DictionaryPage, EntityAndMainCategoriesResp, Word} from "@/app/DefaultResponsesInterfaces";
 import {toast, ToastContainer, Zoom} from "react-toastify";
-import {saveArticleAPI} from "@/app/(protected)/admin/articles/article/[uuid]/saveArticleAPI";
 import {SearchWord} from "@/components/admin/dictionary/SearchWord";
 import {WordSearchResult} from "@/components/admin/dictionary/WordSearchResult";
+import {
+    saveDictionaryPageAPI
+} from "@/app/(protected)/admin/dictionary-pages/dictionary-page/[uuid]/saveDictionaryPageAPI";
 
 export const DictionaryPageForm = ({dictionaryPageResp}: {
     dictionaryPageResp: EntityAndMainCategoriesResp<DictionaryPage>
@@ -20,7 +22,8 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
     const imgUrl = dictionaryPage.image ? `/api/webimg/${dictionaryPage.image.imageName}` : "";
 
     const [words, setWords] = useState<Word[]>();
-    const [word, setWord] = useState<Word>();
+    const [word, setWord] = useState<Word>(dictionaryPage.word);
+    const [wordError, setWordError] = useState<string>();
 
     const [textContent, setTextContent] = useState<string>(dictionaryPage.description);
     const [tagTitle, setTagTitle] = useState(dictionaryPage.htmlTagTitle || "");
@@ -44,7 +47,7 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
     const [titleError, setTitleError] = useState("");
 
     useEffect(() => {
-        if(!!word) {
+        if (!!word) {
             setWords([]);
         }
     }, [word]);
@@ -105,44 +108,47 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
     };
 
     const handleClickWordDelete = () => {
-        setWord(undefined);
+        setWord(dictionaryPage.word);
     }
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // setDisabled(true);
-        const selectCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
+        if (word) {
+            const selectCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
 
-        const dictionaryPage = {
-            uuid: uuid,
-            // h1: h1,
-            description: textContent,
-            htmlTagDescription: tagDescription,
-            htmlTagTitle: tagTitle,
-            category: selectCategory,
-        } as Article;
-        var formData = new FormData;
-        formData.append('image', image as Blob);
-        formData.append('dictionaryPage', new Blob([JSON.stringify(dictionaryPage)], {type: 'application/json'}));
-        try {
-            const response = await saveArticleAPI(formData, uuid);
-            if (response?.status === 200) {
-                toast.success(response.general);
-                setDescriptionError("");
-                setTitleError("");
-                setH1Error("");
+            const dictionaryPage = {
+                uuid: uuid,
+                description: textContent,
+                htmlTagDescription: tagDescription,
+                htmlTagTitle: tagTitle,
+                published: published,
+                word: word,
+                category: selectCategory,
+            } as DictionaryPage;
+            var formData = new FormData;
+            formData.append('image', image as Blob);
+            formData.append('dictionaryPage', new Blob([JSON.stringify(dictionaryPage)], {type: 'application/json'}));
+            try {
+                const response = await saveDictionaryPageAPI(formData, uuid);
+                if (response?.status === 200) {
+                    toast.success(response.general);
+                    setDescriptionError("");
+                    setTitleError("");
+                    // setH1Error("");
+                }
+                if (response?.status === 400) {
+                    setDescriptionError(response?.htmlTagDescription);
+                    setTitleError(response?.htmlTagTitle);
+                    // setH1Error(response?.h1);
+                    toast.error("Є помилки при введенні даних!");
+                }
+
+            } catch (error) {
+                toast.error("Помилка сервера!!!");
+
             }
-            if (response?.status === 400) {
-                setDescriptionError(response?.htmlTagDescription);
-                setTitleError(response?.htmlTagTitle);
-                setH1Error(response?.h1);
-                toast.error("Є помилки при введенні даних!");
-            }
-            // setDisabled(false);
-
-        } catch (error) {
-            // setDisabled(false);
-            toast.error("Помилка сервера!!!");
-
+        } else {
+        setWordError("Оберіть будь ласка слово для словника");
+        toast.error("Є помилки при введенні даних!");
         }
     }
 
@@ -183,7 +189,7 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
                             <SearchWord onSearch={setWords}/>
                             {words && words.length > 0 && <div className="col-md-2 search__result flex-column">
                                 {words.map(word => (
-                                    <div key={word.uuid} >
+                                    <div key={word.uuid}>
                                         <WordSearchResult word={word} wordChange={setWord}/>
                                     </div>
                                 ))}
@@ -194,6 +200,8 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
                                 <button type="button" onClick={handleClickWordDelete} className="delete__b">X</button>
                             </div>}
                         </div>
+                        {!!wordError && <p className="p_error ms-3">{wordError}</p>}
+
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>Html tag «Title»</label>

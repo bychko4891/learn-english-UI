@@ -1,22 +1,48 @@
+'use server'
+
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import {ButtonNewEntity} from "@/components/admin/ButtonNewEntity";
 import {getCategoriesAPI} from "@/app/(protected)/admin/categories/getCategoriesAPI";
 import {CategoryCategories} from "@/components/admin/categories/CategoryCategories";
 import {Categories} from "@/components/admin/categories/Categories";
-import {Category} from "@/components/admin/categories/Category";
+import {OneCategory} from "@/components/admin/categories/OneCategory";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
+import {GetServerSidePropsContext} from "next";
+import {fetchWithToken} from "@/app/fetchWithToken";
+import {env} from "@/env.mjs";
+import {Category} from "@/app/DefaultResponsesInterfaces";
+import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
 
-type Category = {
-    uuid: string;
-    name: string;
-    mainCategory: boolean;
-    subcategories: Category[];
-}
+
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//     // Виконати запит до віддаленого сервера для отримання оновлених даних
+//     const categories = await getCategoriesAPI();
+//     const data = await res.json();
+//
+//     // Повернути отримані дані як пропси для компонента
+//     return {
+//         props: {
+//             data,
+//         },
+//     };
+// }
+
 
 export default async function CategoriesPage() {
 
-    const categories = await getCategoriesAPI();
+    // const categories = await getCategoriesAPI();
 
+    const accessToken = await getJwtAccessToken();
+    const resp = await fetch(env.SERVER_API_URL + '/api/admin/categories', {
+        method: 'GET',
+        next: { revalidate: 0 },
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        }
+
+    });
+
+    const categories = await resp?.json() as Category[]
     const apiRequestURL = "/categories/new-category";
 
     if (categories) {
@@ -32,6 +58,7 @@ export default async function CategoriesPage() {
                     </div>
                     <div className="block-form d-flex flex-column">
 
+
                         {categories.length > 0 && categories.map((category) => (
                             <ul key={category.uuid} className="d-flex">
                                 {category.subcategories && category.subcategories.length > 0 ? (
@@ -45,7 +72,7 @@ export default async function CategoriesPage() {
                                     </li>
                                 ) : (
                                     <li key={category.uuid}>
-                                        <Category key={category.uuid} category={category}/>
+                                        <OneCategory key={category.uuid} category={category}/>
                                     </li>
                                 )}
                             </ul>
@@ -62,3 +89,10 @@ export default async function CategoriesPage() {
         </>
     );
 }
+
+CategoriesPage.getInitialProps = async (context: GetServerSidePropsContext) => {
+    const res = await fetch("https://api.com");
+    const data = await res.json();
+
+    return { data }; // this will be passed to the page component as props
+};

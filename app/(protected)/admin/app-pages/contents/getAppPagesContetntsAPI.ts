@@ -4,7 +4,7 @@ import {env} from "@/env.mjs";
 import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
 import { stringify, parse } from 'flatted';
 import {number} from "prop-types";
-import {Category} from "@/components/admin/categories/Category";
+import {OneCategory} from "@/components/admin/categories/OneCategory";
 import {AppPageContent, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 

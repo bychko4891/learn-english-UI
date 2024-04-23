@@ -1,15 +1,9 @@
 import Link from "next/link";
-import {ReactSVG} from "react-svg";
 import Image from "next/image";
+import {Category} from "@/app/DefaultResponsesInterfaces"
 
-type Category = {
-    uuid: string;
-    name: string;
-    mainCategory: boolean;
-    subcategories: Category[];
-}
 
-export const Category = ({category}: { category: Category }) => {
+export const OneCategory = ({category}: { category: Category }) => {
 
 
     return (

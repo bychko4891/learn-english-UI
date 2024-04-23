@@ -43,7 +43,8 @@ export default async function Home() {
                             {content.image && content.image.imageName &&
                                 <Image unoptimized src={'/api/webimg/' + content.image.imageName} width={180}
                                        height={270}
-                                       alt="" style={{borderRadius: 20}}/>
+                                       alt="" style={{borderRadius: 20}}
+                                />
                             }
                             <h3 style={{color: "#2dc26b"}}>{content.name}</h3>
                             <span dangerouslySetInnerHTML={{__html: (content.description) || 'test'}}/>
