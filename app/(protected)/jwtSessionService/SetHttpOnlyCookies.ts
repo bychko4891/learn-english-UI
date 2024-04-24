@@ -3,6 +3,7 @@ import { JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN } from "@/CookiesName";
 import { cookies } from "next/headers";
 
 export async function setJwtAccessToken(jwtAccessToken: string) {
+    console.log("Access Token Yes");
     cookies().set({
         name: JWT_ACCESS_TOKEN,
         value: jwtAccessToken,
@@ -18,6 +19,7 @@ export async function setJwtAccessToken(jwtAccessToken: string) {
 }
 
 export function setJwtRefreshToken(jwtRefreshToken: string) {
+    console.log("Refresh Token Yes");
     cookies().set({
         name: JWT_REFRESH_TOKEN,
         value: jwtRefreshToken,

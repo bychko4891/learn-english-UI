@@ -16,8 +16,12 @@ const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_U
 
 export async function GET(req: NextRequest) {
 
+    console.log("pred code!!! ");
+
     const reqParams = req.nextUrl.searchParams;
     const code = reqParams.get("code") || "";
+
+    console.log("post code");
 
 
     try {
@@ -28,10 +32,13 @@ export async function GET(req: NextRequest) {
         const oauth2 = google.oauth2({version: 'v2', auth: oAuth2Client});
         const {data} = await oauth2.userinfo.get();
 
+        console.log("post tokens");
         const formData = {
             email: data.email,
             name: data.name,
         }
+
+        console.log("fetch");
 
         const response = await fetch(env.SERVER_API_URL + '/api/auth/google', {
             method: 'POST',
@@ -41,24 +48,26 @@ export async function GET(req: NextRequest) {
             }
         });
 
+        console.log("fetch next");
+
         if (response.status === 200) {
+            console.log("pred profile");
             const tokens = (await response.json()) as ResponseTokens;
-            setJwtAccessToken(tokens.jwtAccessToken);
-            setJwtRefreshToken(tokens.jwtRefreshToken);
+            console.log("profile - - 0")
+            console.log("profile 0")
+            // const tokens = (await response.json()) as ResponseTokens;
+            // setJwtAccessToken(tokens.jwtAccessToken);
+            // setJwtRefreshToken(tokens.jwtRefreshToken);
+            console.log("profile")
 
-            return NextResponse.redirect(new URL("/user/profile", req.url));
-
+            return NextResponse.redirect(new URL(`/auth?key=${tokens.jwtRefreshToken}`, req.url));
         }
 
+        console.log("login")
         return NextResponse.redirect(new URL('/login', req.url));
 
     } catch (error) {
 
         return NextResponse.json(error, {status: 500});
     }
-    // } else {
-    //     res.setHeader('Allow', ['GET', 'POST']);
-    //     res.status(405).end(`Method ${req.method} Not Allowed`);
-    // }
-// }
 }

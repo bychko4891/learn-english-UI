@@ -9,6 +9,7 @@ import {
 export const fetchWithToken = async (url: string, options: any) => {
 
     const accessToken = await getJwtAccessToken();
+    console.log(accessToken);
 
     if (accessToken) {
         const headers = {
@@ -24,7 +25,10 @@ export const fetchWithToken = async (url: string, options: any) => {
 
     const jwtToken = await getJwtRefreshToken();
 
+    console.log("jwtTOKEN: "  + jwtToken);
+
     if(jwtToken) {
+        console.log("jwtTOKEN: OK "  );
         const newAccessToken = await regenerateAccessToken(jwtToken);
         const headers = {
             ...options.headers,
