@@ -5,8 +5,8 @@ import {setJwtAccessToken, setJwtRefreshToken} from "@/app/(protected)/jwtSessio
 import {ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 
 
-// const APP_URL = env.APP_URL || 'https://e-learn.top';
-const APP_URL = env.APP_URL || 'http://localhost:3000';
+const APP_URL = env.APP_URL || 'https://e-learn.top';
+// const APP_URL = env.APP_URL || 'http://localhost:3000';
 const CLIENT_ID = env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = env.GOOGLE_SECRET;
 const REDIRECT_URL = APP_URL + env.GOOGLE_CALLBACK_URL;
