@@ -5,26 +5,19 @@ import {fetchWithToken} from "@/app/fetchWithToken";
 import {DictionaryPage, PaginationObject} from "@/app/DefaultResponsesInterfaces";
 
 
-export async function getDictionaryPagesAPI() {
+export async function getDictionaryPagesAPI(page: number, size: number) {
 
-    try {
-        const response = await fetchWithToken(`${env.SERVER_API_URL}/api/admin/dictionary-pages`, {
+    const params = page > 0 || size > 25 ? `?page=${page}&size=${size}` : "";
+
+        const response = await fetchWithToken(`${env.SERVER_API_URL}/api/admin/dictionary-pages${params}`, {
             method: 'GET',
+            cache: 'no-store',
         });
 
         if (response?.ok) {
             return (await response.json()) as PaginationObject<DictionaryPage>;
-            // throw new Error('Network response was not ok');
         }
 
-        if(response?.status === 400) {
-            console.log("44444444444444444444444444")
-        }
-        throw new Error('Network response was not ok');
-
-    } catch (error) {
-        // console.error('Error fetching data Categories to  Admin page:', error);
-        return undefined;
-    }
+        throw new Error();
 
 }

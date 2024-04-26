@@ -136,3 +136,9 @@ export interface DictionaryPage {
     image: Image;
     category: Category;
 }
+
+export interface Pagination {
+    totalPages: number;
+    currentPage: number;
+    totalElements: number;
+}

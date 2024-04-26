@@ -298,6 +298,11 @@ input[type="file"]::file-selector-button:active {
     z-index: 9999;
 }
 
+th, td {
+    position: relative;
+    align-content: center;
+}
+
 @media (min-width: 280px){
 
     .block-form .w-50 {

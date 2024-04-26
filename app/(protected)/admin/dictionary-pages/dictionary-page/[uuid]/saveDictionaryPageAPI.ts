@@ -4,14 +4,6 @@ import {env} from "@/env.mjs";
 import {fetchWithToken} from "@/app/fetchWithToken";
 import {ResponseMessages} from "@/app/DefaultResponsesInterfaces";
 
-type ResMessage = {
-    status: number;
-    htmlTagDescription: string,
-    htmlTagTitle: string,
-    general: string;
-
-}
-
 export async function saveDictionaryPageAPI(data:FormData, uuid: string) {
 
 
@@ -21,19 +13,22 @@ export async function saveDictionaryPageAPI(data:FormData, uuid: string) {
             body: data,
         });
 
+        if (response?.ok) {
+            const message = (await  response.json()) as ResponseMessages;
+            message.status = 200;
+
+            return message;
+
+        }
+
         if(response?.status === 400) {
             const message = (await  response.json()) as ResponseMessages;
             message.status = 400;
             return message;
         }
 
-        if (!response?.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const message = (await  response.json()) as ResMessage;
-        message.status = 200;
 
-        return message;
+        return undefined;
     } catch (error) {
         // console.error('Error save Category to  Admin page:', error);
         return undefined;

@@ -51,7 +51,6 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
             setWords([]);
         }
     }, [word]);
-    // const [generalError, setGeneralError] = useState("");
 
     const handleClickVisit = () => {
         setVisit(!visit);
@@ -78,7 +77,6 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
     };
 
     const handleSelectMainCategory = (uuid: string) => {
-        console.log("selectMain: " + uuid);
         dictionaryPageResp.mainCategories.forEach(category => {
             if (category.uuid === uuid) {
                 console.log("UUID")
@@ -133,12 +131,12 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
                     toast.success(response.general);
                     setDescriptionError("");
                     setTitleError("");
-                    // setH1Error("");
+                    setWordError("");
                 }
                 if (response?.status === 400) {
                     setDescriptionError(response?.htmlTagDescription);
                     setTitleError(response?.htmlTagTitle);
-                    // setH1Error(response?.h1);
+                    setWordError(response?.general);
                     toast.error("Є помилки при введенні даних!");
                 }
 
@@ -156,7 +154,7 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
         <>
             <ToastContainer autoClose={3000} transition={Zoom}/>
             <div className="d-flex justify-content-between top-admin-block">
-                <ButtonBack backURL="/admin/articles"/>
+                <ButtonBack backURL="/admin/dictionary-pages"/>
                 <div className="center">
                     <h1>Редагування сторінки словника</h1>
                 </div>

@@ -15,21 +15,16 @@ import {Loading} from "@/app/suspense_fallback/Loading";
 export default async function Layout({ children }: { children: ReactNode }) {
   const accessTokenCookie = await getJwtAccessToken();
 
-    console.log("0");
-
   if (accessTokenCookie) {
-      console.log("1");
     return (
         <>
           {children}
         </>
     );
   }
-    console.log("2");
+
   const accessToken = await newAccessToken();
-    console.log("3");
   if (accessToken) {
-      console.log("4");
     return (
         <>
             <Suspense fallback={<Loading />} >
@@ -39,11 +34,9 @@ export default async function Layout({ children }: { children: ReactNode }) {
         </>
     );
   }
-    console.log("5");
+
   const tokens = await newRefreshAndAccessToken();
-    console.log("6");
   if (tokens !== undefined) {
-      console.log("7");
     return (
         <>
             <Suspense fallback={<Loading />} >
@@ -53,8 +46,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
         </>
     );
   }
+
   // if()
-    console.log("8");
   return (
       <>
         <SignOut />
