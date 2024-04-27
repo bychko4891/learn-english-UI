@@ -105,16 +105,6 @@ export interface Audio {
     usaAudioName: string ;
 }
 
-export interface VocabularyPage {
-    uuid: string;
-    name: string;
-    description: string;
-    cardInfo: string;
-    published: boolean;
-    word: Word;
-    image: Image;
-    category: Category;
-}
 
 export interface PaginationObject<T> {
     t: T[];

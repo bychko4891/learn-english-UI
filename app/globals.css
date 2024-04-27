@@ -67,6 +67,7 @@ body {
     --dashui-gray-600: #94a3b8;
     --dashui-gray-900: #f1f5f9;
     --dashui-heading-color: #fff;
+    --dashui-heading-color-invert: #000;
     --dashui-primary: #624bff;
     --dashui-emphasis-color-rgb: 241, 245, 249;
     --dashui-header: rgb(40 42 57);
@@ -108,6 +109,7 @@ body {
     --dashui-gray-600: #475569;
     --dashui-gray-900: #0f172a;
     --dashui-heading-color: var(--dashui-headings-color);
+    --dashui-heading-color-invert: #fff;
     --dashui-primary: #624bff;
     --dashui-emphasis-color-rgb: 0, 0, 0;
     --dashui-header: #f6f4ff;

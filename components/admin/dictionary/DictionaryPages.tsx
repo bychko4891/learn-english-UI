@@ -7,7 +7,7 @@ import {DictionaryPage, Pagination, Word} from "@/app/DefaultResponsesInterfaces
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 import {NoContent} from "@/components/noContent/NoContent";
 import {getDictionaryPagesAPI} from "@/app/(protected)/admin/dictionary-pages/getDictionaryPagesAPI";
-import {PaginationComponent} from "@/components/admin/PaginationComponent"
+import {PaginationComponent} from "@/components/pagination/PaginationComponent";
 
 
 export const DictionaryPages = () => {
@@ -58,7 +58,7 @@ export const DictionaryPages = () => {
                             <td>{dictionaryPage.name}</td>
                             <td>
                                 {dictionaryPage.image.imageName &&
-                                    <Image src={'/api/dictionary-page/' + dictionaryPage.image.imageName} alt=""
+                                    <Image src={'/api/word-img/' + dictionaryPage.image.imageName} alt=""
                                            width={60} height={60}/>
                                 }
                             </td>

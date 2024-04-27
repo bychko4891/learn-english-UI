@@ -1,5 +1,5 @@
 import {env} from "@/env.mjs";
-import {CategoryResponse, VocabularyPage} from "@/app/DefaultResponsesInterfaces";
+import {DictionaryPage} from "@/app/DefaultResponsesInterfaces";
 
 
 export async function getWords(uuid: string) {
@@ -10,7 +10,7 @@ export async function getWords(uuid: string) {
             cache: 'no-store', next: {}
         });
 
-        return (await response.json()) as VocabularyPage[];
+        return (await response.json()) as DictionaryPage[];
 
     } catch (error) {
 

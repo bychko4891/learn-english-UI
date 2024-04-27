@@ -36,13 +36,14 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
     const [subCategories, setSubcategories] = useState<Category[]>();
     const [selectMainCategory, setSelectMainCategory] = useState<Category>();
     const [selectSubcategory, setSelectSubcategory] = useState<Category>();
+    const [selectSubSubcategory, setSelectSubSubcategory] = useState<Category>();
+
 
     const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
 
     const blockVisit = visit ? "block-h mt-2 visit" : "block-h";
 
-    const [h1Error, setH1Error] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
     const [titleError, setTitleError] = useState("");
 
@@ -105,13 +106,27 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
         });
     };
 
+    const handleSelectSubSubcategory = (uuid: string) => {
+        selectSubcategory?.subcategories?.forEach(category => {
+            if (category.uuid === uuid) {
+                setSelectSubSubcategory(category);
+                setArticleCategory(category);
+                return;
+            }
+            if (!uuid && selectMainCategory) {
+                setArticleCategory(selectMainCategory);
+            }
+
+        });
+    };
+
     const handleClickWordDelete = () => {
         setWord(dictionaryPage.word);
     }
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (word) {
-            const selectCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
+            const selectCategory = !!selectSubSubcategory ? selectSubSubcategory : !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
 
             const dictionaryPage = {
                 uuid: uuid,
@@ -173,12 +188,6 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
                     </div>
 
                     <div className="col-md-3 col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
-                        {/*<div className="d-flex flex-column align-items-start w-100">*/}
-                        {/*    <label>H1</label>*/}
-                        {/*    <input type="text" className="w-100" name="name" value={h1}*/}
-                        {/*           onChange={(e) => setH1(e.target.value)}/>*/}
-                        {/*</div>*/}
-                        {/*{!!h1Error && <p className="p_error ms-3">{h1Error}</p>}*/}
                         <div className="d-flex flex-column w-100" style={{height: 90}}>
                             <div className="d-flex flex-row">
                                 <label className="">Слово сторінки словника: </label>
@@ -249,6 +258,17 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
                             <option value="">Оберіть підкатегорію</option>
                             {subCategories && subCategories.length > 0 &&
                                 subCategories.map(category => (
+                                    <option key={category.uuid} value={category.uuid}>
+                                        {category.name}
+                                    </option>
+                                ))}
+
+                        </select>
+
+                        <select className="w-100" onChange={(e) => handleSelectSubSubcategory(e.target.value)}>
+                            <option value="">Оберіть категорію підкатегорії</option>
+                            {selectSubcategory && selectSubcategory.subcategories.length > 0 &&
+                                selectSubcategory.subcategories.map(category => (
                                     <option key={category.uuid} value={category.uuid}>
                                         {category.name}
                                     </option>
