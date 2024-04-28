@@ -77,7 +77,7 @@ export const PaginationComponent = ({pagination, nextPage, size}: Props) => {
             <>
                 <div className="mx-auto d-inline-flex gap-2">
                     <button type="button" onClick={handleButtonPrevClick} disabled={pagination.currentPage === 0}
-                            className={pagination.currentPage === 0 ? 'btn-p': 'btn-p__interactive'}>
+                            className={pagination.currentPage === 0 ? 'btn-p' : 'btn-p__interactive'}>
                         <ReactSVG beforeInjection={(svg) => {
                             svg.setAttribute('style', 'height: 25px; width: 25px;')
                         }} src="/images/arrow-prev.svg" className="btn-p__svg reset-styles"/>
@@ -89,28 +89,27 @@ export const PaginationComponent = ({pagination, nextPage, size}: Props) => {
                         <option value="100">100</option>
                     </select>
                     <ul className="d-inline-flex p-0 m-0">
-                        {pages.map(page => (
-                            <>
-                                {page === pagination.currentPage + 1 ?
-                                    <li key={page} className="btn-p__page-li">
+                        {pages.map((page, index) => (
+                            <li key={index} className="btn-p__page-li">
+                                <>
+                                    {page === pagination.currentPage + 1 ? (
                                         <div className="btn-p__page-current">
                                             <span>{page}</span>
                                         </div>
-                                    </li>
-                                    :
-                                    <li key={page} className="btn-p__page-li">
+                                    ) : (
                                         <Link href={'/admin/dictionary-pages?page=' + page + `&size=${sizeSelect}`}
                                               onClick={(event) => handlePageClick(event, page)}>
                                             <div className="btn-p__page btn-p__interactive">
                                                 <span>{page}</span>
                                             </div>
                                         </Link>
-                                    </li>
-                                }
-                            </>
+                                    )}
+                                </>
+                            </li>
                         ))}
                     </ul>
-                    <button type="button" onClick={handleButtonNextClick} disabled={pagination.currentPage === pagination.totalPages - 1}
+                    <button type="button" onClick={handleButtonNextClick}
+                            disabled={pagination.currentPage === pagination.totalPages - 1}
                             className={pagination.currentPage === pagination.totalPages - 1 ? 'btn-p' : 'btn-p btn-p__interactive'}>
                         <ReactSVG beforeInjection={(svg) => {
                             svg.setAttribute('style', 'height: 25px; width: 25px;')

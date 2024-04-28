@@ -29,6 +29,8 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
     const [selectMainCategory, setSelectMainCategory] = useState<Category>();
     const [selectSubcategory, setSelectSubcategory] = useState<Category>();
 
+    const [parentCategory, setParentCategory] = useState<Category>(categoryResponse.category.parentCategory);
+
     const [nameError, setNameError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
     const [titleError, setTitleError] = useState("");
@@ -67,8 +69,12 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
         categoryResponse.mainCategories.forEach(category => {
             if (category.uuid === uuid) {
                 setSelectMainCategory(category);
+                setParentCategory(category);
                 setSubcategories(category.subcategories);
                 return;
+            }
+            if (!uuid) {
+                setParentCategory(categoryResponse.category.parentCategory);
             }
         });
     };
@@ -77,6 +83,11 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
         subCategories?.forEach(category => {
             if (category.uuid === uuid) {
                 setSelectSubcategory(category);
+                setParentCategory(category);
+                return;
+            }
+            if (!uuid && selectMainCategory) {
+                setParentCategory(selectMainCategory);
                 return;
             }
         });
@@ -183,12 +194,6 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                         </div>
                         {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
 
-                        <div className="d-flex flex-column align-items-start w-100">
-                            <label>Батьківська категорія</label>
-                            <span className="d-flex align-items-start w-100"
-                                  style={{borderBottom: "1px solid"}}>Відсутня</span>
-                        </div>
-
                         <div className="d-flex flex-row w-100 align-items-center">
                             <span className="me-auto">Головна категорія: </span>
                             <input id="toggleSwitch" type="checkbox" checked={mainCategory} className="toggle-switch"
@@ -206,9 +211,14 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                             <label htmlFor="toggleSwitch" className="toggle-switch-label"></label>
                         </div>
 
-                        <label>Змінити категорію</label>
+                        <label>Батьківська категорія:
+                            {parentCategory &&
+                                <span style={{paddingLeft: 10, color: "#307ed9"}}>{parentCategory.name}</span> ||
+                                <span style={{paddingLeft: 10, color: "#307ed9"}}>Відсутня</span>
+                            }
+                        </label>
                         <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
-                            <option>Батьківська категорія</option>
+                            <option>Змінити батьківську категорію</option>
                             {categoryResponse.mainCategories && categoryResponse.mainCategories.length > 0 &&
                                 categoryResponse.mainCategories.map(category => (
                                     <option key={category.uuid} value={category.uuid}>
@@ -219,7 +229,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                         </select>
 
                         <select className="w-100" onChange={(e) => handleSelectSubcategory(e.target.value)}>
-                            <option>Оберіть підкатегорію</option>
+                            <option>Змінити підкатегорію</option>
                             {subCategories && subCategories.length > 0 &&
                                 subCategories.map(category => (
                                     <option key={category.uuid} value={category.uuid}>

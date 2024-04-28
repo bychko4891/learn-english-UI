@@ -22,6 +22,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
     const [uuid, setUuid] = useState(article.uuid);
     const [image, setImage] = useState<File>();
     const [articleCategory, setArticleCategory] = useState(article.category);
+    const [published, setPublished] = useState(article.published);
 
     const [subCategories, setSubcategories] = useState<Category[]>();
     const [selectMainCategory, setSelectMainCategory] = useState<Category>();
@@ -102,6 +103,7 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
             description: textContent,
             htmlTagDescription: tagDescription,
             htmlTagTitle: tagTitle,
+            published: published,
             category: selectCategory,
         } as Article;
         var formData = new FormData;
@@ -186,6 +188,14 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
                             </div>
                         </div>
                         {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
+
+                        <div className="d-flex flex-row w-100 align-items-center">
+                            <span className="me-auto">Опубліковано (так\ні):</span>
+                            <input id="toggleSwitch" type="checkbox" checked={published} className="toggle-switch"
+                                   name="showDescriptionInPage"
+                                   onChange={(e) => setPublished(e.target.checked)}/>
+                            <label htmlFor="toggleSwitch" className="toggle-switch-label"></label>
+                        </div>
 
                         <label>Категорія:
                             {articleCategory &&

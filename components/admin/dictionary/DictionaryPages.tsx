@@ -9,7 +9,6 @@ import {NoContent} from "@/components/noContent/NoContent";
 import {getDictionaryPagesAPI} from "@/app/(protected)/admin/dictionary-pages/getDictionaryPagesAPI";
 import {PaginationComponent} from "@/components/pagination/PaginationComponent";
 
-
 export const DictionaryPages = () => {
 
     const [dictionaryPages, setDictionaryPages] = useState<DictionaryPage[]>();
@@ -24,15 +23,16 @@ export const DictionaryPages = () => {
                 const res = await getDictionaryPagesAPI(nextPage, size);
                 if (res) {
                     setDictionaryPages(res.t);
-                    const pagination = {totalPages: res.totalPages, currentPage: res.currentPage, totalElements:res.totalElements} as Pagination
+                    const pagination = {
+                        totalPages: res.totalPages,
+                        currentPage: res.currentPage,
+                        totalElements: res.totalElements
+                    } as Pagination
                     setPagination(pagination);
-                } else {
-                    setError(new Error());
-                }
+                } else setError(new Error());
             } catch (error) {
                 setError(new Error());
             }
-
         };
         fetchData();
     }, [error, nextPage, size]);
@@ -80,8 +80,9 @@ export const DictionaryPages = () => {
     }
     return (
         <>
-            <DeleteJwtAccessToken/>
             <NoContent/>
+            <DeleteJwtAccessToken/>
+
         </>
     );
 };

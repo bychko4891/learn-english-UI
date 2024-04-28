@@ -13,9 +13,7 @@ import {
     saveDictionaryPageAPI
 } from "@/app/(protected)/admin/dictionary-pages/dictionary-page/[uuid]/saveDictionaryPageAPI";
 
-export const DictionaryPageForm = ({dictionaryPageResp}: {
-    dictionaryPageResp: EntityAndMainCategoriesResp<DictionaryPage>
-}) => {
+export const DictionaryPageForm = ({dictionaryPageResp}: {dictionaryPageResp: EntityAndMainCategoriesResp<DictionaryPage>}) => {
 
     const dictionaryPage = dictionaryPageResp.t;
 
@@ -101,6 +99,7 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
             }
             if (!uuid && selectMainCategory) {
                 setArticleCategory(selectMainCategory);
+                return;
             }
 
         });
@@ -115,6 +114,7 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {
             }
             if (!uuid && selectMainCategory) {
                 setArticleCategory(selectMainCategory);
+                return;
             }
 
         });

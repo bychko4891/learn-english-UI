@@ -45,6 +45,7 @@ export interface Article {
     htmlTagTitle: string;
     htmlTagDescription: string;
     description: string;
+    published: boolean;
     image: Image;
     category: Category;
 }

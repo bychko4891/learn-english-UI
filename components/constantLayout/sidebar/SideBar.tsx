@@ -17,7 +17,7 @@ export const SideBar = () => {
     ];
 
     const navItemsAdmin = [
-        {label: "Юзери", href: "/admin", imageName: "users.svg"},
+        {label: "Юзери", href: "/admin/users", imageName: "users.svg"},
         {label: "Заняття", href:"#", imageName: "lessons.svg"},
         {label: "Сторінки додатка", href:"/admin/app-pages", imageName: "pages.svg"},
         {label: "Категорії", href:"/admin/categories", imageName: "category.svg"},
