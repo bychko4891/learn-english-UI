@@ -1,6 +1,6 @@
 'use client'
 
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Pagination} from "@/app/DefaultResponsesInterfaces";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 import {PaginationComponent} from "@/components/pagination/PaginationComponent";
@@ -8,14 +8,22 @@ import {NoContent} from "@/components/noContent/NoContent";
 import {getUsersAPI} from "@/app/(protected)/admin/users/getUsersAPI";
 import User from "@/user/User";
 import {UserActions} from "@/components/admin/users/UserActions";
+import { toast, ToastContainer, Zoom } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
+type ToastMessage = {
+    status: string;
+    message: string;
+}
 export const Users = () => {
 
     const [users, setUsers] = useState<User[]>();
     const [nextPage, setNextPage] = useState<number>(0);
     const [size, setSize] = useState<number>(25);
     const [pagination, setPagination] = useState<Pagination>();
+    const [respMessage, setRespMessage] = useState<ToastMessage>();
     const [error, setError] = useState<Error>();
+
 
 
     useEffect(() => {
@@ -38,9 +46,18 @@ export const Users = () => {
         fetchData();
     }, [error, nextPage, size]);
 
+    useEffect(() => {
+        if(respMessage?.status === "success") {
+            toast.success(respMessage.message);
+        } else {
+            toast.error(respMessage?.message);
+        }
+    }, [respMessage]);
+
     if (!error) {
         return (
             <>
+                <ToastContainer autoClose={3000} transition={Zoom} />
                 <table className="table mt-3">
                     <thead className="table-dark">
                     <tr>
@@ -63,7 +80,7 @@ export const Users = () => {
                             <td>{user.userIp}</td>
                             <td>{user.userAvatar.imageName}</td>
                             <td>
-                                <UserActions enable={user.enable}/>
+                                <UserActions key={user.uuid} userEnable={user.enable} userUuid={user.uuid} userEmail={user.email} respMessage={setRespMessage}/>
                             </td>
                         </tr>
                     ))}

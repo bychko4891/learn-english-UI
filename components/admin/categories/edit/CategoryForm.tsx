@@ -131,7 +131,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
         } catch (error) {
             // setDisabled(false);
             // console.log("Server error: " + error)
-            toast.error("Помилка сервера!!!");
+            toast.error("toast.error(res.general);");
         }
     }
 

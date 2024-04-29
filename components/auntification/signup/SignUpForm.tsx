@@ -75,6 +75,7 @@ export const SignUpForm = () => {
         setNameError(res?.name || "");
         setEmailError(res?.email || "");
         setPasswordError(res?.password || "");
+
     }
 
 
