@@ -3,20 +3,16 @@
 import React, { useState } from "react";
 
 import { enableUserAPI } from "@/app/(protected)/admin/users/enableUserAPI";
+import { toast, ToastContainer, Zoom } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 type Props = {
     userEnable: boolean;
     userUuid: string;
     userEmail: string
-    respMessage:(value: ToastMessage) => void;
 }
 
-type ToastMessage = {
-    status: string;
-    message: string;
-}
-
-export const UserActions = ({ userEnable, userUuid, userEmail, respMessage }: Props) => {
+export const UserActions = ({ userEnable, userUuid, userEmail}: Props) => {
 
     const [checked, setChecked] = useState(userEnable);
 
@@ -25,19 +21,21 @@ export const UserActions = ({ userEnable, userUuid, userEmail, respMessage }: Pr
             const res = await enableUserAPI(checked, userUuid);
             if (res) {
                 setChecked(checked);
-                respMessage({status: "success", message: res.general + " для юзера: " + userEmail});
-                // toast.success(res.general);
+                // respMessage({status: "success", message: res.general + " для юзера: " + userEmail});
+                toast.success(res.general + " для юзера: " + userEmail);
             } else {
-                respMessage({status: "success", message:"Не передбачувана відповідь сервера!"});
+                toast.error("Не передбачувана відповідь сервера!");
             }
         } catch (error) {
-            respMessage({status: "success", message:"Помилка сервера!!!"});
+                toast.error("Помилка сервера!!!");
         }
     };
 
 
     return (
         <>
+
+            <ToastContainer containerId={userUuid} autoClose={3000} transition={Zoom} />
 
             <input
                 id={`toggleSwitch-${userUuid}`}

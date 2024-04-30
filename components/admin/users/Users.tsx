@@ -11,17 +11,12 @@ import {UserActions} from "@/components/admin/users/UserActions";
 import { toast, ToastContainer, Zoom } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-type ToastMessage = {
-    status: string;
-    message: string;
-}
 export const Users = () => {
 
     const [users, setUsers] = useState<User[]>();
     const [nextPage, setNextPage] = useState<number>(0);
     const [size, setSize] = useState<number>(25);
     const [pagination, setPagination] = useState<Pagination>();
-    const [respMessage, setRespMessage] = useState<ToastMessage>();
     const [error, setError] = useState<Error>();
 
 
@@ -46,13 +41,6 @@ export const Users = () => {
         fetchData();
     }, [error, nextPage, size]);
 
-    useEffect(() => {
-        if(respMessage?.status === "success") {
-            toast.success(respMessage.message);
-        } else {
-            toast.error(respMessage?.message);
-        }
-    }, [respMessage]);
 
     if (!error) {
         return (
@@ -80,7 +68,7 @@ export const Users = () => {
                             <td>{user.userIp}</td>
                             <td>{user.userAvatar.imageName}</td>
                             <td>
-                                <UserActions key={user.uuid} userEnable={user.enable} userUuid={user.uuid} userEmail={user.email} respMessage={setRespMessage}/>
+                                <UserActions key={user.uuid} userEnable={user.enable} userUuid={user.uuid} userEmail={user.email} />
                             </td>
                         </tr>
                     ))}
