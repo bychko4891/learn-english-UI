@@ -410,9 +410,19 @@ dl, ol, ul {
         width: 25% !important;
     }
 
+    .col-md-4 {
+        flex: 0 0 auto;
+        width: 33.33333333%
+    }
+
     .col-md-5 {
         flex: 0 0 auto;
         width: 41.66666667%
+    }
+
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%
     }
 
     .col-md-8 {
@@ -425,10 +435,7 @@ dl, ol, ul {
         width: 75%
     }
 
-    /*    .col-md-6 {*/
-    /*        flex: 0 0 auto;*/
-    /*        width: 50%*/
-    /*    }*/
+
 }
 
 table {

@@ -49,8 +49,6 @@ export default async function ApplicationPage({params: {url}}: Props) {
             <div className="app-content-area">
                 <div className="main-content p-3 w-95">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
-                    {/*<>*/}
-                    {/*{content &&*/}
                     <div className="d-flex flex-column align-items-center">
                         {content && content.image.imageName &&
                             <Image src={'/api/webimg/' + content.image.imageName} alt={page.h1} width={910}
