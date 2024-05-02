@@ -24,6 +24,7 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {dictionaryPageResp: En
     const [wordError, setWordError] = useState<string>();
 
     const [textContent, setTextContent] = useState<string>(dictionaryPage.description);
+    const [partOfSpeech, setPartOfSpeech] = useState<string>(dictionaryPage.partOfSpeech);
     const [tagTitle, setTagTitle] = useState(dictionaryPage.htmlTagTitle || "");
     const [tagDescription, setTagDescription] = useState(dictionaryPage.htmlTagDescription || "");
     const [published, setPublished] = useState(dictionaryPage.published);
@@ -131,6 +132,7 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {dictionaryPageResp: En
             const dictionaryPage = {
                 uuid: uuid,
                 description: textContent,
+                partOfSpeech: partOfSpeech,
                 htmlTagDescription: tagDescription,
                 htmlTagTitle: tagTitle,
                 published: published,
@@ -184,7 +186,11 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {dictionaryPageResp: En
                 <form id="form" className=" d-flex flex-row mt-3" onSubmit={handleSubmit}>
 
                     <div className="col-md-9 col-12">
-                        <TinyMCEEditor onContentChange={handleContentChange} initialValue={textContent}/>
+                        <label>Частка мови</label>
+                        <TinyMCEEditor onContentChange={setPartOfSpeech} initialValue={partOfSpeech} height={"500px"} id={"1"}/>
+                        <br/>
+                        <label>Приклади з перекладом</label>
+                        <TinyMCEEditor onContentChange={handleContentChange} initialValue={textContent} height={"500px"} id={"2"}/>
                     </div>
 
                     <div className="col-md-3 col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">

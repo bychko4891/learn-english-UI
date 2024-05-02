@@ -6,7 +6,6 @@ import {fetchWithToken} from "@/app/fetchWithToken";
 
 
 export async function getWordsBySearchAPI(searchTerm: string) {
-console.log("/admin/word/search:  "+searchTerm)
 
     try {
         const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/word/search?searchTerm=' + searchTerm, {

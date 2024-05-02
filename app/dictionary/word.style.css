@@ -1,44 +1,22 @@
-.search__container {
-    /*padding-left: 5vw;*/
-    max-width: 30vw;
+.span-color__highlight {
+    color: var(--dashui-indigo);
 }
 
-.search__input {
-    width: 100%;
-    padding: 10px 15px;
-    background-color: transparent;
-    /*transition: transform 250ms ease-in-out;*/
-    font-size: 14px;
-    line-height: 18px;
-    color: wheat;
-    /*background: transparent;*/
-    background-image: url("/images/search.svg");
-    background-repeat: no-repeat;
-    background-size: 18px 18px;
-    background-position: 95% center;
-    border-radius: 50px;
-    border: 1px solid wheat;
-    transition: all 250ms ease-in-out;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-    margin-bottom: 20px;
+.word-page span {
+    font-size: 1.1875rem;
 }
 
-.search__input::placeholder {
-    color: rgba(245, 222, 179, 0.8);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+.word-page-img {
+    position: relative;
+    /*bottom: 60px;*/
 }
 
-.search__input:hover,
-.search__input:focus {
-    /*padding: 12px 0;*/
-    outline: 0;
-    border: 1px solid transparent;
-    border-bottom: 1px solid wheat;
-    border-radius: 0;
-    background-position: 100% center;
+.word-page-img img{
+    max-width: 100%;
+    height: auto;
 }
+
+
 
 .w-top-content div:nth-child(1){
     order: 1;
@@ -50,14 +28,20 @@
 
 
 @media (min-width: 320px) {
-    .w-top-content div:nth-child(1) {
-        order: 2;
-    }
-    .w-top-content div:nth-child(2) {
-        order: 1;
+
+    .search__container {
+        max-width: 100%;
     }
 
-}@media (max-width: 768px) {
+    .word-page-img {
+        top: 0;
+    }
+
+    .col-md-5-custom {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
     .w-top-content div:nth-child(1) {
         order: 2;
     }
@@ -66,7 +50,50 @@
     }
 
 }
-@media (min-width: 768.1px) {
+@media (max-width: 768px) {
+
+
+
+    .col-md-5-custom {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    .w-top-content div:nth-child(1) {
+        order: 2;
+    }
+    .w-top-content div:nth-child(2) {
+        order: 1;
+    }
+
+}
+
+
+@media (min-width: 1400px) {
+
+    .col-md-5-custom {
+        flex: 0 0 auto;
+        width: 41.66666667%;
+    }
+}
+@media (min-width: 1700px) {
+
+    .col-md-5-custom {
+        flex: 0 0 auto;
+        width: 41.66666667%;
+    }
+}
+
+@media (min-width: 768.01px) {
+
+    .search__container {
+        max-width: 46%;
+    }
+
+    .word-page-img {
+        top: -60px;
+    }
+
     .w-top-content div:nth-child(1) {
         order: 1;
     }

@@ -119,6 +119,7 @@ export interface DictionaryPage {
     uuid: string;
     name: string;
     description: string;
+    partOfSpeech: string;
     htmlTagDescription: string;
     htmlTagTitle: string;
     published: boolean;

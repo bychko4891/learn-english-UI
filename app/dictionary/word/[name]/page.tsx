@@ -4,6 +4,7 @@ import Image from "next/image";
 import "../../word.style.css";
 import {AudiPlayerMini} from "@/components/audioPlayers/AudiPlayerMini";
 import React from "react";
+import {SearchWords} from "@/components/search/SearchWords";
 
 type Props = {
     params: {
@@ -34,7 +35,7 @@ export default async function Word({params: {name}}: Props) {
 
     if (dictionaryPage) {
 
-    const createMarkup = () => ({__html: dictionaryPage.description});
+    const createMarkup = (text: string) => ({__html: text});
 
         const breadcrumbNavigation = {
             href: "/dictionary",
@@ -43,14 +44,12 @@ export default async function Word({params: {name}}: Props) {
 
         return (
             <div className="app-content-area">
-                <div className="main-content p-3 w-95">
+                <div className="main-content p-3 w-95 word-page">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
-                    <div className="d-flex flex-column">
-                        <div className="search__container">
-                            <input className="search__input" type="text" placeholder="Пошук..." id="searchInput"/>
-                            <div id="searchResults"></div>
-                        </div>
-                        <div className="row col-12 w-top-content">
+                    {/*<div className="d-flex flex-column">*/}
+                    <div className="d-flex flex-column align-items-center">
+                        <SearchWords />
+                        <div className="row col-12 w-top-content mt-3">
                             <div className="col-md-6 col-12">
                                 <div className="d-flex flex-row gap-4">
                                     <button className="" style={{height:35, width: 35, borderRadius: 10}}>+</button>
@@ -58,12 +57,13 @@ export default async function Word({params: {name}}: Props) {
 
                                 </div>
                                 <div className="text-start">
-                                    <p>Переклад: {dictionaryPage.word.translate}</p>
+                                    <span>Переклад: </span>
+                                    <span className="span-color__highlight" style={{fontStyle: "italic"}}>{dictionaryPage.word.translate}</span>
                                 </div>
                                 <div className="row col-12">
-                                    <div className="d-flex flex-column col-md-5 col-12" style={{border: "1px solid", borderRadius: 10, margin: 5, padding: 10}}>
+                                    <div className="d-flex flex-column col-md-5-custom col-12" style={{border: "1px solid", borderRadius: 10, margin: 5, padding: 10}}>
                                         <div className="d-flex flex-row align-items-center gap-4">
-                                            <span>Американське аудіо: </span>
+                                            <span style={{fontStyle: "italic"}}>Американське аудіо: </span>
                                             {!!dictionaryPage.word.audio.usaAudioName &&
                                                 <AudiPlayerMini
                                                     audioSource={'/api/audio/' + dictionaryPage.word.audio.usaAudioName}
@@ -71,13 +71,13 @@ export default async function Word({params: {name}}: Props) {
                                         </div>
                                         <div className="me-auto">
                                             <span>Транскрипція: </span>
-                                            <span>{dictionaryPage.word.usaTranscription}</span>
+                                            <span className="span-color__highlight">{dictionaryPage.word.usaTranscription}</span>
                                         </div>
 
                                     </div>
-                                    <div className="d-flex flex-column col-md-5 col-12" style={{border: "1px solid", borderRadius: 10, margin: 5, padding: 10}}>
+                                    <div className="d-flex flex-column col-md-5-custom col-12" style={{border: "1px solid", borderRadius: 10, margin: 5, padding: 10}}>
                                         <div className="d-flex flex-row align-items-center gap-4">
-                                            <span>Британське аудіо: </span>
+                                            <span style={{fontStyle: "italic"}}>Британське аудіо: </span>
                                             {!!dictionaryPage.word.audio.brAudioName &&
                                                 <AudiPlayerMini
                                                     audioSource={'/api/audio/' + dictionaryPage.word.audio.brAudioName}
@@ -85,7 +85,7 @@ export default async function Word({params: {name}}: Props) {
                                         </div>
                                         <div className="me-auto">
                                             <span>Транскрипція: </span>
-                                            <span>{dictionaryPage.word.usaTranscription}</span>
+                                            <span style={{color: "#349bf4"}}>{dictionaryPage.word.usaTranscription}</span>
                                         </div>
 
                                     </div>
@@ -95,20 +95,19 @@ export default async function Word({params: {name}}: Props) {
 
 
                             </div>
-                            <div className="col-md-4 col-12 ms-auto" style={{position: "relative", bottom: 60}}>
+                            <div className="col-md-5 col-12 ms-auto word-page-img">
                                 <Image src={'/api/word-img/' + dictionaryPage.image.imageName} alt={dictionaryPage.name}
                                        width={270} height={270} style={{borderRadius: 20}}/>
                             </div>
-
                         </div>
-                        {/*<h1>Слова категорії {dictionaryPages.length > 0 && dictionaryPages[0].category.name}</h1>*/}
-                        <>
-                            {/*<b>{dictionaryPage.name}</b>*/}
-                            {/*<b> - </b>*/}
-                            {/*<span>{dictionaryPage.word.translate}</span>*/}
-
-
-                        </>
+                        <div className="row col-12 border-lr">
+                            <div className="col-md-6 col-12">
+                                <div dangerouslySetInnerHTML={createMarkup(dictionaryPage.partOfSpeech)} className=""/>
+                            </div>
+                            <div className="col-md-6 col-12">
+                                <div dangerouslySetInnerHTML={createMarkup(dictionaryPage.description)} className=""/>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

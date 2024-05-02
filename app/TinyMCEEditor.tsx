@@ -7,9 +7,15 @@ import {Editor} from '@tinymce/tinymce-react';
 interface TinyMCEEditorProps {
     onContentChange: (content: string) => void;
     initialValue?: string;
+    height?: string;
+    id?: string;
 }
 
-export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, initialValue}) => {
+export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, initialValue, height, id}) => {
+
+    const editorHeight = height ? height : "calc(100vh - 200px)"
+    const editorId = id ? id : "5712"
+
     const editorRef = useRef<any>(null);
     const [content, setContent] = useState<string>(initialValue || ""); // Встановлюємо початковий вміст
 
@@ -24,9 +30,9 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
             <Editor apiKey="j8dxs8puyiugoamq11vn3bctaonh1jhzvd0cewcb1jiyl2c6"
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     initialValue={initialValue}
-                    id="5712"
+                    id={editorId}
                     init={{
-                        height: "calc(100vh - 200px)",
+                        height: editorHeight,
                         width: "100%",
                         min_width: 800,
                         menubar: true,
