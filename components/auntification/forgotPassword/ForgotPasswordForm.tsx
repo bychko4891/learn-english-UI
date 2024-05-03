@@ -113,7 +113,7 @@ export const ForgotPasswordForm = () => {
                     </div>
 
                     <div className="d-flex flex-column align-items-center">
-                        <div className="col-md-6 row">
+                        <div className="row">
                             <div className="row captcha-block">
                                 <div className="captcha">{numbers.number1}</div>
                                 <div className="captcha">+</div>

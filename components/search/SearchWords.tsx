@@ -40,7 +40,7 @@ export const SearchWords = () => {
     }, []);
 
     return (
-        <div className="search__container col-12 me-auto">
+        <div className="search__container">
             <input className="search__input" type="search" placeholder="Пошук слова..." value={search}
                    onChange={(event) => setSearch(event.target.value)}/>
             {suggestions && suggestions.length > 0 ? (

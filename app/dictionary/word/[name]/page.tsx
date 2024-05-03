@@ -46,22 +46,22 @@ export default async function Word({params: {name}}: Props) {
             <div className="app-content-area">
                 <div className="main-content p-3 w-95 word-page">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
-                    {/*<div className="d-flex flex-column">*/}
                     <div className="d-flex flex-column align-items-center">
-                        <SearchWords />
+                        <div className="col-md-6 col-12 me-auto">
+                            <SearchWords />
+                        </div>
                         <div className="row col-12 w-top-content mt-3">
-                            <div className="col-md-6 col-12">
+                            <div className="col-md-6 col-12 me-auto">
                                 <div className="d-flex flex-row gap-4">
                                     <button className="" style={{height:35, width: 35, borderRadius: 10}}>+</button>
-                                    <h1 style={{color: "#2dc26b"}}>{dictionaryPage.name}</h1>
-
+                                    <h1>{dictionaryPage.name}</h1>
                                 </div>
                                 <div className="text-start">
                                     <span>Переклад: </span>
                                     <span className="span-color__highlight" style={{fontStyle: "italic"}}>{dictionaryPage.word.translate}</span>
                                 </div>
                                 <div className="row col-12">
-                                    <div className="d-flex flex-column col-md-5-custom col-12" style={{border: "1px solid", borderRadius: 10, margin: 5, padding: 10}}>
+                                    <div className="d-flex flex-column col-md-5-custom col-12 audio-container">
                                         <div className="d-flex flex-row align-items-center gap-4">
                                             <span style={{fontStyle: "italic"}}>Американське аудіо: </span>
                                             {!!dictionaryPage.word.audio.usaAudioName &&
@@ -75,7 +75,7 @@ export default async function Word({params: {name}}: Props) {
                                         </div>
 
                                     </div>
-                                    <div className="d-flex flex-column col-md-5-custom col-12" style={{border: "1px solid", borderRadius: 10, margin: 5, padding: 10}}>
+                                    <div className="d-flex flex-column col-md-5-custom col-12 audio-container">
                                         <div className="d-flex flex-row align-items-center gap-4">
                                             <span style={{fontStyle: "italic"}}>Британське аудіо: </span>
                                             {!!dictionaryPage.word.audio.brAudioName &&
@@ -87,12 +87,8 @@ export default async function Word({params: {name}}: Props) {
                                             <span>Транскрипція: </span>
                                             <span style={{color: "#349bf4"}}>{dictionaryPage.word.usaTranscription}</span>
                                         </div>
-
                                     </div>
-
-
                                 </div>
-
 
                             </div>
                             <div className="col-md-5 col-12 ms-auto word-page-img">

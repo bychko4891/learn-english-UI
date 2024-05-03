@@ -1,6 +1,7 @@
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";
 import {getWords} from "@/app/dictionary/category/words/[uuid]/getWords";
+import {SearchWords} from "@/components/search/SearchWords";
 
 type Props = {
     params: {
@@ -24,6 +25,9 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                 <div className="main-content p-3 w-95">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
                     <div className="d-flex flex-column">
+                        <div className="col-md-6 col-12">
+                            <SearchWords />
+                        </div>
                         <h1>Слова з категорії {dictionaryPages.length > 0 && dictionaryPages[0].category.name}</h1>
                         {dictionaryPages.length > 0 && dictionaryPages.map(dictionaryPage => (
                             <>

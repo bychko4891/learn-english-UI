@@ -5,6 +5,9 @@
 .word-page span {
     font-size: 1.1875rem;
 }
+.word-page h1 {
+    color: #2dc26b;
+}
 
 .word-page-img {
     position: relative;
@@ -16,7 +19,12 @@
     height: auto;
 }
 
-
+.audio-container {
+    border: 1px solid;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 10px;
+}
 
 .w-top-content div:nth-child(1){
     order: 1;
@@ -28,10 +36,6 @@
 
 
 @media (min-width: 320px) {
-
-    .search__container {
-        max-width: 100%;
-    }
 
     .word-page-img {
         top: 0;
@@ -85,10 +89,6 @@
 }
 
 @media (min-width: 768.01px) {
-
-    .search__container {
-        max-width: 46%;
-    }
 
     .word-page-img {
         top: -60px;

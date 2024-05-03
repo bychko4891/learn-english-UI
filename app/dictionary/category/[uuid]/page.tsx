@@ -3,6 +3,8 @@ import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";
 import Image from "next/image";
 import {NoContent} from "@/components/noContent/NoContent";
+import {SearchWords} from "@/components/search/SearchWords";
+import React from "react";
 
 type Props = {
     params: {
@@ -50,6 +52,9 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                 <div className="main-content p-3 w-95">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
                     <div className="d-flex flex-column">
+                        <div className="col-md-6 col-12">
+                            <SearchWords/>
+                        </div>
                         {subcategories && subcategories.length > 0 && subcategories.map(category => (
                             <div key={category.uuid} className="me-auto row align-items-center">
                                 <b>{category.name} - </b>
