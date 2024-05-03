@@ -55,6 +55,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                         <div className="col-md-6 col-12">
                             <SearchWords/>
                         </div>
+                        <h1>{categoryResp.category.name}</h1>
                         {subcategories && subcategories.length > 0 && subcategories.map(category => (
                             <div key={category.uuid} className="me-auto row align-items-center">
                                 <b>{category.name} - </b>
@@ -64,15 +65,12 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                                             className="sub-cat">{subcategory.name}</span></Link>
                                     </div>
                                 ))}
-
                             </div>
                         ))}
 
                         {categoryResp.articles && categoryResp.articles.length > 0 &&
                             <>
-
                                 <h1>{categoryResp.articles[0].category.name}</h1>
-
 
                                 {categoryResp.articles.map(article => (
 
