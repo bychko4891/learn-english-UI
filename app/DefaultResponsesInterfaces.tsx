@@ -129,6 +129,24 @@ export interface DictionaryPage {
     category: Category;
 }
 
+export interface WordLesson {
+    id: number;
+    uuid: string;
+    name: string;
+    description: string;
+    sortOrder: number;
+    category: Category;
+    cards: WordLessonCard[];
+}
+
+export interface WordLessonCard {
+    id: number;
+    uuid: string
+    description: string;
+    dictionaryPage: DictionaryPage;
+    sortOrder: number;
+}
+
 export interface Pagination {
     totalPages: number;
     currentPage: number;

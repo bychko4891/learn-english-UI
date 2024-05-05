@@ -59,6 +59,14 @@
     align-items: center !important
 }
 
+.ms-1 {
+    margin-left: .25rem !important
+}
+
+.ms-2 {
+    margin-left: .5rem !important
+}
+
 .ms-3 {
     margin-left: 1rem !important
 }
@@ -123,6 +131,10 @@
 
 .fs-4 {
     font-size: calc(1.275rem + .3vw) !important
+}
+
+.h-auto {
+    height: auto !important
 }
 
 @media (min-width: 1200px) {
@@ -377,6 +389,9 @@ dl, ol, ul {
     width: 40% !important
 }
 
+.w-85 {
+    width: 85% !important
+}
 .w-95 {
     width: 95% !important
 }
@@ -425,6 +440,11 @@ dl, ol, ul {
         width: 50%
     }
 
+    .col-md-7 {
+        flex: 0 0 auto;
+        width: 58.33333333%
+    }
+
     .col-md-8 {
         flex: 0 0 auto;
         width: 66.66666667%
@@ -435,6 +455,20 @@ dl, ol, ul {
         width: 75%
     }
 
+    .col-md-10 {
+        flex: 0 0 auto;
+        width: 83.33333333%
+    }
+
+    .col-md-11 {
+        flex: 0 0 auto;
+        width: 91.66666667%
+    }
+
+    .col-md-12 {
+        flex: 0 0 auto;
+        width: 100%
+    }
 
 }
 

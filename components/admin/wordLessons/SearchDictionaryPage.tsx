@@ -2,20 +2,23 @@
 
 import {useEffect, useState} from "react";
 import {getWordsBySearchAPI} from "@/app/(protected)/admin/dictionary-pages/dictionary-page/[uuid]/getWordsBySearchAPI";
-import {Word} from "@/app/DefaultResponsesInterfaces";
+import {DictionaryPage, Word} from "@/app/DefaultResponsesInterfaces";
+import {
+    getDictionaryPagesBySearchAPI
+} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getDictionaryPagesBySearchAPI";
 
 type Props = {
-    onSearch: (value: Word[]) => void;
+    onSearch: (value: DictionaryPage[]) => void;
 }
-export const SearchWord = ({onSearch}: Props) => {
+export const SearchDictionaryPage = ({onSearch}: Props) => {
 
     const [search, setSearch] = useState("");
 
     useEffect(() => {
         if (search.length > 0) {
             const searchWords = async () => {
-                const words = await getWordsBySearchAPI(search);
-                onSearch(words || []);
+                const dictionaryPages = await getDictionaryPagesBySearchAPI(search);
+                onSearch(dictionaryPages || []);
             }
             searchWords();
         }
@@ -31,7 +34,7 @@ export const SearchWord = ({onSearch}: Props) => {
 
     return (
         // <form onSubmit={handleSubmit}>
-        <input type="search" placeholder="пошук слова..." value={search} onChange={(event) => setSearch(event.target.value)} style={{position: "relative"}}/>
+        <input type="search" placeholder="пошук слова..." value={search} onChange={(event) => setSearch(event.target.value)}/>
         // <button type="submit">Search</button>
         // </form>
     );

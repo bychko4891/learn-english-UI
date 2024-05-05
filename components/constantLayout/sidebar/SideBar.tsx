@@ -8,7 +8,7 @@ export const SideBar = () => {
     const navItemsUser = [
         {label: "Головна", href: "/", imageName: "home.svg"},
         {label: "Вправи по фразам", href:"#", imageName: "lesson.svg"},
-        {label: "Вправи по словам", href:"#", imageName: "word-card.svg"},
+        {label: "Вправи по словам", href:"/word-lessons", imageName: "word-card.svg"},
         {label: "Словник", href:"/dictionary", imageName: "dictionary.svg"},
         {label: "Міні історії", href:"/mini-stories", imageName: "mini-stories.svg"},
         {label: "Про нас", href:"/about", imageName: "info.svg"},
@@ -18,7 +18,8 @@ export const SideBar = () => {
 
     const navItemsAdmin = [
         {label: "Юзери", href: "/admin/users", imageName: "users.svg"},
-        {label: "Заняття", href:"#", imageName: "lessons.svg"},
+        {label: "Заняття по словам", href:"/admin/word-lessons", imageName: "lessons.svg"},
+        {label: "Заняття по фразам", href:"#", imageName: "lessons.svg"},
         {label: "Сторінки додатка", href:"/admin/app-pages", imageName: "pages.svg"},
         {label: "Категорії", href:"/admin/categories", imageName: "category.svg"},
         {label: "Міні історії", href:"/mini-stories", imageName: "mini-stories.svg"},
