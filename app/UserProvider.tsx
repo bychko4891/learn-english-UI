@@ -31,14 +31,14 @@ export const UserProvider = ({children}: { children: ReactNode }) => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
-        }
-        const userApi = async () => {
-            const user = await getUserAPI();
-            if (user) {
-                setUser(user);
+        } else {
+            const userApi = async () => {
+                const user = await getUserAPI();
+                if (user) {
+                    setUser(user);
+                }
             }
         }
-
         // setUser(null);
 
     }, []);

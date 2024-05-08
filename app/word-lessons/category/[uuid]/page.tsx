@@ -5,6 +5,8 @@ import Image from "next/image";
 import {NoContent} from "@/components/noContent/NoContent";
 import {SearchWords} from "@/components/search/SearchWords";
 import React from "react";
+import {geCategoryToWordLesson} from "@/app/word-lessons/category/[uuid]/geCategoryToWordLesson";
+import {WordLessonCategoryCart} from "@/components/word-lesson/WordLessonCategoryCart";
 
 type Props = {
     params: {
@@ -13,7 +15,6 @@ type Props = {
 }
 
 export async function generateMetadata({params: {uuid}}: Props) {
-
     const categoryResp = await getCategoryToDictionary(uuid);
     if (categoryResp) {
         return {
@@ -22,20 +23,18 @@ export async function generateMetadata({params: {uuid}}: Props) {
         }
     }
     return {
-        title: "",
-        description: ""
+        title: "Learn English",
+        description: "Learn English"
     }
 }
 
-export default async function DictionaryCategories({params: {uuid}}: Props) {
+export default async function WordLessonCategories({params: {uuid}}: Props) {
 
-    const categoryResp = await getCategoryToDictionary(uuid);
+    const categoryResp = await geCategoryToWordLesson(uuid);
 
     if (categoryResp) {
 
         const subcategories = categoryResp.category.subcategories;
-
-        const articles = categoryResp.t;
 
         const getDescriptionWithEllipsis = (text: string) => {
             if (text.length > 300) {
@@ -54,28 +53,20 @@ export default async function DictionaryCategories({params: {uuid}}: Props) {
             <div className="app-content-area">
                 <div className="main-content p-3 w-95">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
-                    <div className="d-flex flex-column">
-                        <div className="col-md-6 col-12">
-                            <SearchWords/>
-                        </div>
+                    <div className="d-flex flex-column align-items-center">
                         <h1>{categoryResp.category.name}</h1>
-                        {subcategories && subcategories.length > 0 && subcategories.map(category => (
-                            <div key={category.uuid} className="me-auto row align-items-center">
-                                <b>{category.name} - </b>
-                                {category.subcategories && category.subcategories.length > 0 && category.subcategories.map(subcategory => (
-                                    <div key={subcategory.uuid}>
-                                        <Link href={'/dictionary/category/words/' + subcategory.uuid}><span
-                                            className="sub-cat">{subcategory.name}</span></Link>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-
-                        {articles && articles.length > 0 &&
+                        <div className="row col-12">
+                            {subcategories && subcategories.length > 0 && subcategories.map(category => (
+                                <div key={category.uuid} className="col-md-6 col-12" style={{border: "1px solid", borderRadius: 20}}>
+                                    <WordLessonCategoryCart category={category} />
+                                </div>
+                            ))}
+                        </div>
+                        {categoryResp.t && categoryResp.t.length > 0 &&
                             <>
-                                <h1>{articles[0].category.name}</h1>
+                                <h1>{categoryResp.t[0].category.name}</h1>
 
-                                {articles.map(article => (
+                                {categoryResp.t.map(article => (
 
                                     <div key={article.uuid} className="row me-auto col-12"
                                          style={{marginBottom: 20, border: "1px solid", borderRadius: 20, padding: 10}}>
@@ -103,7 +94,7 @@ export default async function DictionaryCategories({params: {uuid}}: Props) {
                             </>
                         }
 
-                        {(!subcategories || subcategories.length === 0) && (!articles || articles.length === 0) &&
+                        {(!subcategories || subcategories.length === 0) && (!categoryResp.articles || categoryResp.articles.length === 0) &&
                             <>
                                 <NoContent/>
                             </>

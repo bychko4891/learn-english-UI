@@ -1,11 +1,12 @@
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
-import {getDictionaryPageMainCategories} from "@/app/dictionary/getDictionaryPageMainCategories";
 import {getAppPageByUrl} from "@/app/[url]/getAppPageByUrl";
 import Image from "next/image";
 import Link from "next/link";
+import {getWordLessonsCategories} from "@/app/word-lessons/getWordLessonsCategories";
 
 export async function generateMetadata() {
-    const page = await getAppPageByUrl("dictionary");
+
+    const page = await getAppPageByUrl("lesson-words");
     if (page) {
         return {
             title: page.htmlTagTitle,
@@ -25,7 +26,7 @@ export default async function VocabularyMainCategories() {
         name: "Англо-український словник"
     }
 
-    const categories = await getDictionaryPageMainCategories();
+    const categories = await getWordLessonsCategories();
 
 
 
@@ -44,14 +45,14 @@ export default async function VocabularyMainCategories() {
                             </div>
                             }
                             <div className="d-flex flex-column col-md-9 col-12 align-items-start">
-                                <Link href={'/dictionary/category/' + category.uuid} >
+                                <Link href={'/word-lessons/category/' + category.uuid} >
                                     <h3 className="h3__link">{category.name}</h3>
                                 </Link>
                                 <div className="border-lr w-100 mb-3">
                                     <span dangerouslySetInnerHTML={{__html: (category.description)}}/>
 
                                 </div>
-                                <Link href={'/dictionary/category/' + category.uuid} className="custom-btn ms-auto mt-auto">Перейти</Link>
+                                <Link href={'/word-lessons/category/' + category.uuid} className="custom-btn ms-auto mt-auto">Перейти</Link>
                             </div>
                         </div>
                     ))}

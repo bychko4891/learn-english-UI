@@ -1,7 +1,7 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {DictionaryPage, EntityAndMainCategoriesResp, WordLesson} from "@/app/DefaultResponsesInterfaces";
+import {EntityAndMainCategoriesResp, WordLesson} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 
@@ -11,7 +11,7 @@ export async function getWordLessonAPI(uuid: string) {
     try {
         const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/word-lesson/' + uuid, {
             method: 'GET',
-
+            cache: 'no-store',
         });
 
 

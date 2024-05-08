@@ -1,11 +1,7 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
-import { stringify, parse } from 'flatted';
-import {number} from "prop-types";
-import {OneCategory} from "@/components/admin/categories/OneCategory";
-import {CategoryResponse} from "@/app/DefaultResponsesInterfaces";
+import {Category, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 
@@ -23,7 +19,7 @@ export async function getCategoryAPI(uuid: string) {
         }
 
 
-        return (await response.json()) as CategoryResponse;
+        return (await response.json()) as CategoryResponse<Category>;
     } catch (error) {
         // console.error('Error fetching get data Category to  Admin page:', error);
         return undefined;

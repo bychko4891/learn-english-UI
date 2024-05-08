@@ -60,7 +60,6 @@ export const WordLessons = () => {
                             <td>{wordLesson.name}</td>
                             <td>{wordLesson.description}</td>
                             <td>{wordLesson.category ? wordLesson.category.name : "Відсутня"}</td>
-                            <td>{wordLesson.category ? wordLesson.category.name : "Відсутня"}</td>
                             <td>
                                 <Link href={'/admin/word-lessons/word-lesson/' + wordLesson.uuid}>
                                     <div className="br-g edit-link">

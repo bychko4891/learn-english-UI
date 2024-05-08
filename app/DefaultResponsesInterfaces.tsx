@@ -21,8 +21,10 @@ export interface ResponseMessages {
 
 export interface Category {
     uuid: string;
+    sortOrder: number;
     name: string;
     description: string;
+    miniDescription: string;
     htmlTagTitle: string;
     htmlTagDescription: string;
     mainCategory: boolean;
@@ -55,10 +57,11 @@ export interface EntityAndMainCategoriesResp <T>{
     mainCategories: Category[];
 }
 
-export interface CategoryResponse {
+export interface CategoryResponse <T> {
     category: Category
     mainCategories: Category[];
-    articles: Article[];
+    t: T[];
+    // articles: Article[];
 }
 
 export interface AppPageContent {

@@ -2,12 +2,13 @@
 
 import React, {FormEvent, useState} from "react";
 import {Category, EntityAndMainCategoriesResp, WordLesson, WordLessonCard} from "@/app/DefaultResponsesInterfaces";
-import {ToastContainer, Zoom} from "react-toastify";
+import {toast, ToastContainer, Zoom} from "react-toastify";
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import {ReactSVG} from "react-svg";
 import "./word-lesson.style.css"
 import {WordLessonCardEdit} from "@/components/admin/wordLessons/WordLessonCardEdit";
 import {v4 as uuidv4} from 'uuid';
+import {saveWordLessonAPI} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/saveWordLessonAPI";
 
 export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMainCategoriesResp<WordLesson> }) => {
 
@@ -16,7 +17,9 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
     const [uuid, setUuid] = useState(wordLesson.uuid);
     const [cards, setCards] = useState<WordLessonCard[]>(wordLesson.cards);
     const [name, setName] = useState(wordLesson.name);
+    const [nameError, setNameError] = useState("");
     const [description, setDescription] = useState(wordLesson.description);
+    const [descriptionError, setDescriptionError] = useState("");
     const [sortOrder, setSortOrder] = useState(wordLesson.sortOrder);
 
 
@@ -28,7 +31,11 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
 
 
     const handleNewCard = () => {
-        setCards(prevCards => prevCards.concat({uuid: uuidv4(), description: "enter description", sortOrder: 0} as WordLessonCard));
+        setCards(prevCards => prevCards.concat({
+            uuid: uuidv4(),
+            description: "enter description",
+            sortOrder: 0
+        } as WordLessonCard));
     }
 
 
@@ -64,38 +71,36 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-            const selectCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
+        const selectCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
 
-            const wordLesson = {
-                uuid: uuid,
-                name: name,
-                description: description,
-                sortOrder: sortOrder,
-                cards: cards,
-                category: selectCategory,
-            } as WordLesson;
-        //     var formData = new FormData;
-        //     formData.append('image', image as Blob);
-        //     formData.append('dictionaryPage', new Blob([JSON.stringify(dictionaryPage)], {type: 'application/json'}));
-        //     try {
-        //         const response = await saveDictionaryPageAPI(formData, uuid);
-        //         if (response?.status === 200) {
-        //             toast.success(response.general);
-        //             setDescriptionError("");
-        //             setTitleError("");
-        //             setWordError("");
-        //         }
-        //         if (response?.status === 400) {
-        //             setDescriptionError(response?.htmlTagDescription);
-        //             setTitleError(response?.htmlTagTitle);
-        //             setWordError(response?.general);
-        //             toast.error("Є помилки при введенні даних!");
-        //         }
-        //
-        //     } catch (error) {
-        //         toast.error("Помилка сервера!!!");
-        //
-        //     }
+        const wordLesson = {
+            uuid: uuid,
+            name: name,
+            description: description,
+            sortOrder: sortOrder,
+            cards: cards,
+            category: selectCategory,
+        } as WordLesson;
+
+        try {
+            const response = await saveWordLessonAPI(wordLesson, uuid);
+            //         if (response?.status === 200) {
+            //             toast.success(response.general);
+            //             setDescriptionError("");
+            //             setTitleError("");
+            //             setWordError("");
+            //         }
+            //         if (response?.status === 400) {
+            //             setDescriptionError(response?.htmlTagDescription);
+            //             setTitleError(response?.htmlTagTitle);
+            //             setWordError(response?.general);
+            //             toast.error("Є помилки при введенні даних!");
+            //         }
+            //
+        } catch (error) {
+            toast.error("Помилка сервера!!!");
+            //
+        }
 
     }
 
@@ -121,12 +126,11 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
         });
     }
 
-    console.log(JSON.stringify(cards));
     return (
         <>
             <ToastContainer autoClose={3000} transition={Zoom}/>
             <div className="d-flex justify-content-between top-admin-block">
-                <ButtonBack backURL="/admin/dictionary-pages"/>
+                <ButtonBack backURL="/admin/word-lessons"/>
                 <div className="center">
                     <h1>Редагування сторінки словника</h1>
                 </div>
@@ -143,14 +147,14 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
                         {cards && cards.length > 0 && cards.map(card =>
                             <div key={card.uuid} style={{padding: 5, margin: 5, border: "1px solid", borderRadius: 20}}>
                                 <WordLessonCardEdit card={card} updateCard={updateCard}>
-                                    <button type="button" onClick={() => deleteCard(card.uuid)}>X</button>
+                                    <button type="button" onClick={() => deleteCard(card.uuid)} className="b-curt-delete">X</button>
                                 </WordLessonCardEdit>
                             </div>
                         )}
                         <div className="d-flex new-wl-border">
                             <label className="me-auto">Додати нову картку до уроку: </label>
                             <button type="button" onClick={handleNewCard}>
-                                <ReactSVG src="/images/plus.svg"  className="back-arrow-color" />
+                                <ReactSVG src="/images/plus.svg" className="back-arrow-color"/>
                             </button>
                         </div>
                     </div>
@@ -166,14 +170,14 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
                         <div className="d-flex flex-column w-100" style={{height: 90}}>
                             <div className="d-flex flex-column">
                                 <label className="me-auto">Опис уроку: </label>
-                                <textarea  value={description} onChange={(e) => setDescription(e.target.value)}
-                                       style={{height: "auto"}}/>
+                                <textarea value={description} onChange={(e) => setDescription(e.target.value)}
+                                          style={{height: "auto"}}/>
                             </div>
                         </div>
                         <div className="d-flex flex-column w-100" style={{height: 90}}>
                             <div className="d-flex flex-column">
                                 <label className="me-auto">Порядок сортування: </label>
-                                <input type="number"  value={sortOrder} onChange={(e) => setSortOrder(+ e.target.value)} />
+                                <input type="number" value={sortOrder} onChange={(e) => setSortOrder(+e.target.value)}/>
                             </div>
                         </div>
                         <label>Категорія:
@@ -205,7 +209,7 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
                         </select>
 
                     </div>
-                    <input type="hidden" name="uuid" value={uuid} onChange={(e) => setUuid(e.target.value)}/>
+                    {/*<input type="hidden" name="uuid" value={uuid} onChange={(e) => setUuid(e.target.value)}/>*/}
                 </form>
             </div>
         </>

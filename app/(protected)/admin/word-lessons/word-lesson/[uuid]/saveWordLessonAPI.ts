@@ -1,19 +1,22 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {ResponseMessages} from "@/app/DefaultResponsesInterfaces";
+import {ResponseMessages, WordLesson} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 
-export async function saveWordLessonAPI(data:FormData, uuid: string) {
+export async function saveWordLessonAPI(data:WordLesson, uuid: string) {
 
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/word/' + uuid, {
-            method: 'PUT',
-            body: data,
+            const response = await fetchWithToken(`${env.SERVER_API_URL}/api/admin/word-lesson/${uuid}`, {
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
         });
 
-        // console.log(await response?.json())
+        console.log(await response?.json())
 
         if (response?.ok) {
             const message = (await  response.json()) as ResponseMessages;

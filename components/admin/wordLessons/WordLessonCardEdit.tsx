@@ -16,7 +16,7 @@ export const WordLessonCardEdit = ({card, children, updateCard}: Props) => {
     const [sortOrder, setSortOrder] = useState(card.sortOrder);
     const [description, setDescription] = useState(card.description);
     const [dictionaryPages, setDictionaryPages] = useState<DictionaryPage[]>();
-    const [dictionaryPage, setDictionaryPage] = useState<DictionaryPage>();
+    const [dictionaryPage, setDictionaryPage] = useState<DictionaryPage>(card.dictionaryPage);
     const [requiredFieldError, setRequiredFieldError] = useState("")
 
     useEffect(() => {
@@ -43,6 +43,8 @@ export const WordLessonCardEdit = ({card, children, updateCard}: Props) => {
 
     const handleClickDictionaryPageDelete = () => {
         setDictionaryPage(card.dictionaryPage);
+        setDictionaryPages([]);
+        setRequiredFieldError("");
     }
 
     return (
@@ -79,7 +81,7 @@ export const WordLessonCardEdit = ({card, children, updateCard}: Props) => {
                         <div className="needs"></div>
                         {dictionaryPage &&
                             <>
-                                <span className="ms-3">{dictionaryPage.name}</span>
+                                <span className="ms-3" style={{color: "#298ff8"}}>{dictionaryPage.name}</span>
                                 <button type="button" onClick={handleClickDictionaryPageDelete}
                                         className="delete__b ms-1">X
                                 </button>
@@ -91,7 +93,7 @@ export const WordLessonCardEdit = ({card, children, updateCard}: Props) => {
 
             </div>
             <div>
-                <button type="button" onClick={handleSave}>Save</button>
+                <button type="button" onClick={handleSave} className="b-curt-save">Save</button>
                 {children}
             </div>
 

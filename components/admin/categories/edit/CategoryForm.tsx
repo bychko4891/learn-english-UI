@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "../categories.style.css"
 
 
-export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryResponse }) => {
+export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryResponse<Category> }) => {
 
     const imgUrl = categoryResponse.category.image ? `/api/category-img/${categoryResponse.category.image.imageName}` : "";
 
@@ -23,6 +23,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
     const [tagDescription, setTagDescription] = useState(categoryResponse.category.htmlTagDescription || "");
     const [selectedPage, setSelectedPage] = useState("NO_PAGE");
     const [name, setName] = useState(categoryResponse.category.name);
+    const [sortOrder, setSortOrder] = useState(categoryResponse.category.sortOrder);
     const [uuid, setUuid] = useState(categoryResponse.category.uuid);
     const [image, setImage] = useState<File>();
     const [subCategories, setSubcategories] = useState<Category[]>();
@@ -103,6 +104,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
             description: textContent,
             htmlTagTitle: tagTitle,
             htmlTagDescription: tagDescription,
+            sortOrder: sortOrder,
             mainCategory: mainCategory,
             parentCategory: parentCategory,
             categoryPage: [selectedPage],
@@ -209,6 +211,13 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                                    name="showDescriptionInPage"
                                    onChange={(e) => setShowDescription(e.target.checked)}/>
                             <label htmlFor="toggleSwitch" className="toggle-switch-label"></label>
+                        </div>
+
+                        <div className="d-flex flex-column w-100" >
+                            <div className="d-flex flex-column">
+                                <label className="me-auto">Порядок сортування: </label>
+                                <input type="number" value={sortOrder} onChange={(e) => setSortOrder(+e.target.value)}/>
+                            </div>
                         </div>
 
                         <label>Батьківська категорія:

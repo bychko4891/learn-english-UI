@@ -22,3 +22,35 @@
 .new-wl-border button:hover {
     background: #622af1;
 }
+
+.b-curt-delete {
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+    border-color: red;
+    border-radius: 5px;
+    color: red;
+    margin: 0 5px;
+    transition: all .9s;
+}
+
+.b-curt-delete:hover {
+    color: white;
+    background: red;
+}
+
+.b-curt-save {
+    cursor: pointer;
+    width: 60px;
+    height: 20px;
+    border-color: green;
+    border-radius: 5px;
+    color: green;
+    margin: 0 5px;
+    transition: all .9s;
+}
+
+.b-curt-save:hover {
+    background: green;
+    color: white;
+}
