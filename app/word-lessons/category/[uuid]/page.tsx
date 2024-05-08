@@ -51,13 +51,16 @@ export default async function WordLessonCategories({params: {uuid}}: Props) {
 
         return (
             <div className="app-content-area">
-                <div className="main-content p-3 w-95">
+                <div className="main-content p-3 w-95 word-lesson">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
                     <div className="d-flex flex-column align-items-center">
                         <h1>{categoryResp.category.name}</h1>
-                        <div className="row col-12">
-                            {subcategories && subcategories.length > 0 && subcategories.map(category => (
-                                <div key={category.uuid} className="col-md-6 col-12" style={{border: "1px solid", borderRadius: 20}}>
+                        <div className="row col-12 justify-content-around gap-4">
+                            {subcategories && subcategories.length > 0 && subcategories
+                                .slice()
+                                .sort((a, b) => a.sortOrder - b.sortOrder)
+                                .map(category => (
+                                <div key={category.uuid} className="col-md-5 col-12" style={{border: "1px solid", borderRadius: 20}}>
                                     <WordLessonCategoryCart category={category} />
                                 </div>
                             ))}
@@ -66,35 +69,35 @@ export default async function WordLessonCategories({params: {uuid}}: Props) {
                             <>
                                 <h1>{categoryResp.t[0].category.name}</h1>
 
-                                {categoryResp.t.map(article => (
+                                {/*{categoryResp.t.map(article => (*/}
 
-                                    <div key={article.uuid} className="row me-auto col-12"
-                                         style={{marginBottom: 20, border: "1px solid", borderRadius: 20, padding: 10}}>
-                                        {article.image && article.image.imageName &&
-                                            <div className="col-md-3 col-12 c-img my-auto">
-                                                <Image unoptimized src={'/api/webimg/' + article.image.imageName} alt=""
-                                                       width={250}
-                                                       height={250} style={{borderRadius: 20}}/>
-                                            </div>
-                                        }
-                                        <div className="d-flex flex-column col-md-9 col-12 align-items-start">
-                                            <Link href={'/dictionary/category/article/' + article.uuid}>
-                                                <h3 className="h3__link">{article.h1}</h3>
-                                            </Link>
-                                            <div className="border-lr w-100 mb-3">
-                                                <span
-                                                    dangerouslySetInnerHTML={{__html: (getDescriptionWithEllipsis(article.description))}}/>
+                                {/*    <div key={article.uuid} className="row me-auto col-12"*/}
+                                {/*         style={{marginBottom: 20, border: "1px solid", borderRadius: 20, padding: 10}}>*/}
+                                {/*        {article.image && article.image.imageName &&*/}
+                                {/*            <div className="col-md-3 col-12 c-img my-auto">*/}
+                                {/*                <Image unoptimized src={'/api/webimg/' + article.image.imageName} alt=""*/}
+                                {/*                       width={250}*/}
+                                {/*                       height={250} style={{borderRadius: 20}}/>*/}
+                                {/*            </div>*/}
+                                {/*        }*/}
+                                {/*        <div className="d-flex flex-column col-md-9 col-12 align-items-start">*/}
+                                {/*            <Link href={'/dictionary/category/article/' + article.uuid}>*/}
+                                {/*                <h3 className="h3__link">{article.h1}</h3>*/}
+                                {/*            </Link>*/}
+                                {/*            <div className="border-lr w-100 mb-3">*/}
+                                {/*                <span*/}
+                                {/*                    dangerouslySetInnerHTML={{__html: (getDescriptionWithEllipsis(article.description))}}/>*/}
 
-                                            </div>
-                                            <Link href={'/dictionary/category/article/' + article.uuid}
-                                                  className="custom-btn ms-auto mt-auto">Перейти</Link>
-                                        </div>
-                                    </div>
-                                ))}
+                                {/*            </div>*/}
+                                {/*            <Link href={'/dictionary/category/article/' + article.uuid}*/}
+                                {/*                  className="custom-btn ms-auto mt-auto">Перейти</Link>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*))}*/}
                             </>
                         }
 
-                        {(!subcategories || subcategories.length === 0) && (!categoryResp.articles || categoryResp.articles.length === 0) &&
+                        {(!subcategories || subcategories.length === 0) && (!categoryResp.t || categoryResp.t.length === 0) &&
                             <>
                                 <NoContent/>
                             </>

@@ -2,7 +2,7 @@
 
 import "./categories.style.css";
 import {OneCategory} from "./OneCategory";
-import {CategoryCategories} from "@/components/admin/categories/CategoryCategories";
+import {CategoryAndSubcategories} from "@/components/admin/categories/CategoryAndSubcategories";
 import {Category} from "@/app/DefaultResponsesInterfaces";
 
 
@@ -13,8 +13,9 @@ export const Categories = ({category}: { category: Category }) => {
 
                 <li key={subcategory.uuid}>
                     {subcategory.subcategories && subcategory.subcategories.length > 0 ? (
-                        <CategoryCategories
+                        <CategoryAndSubcategories
                             categoryName={subcategory.name}
+                            sortOrder={subcategory.sortOrder}
                             categoryUuid={subcategory.uuid}
                             categories={<Categories category={subcategory}/>}
                         />

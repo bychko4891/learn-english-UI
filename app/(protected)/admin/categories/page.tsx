@@ -3,7 +3,7 @@
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import {ButtonNewEntity} from "@/components/admin/ButtonNewEntity";
 import {getCategoriesAPI} from "@/app/(protected)/admin/categories/getCategoriesAPI";
-import {CategoryCategories} from "@/components/admin/categories/CategoryCategories";
+import {CategoryAndSubcategories} from "@/components/admin/categories/CategoryAndSubcategories";
 import {Categories} from "@/components/admin/categories/Categories";
 import {OneCategory} from "@/components/admin/categories/OneCategory";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
@@ -30,7 +30,6 @@ import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHa
 
 export default async function CategoriesPage() {
 
-    // const categories = await getCategoriesAPI();
 
     const accessToken = await getJwtAccessToken();
     const resp = await fetch(env.SERVER_API_URL + '/api/admin/categories', {
@@ -63,8 +62,9 @@ export default async function CategoriesPage() {
                             <ul key={category.uuid} className="d-flex">
                                 {category.subcategories && category.subcategories.length > 0 ? (
                                     <li key={category.uuid}>
-                                        <CategoryCategories
+                                        <CategoryAndSubcategories
                                             key={category.uuid}
+                                            sortOrder={category.sortOrder}
                                             categoryName={category.name}
                                             categoryUuid={category.uuid}
                                             categories={<Categories category={category}/>}

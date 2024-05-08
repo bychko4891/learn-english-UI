@@ -136,6 +136,10 @@ li {
     box-sizing: border-box;
 }
 
+.span-color__highlight {
+    color: var(--dashui-indigo);
+}
+
 .filter-invert-white {
     filter: brightness(0) invert(1)
 }
@@ -435,6 +439,91 @@ b {
 }
 
 /* ****************************************  my style start  ******************************************************************** */
+
+.more-b {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+}
+.more-b.learn-more {
+    width: 9rem;
+    height: auto;
+}
+.more-b.learn-more .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--dashui-primary);
+    border-radius: 1.625rem;
+}
+.more-b.learn-more .circle .icon {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+}
+.more-b.learn-more .circle .icon.arrow {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    left: 0.425rem;
+    width: 1.125rem;
+    height: 0.125rem;
+    background: none;
+}
+.more-b.learn-more .circle .icon.arrow::before {
+    position: absolute;
+    content: "";
+    top: -0.25rem;
+    right: 0.0625rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-top: 0.125rem solid #fff;
+    border-right: 0.125rem solid #fff;
+    transform: rotate(45deg);
+}
+.more-b.learn-more .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0;
+    margin: 0 0 0 1.85rem;
+    color: var(--dashui-gray-900);
+    /*color: #282936;*/
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    text-transform: uppercase;
+}
+.more-b:hover .circle {
+    width: 100%;
+}
+.more-b:hover .circle .icon.arrow {
+    background: #fff;
+    transform: translate(1rem, 0);
+}
+.more-b:hover .button-text {
+    color: #fff;
+}
+
+.word-lesson h3,
+.dictionary h3 {
+    color: rgb(45, 194, 107);
+}
 
 .c-img img {
     max-width: 100%;

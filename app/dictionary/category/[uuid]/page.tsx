@@ -52,7 +52,7 @@ export default async function DictionaryCategories({params: {uuid}}: Props) {
 
         return (
             <div className="app-content-area">
-                <div className="main-content p-3 w-95">
+                <div className="main-content p-3 w-95 dictionary">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
                     <div className="d-flex flex-column">
                         <div className="col-md-6 col-12">
@@ -73,21 +73,21 @@ export default async function DictionaryCategories({params: {uuid}}: Props) {
 
                         {articles && articles.length > 0 &&
                             <>
-                                <h1>{articles[0].category.name}</h1>
+                                {/*<h1>{articles[0].category.name}</h1>*/}
 
                                 {articles.map(article => (
 
                                     <div key={article.uuid} className="row me-auto col-12"
                                          style={{marginBottom: 20, border: "1px solid", borderRadius: 20, padding: 10}}>
                                         {article.image && article.image.imageName &&
-                                            <div className="col-md-3 col-12 c-img my-auto">
+                                            <div className="col-md-2 col-12 c-img my-auto">
                                                 <Image unoptimized src={'/api/webimg/' + article.image.imageName} alt=""
                                                        width={250}
                                                        height={250} style={{borderRadius: 20}}/>
                                             </div>
                                         }
-                                        <div className="d-flex flex-column col-md-9 col-12 align-items-start">
-                                            <Link href={'/dictionary/category/article/' + article.uuid}>
+                                        <div className="d-flex flex-column col-md-10 col-12 align-items-start">
+                                            <Link href={'/dictionary/article/' + article.uuid}>
                                                 <h3 className="h3__link">{article.h1}</h3>
                                             </Link>
                                             <div className="border-lr w-100 mb-3">
@@ -95,8 +95,14 @@ export default async function DictionaryCategories({params: {uuid}}: Props) {
                                                     dangerouslySetInnerHTML={{__html: (getDescriptionWithEllipsis(article.description))}}/>
 
                                             </div>
-                                            <Link href={'/dictionary/category/article/' + article.uuid}
-                                                  className="custom-btn ms-auto mt-auto">Перейти</Link>
+                                            <Link href={'/dictionary/article/' + article.uuid} className="more-b learn-more ms-auto mt-auto">
+                                                <span className="circle" aria-hidden="true">
+                                                    <span className="icon arrow"></span>
+                                                </span>
+                                                <span className="button-text">більше...</span>
+                                            </Link>
+                                            {/*<Link href={'/dictionary/category/article/' + article.uuid}*/}
+                                            {/*      className="custom-btn ms-auto mt-auto">Перейти</Link>*/}
                                         </div>
                                     </div>
                                 ))}
@@ -108,7 +114,6 @@ export default async function DictionaryCategories({params: {uuid}}: Props) {
                                 <NoContent/>
                             </>
                         }
-
 
                     </div>
                 </div>

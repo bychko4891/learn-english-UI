@@ -15,7 +15,7 @@ type Props = {
 
 export default async function CategoryEditPage({params: {uuid}}: Props) {
 
-    const category = await getCategoryAPI(uuid) as CategoryResponse;
+    const category = await getCategoryAPI(uuid);
 
     if(category) {
         return (

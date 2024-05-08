@@ -4,7 +4,7 @@ import Link from "next/link";
 import {ReactNode, useState} from "react";
 import {ReactSVG} from "react-svg";
 
-export const CategoryCategories = ({categoryName, categoryUuid, categories}: {categoryName: string, categoryUuid: string, categories: ReactNode}) => {
+export const CategoryAndSubcategories = ({categoryName, sortOrder, categoryUuid, categories}: {categoryName: string, sortOrder: number, categoryUuid: string, categories: ReactNode}) => {
 
 
     const [isCategoryActive, setIsCategoryActive] = useState(false);
@@ -18,7 +18,9 @@ export const CategoryCategories = ({categoryName, categoryUuid, categories}: {ca
     return (
         <>
             <div className="d-flex">
-                <span>{categoryName}</span>
+                <span className="span-color__highlight">{categoryName}</span>
+                <span> - sort order: </span>
+                <span className="span-color__highlight">{sortOrder}</span>
                 <button type="button" className="toggle" onClick={handleClick}>
                     <ReactSVG src="/images/arrow-bottom.svg" className="color-arrow-svg" beforeInjection={(svg) => {
                         svg.setAttribute('style', 'width: 35px')

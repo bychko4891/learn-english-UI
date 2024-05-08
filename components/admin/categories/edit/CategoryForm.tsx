@@ -17,6 +17,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
     const imgUrl = categoryResponse.category.image ? `/api/category-img/${categoryResponse.category.image.imageName}` : "";
 
     const [textContent, setTextContent] = useState<string>(categoryResponse.category.description);
+    const [miniDescription, setMiniDescription] = useState<string>(categoryResponse.category.miniDescription);
     const [mainCategory, setMainCategory] = useState(categoryResponse.category.mainCategory);
     const [showDescription, setShowDescription] = useState(true);
     const [tagTitle, setTagTitle] = useState(categoryResponse.category.htmlTagTitle || "");
@@ -102,6 +103,7 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
             uuid: uuid,
             name: name,
             description: textContent,
+            miniDescription: miniDescription,
             htmlTagTitle: tagTitle,
             htmlTagDescription: tagDescription,
             sortOrder: sortOrder,
@@ -157,7 +159,15 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                 <form id="form" className=" d-flex flex-row mt-3" onSubmit={handleSubmit}>
 
                     <div className="col-md-9 col-12">
-                        <TinyMCEEditor onContentChange={handleContentChange} initialValue={textContent}/>
+                        <div className="d-flex flex-column align-items-start w-100 mb-4">
+                            <label>Міні опис</label>
+                            <textarea className="w-100 h-auto" name="name" value={miniDescription}
+                                      onChange={(e) => setMiniDescription(e.target.value)}/>
+                        </div>
+                        <div className="d-flex flex-column align-items-start w-100 mb-4">
+                            <label>Повний опис</label>
+                            <TinyMCEEditor onContentChange={handleContentChange} initialValue={textContent}/>
+                        </div>
                     </div>
 
                     <div className="col-md-3 col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
