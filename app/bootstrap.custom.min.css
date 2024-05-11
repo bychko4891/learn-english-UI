@@ -222,6 +222,11 @@
     padding-bottom: .5rem !important
 }
 
+.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important
+}
+
 .text-center {
     text-align: center !important
 }
@@ -396,6 +401,10 @@ dl, ol, ul {
 
 .m-0 {
     margin: 0 !important
+}
+
+.m-1 {
+    margin: .25 !important
 }
 
 .w-50 {

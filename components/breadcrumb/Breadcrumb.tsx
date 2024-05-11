@@ -11,7 +11,7 @@ type Props = {
 export const Breadcrumb = ({breadcrumb}: Props) => {
     return (
         <nav aria-label="breadcrumb" className="bread-crumbs__bottom">
-            <ol className="breadcrumb d-flex gap-3 p-0">
+            <ol className="breadcrumb d-flex gap-2 p-0 m-0">
                 <li className="breadcrumb-item">
                     <Link href="/">
                         <Image unoptimized className="colored-svg reset-styles ms-auto" src="/images/home.svg" alt="Головна"

@@ -34,7 +34,7 @@ export default async function WordLessonCategories({params: {uuid}}: Props) {
 
     if (categoryResp) {
 
-        const subcategories = categoryResp.category.subcategories;
+        const subcategories = categoryResp.subcategories;
 
         const getDescriptionWithEllipsis = (text: string) => {
             if (text.length > 300) {
@@ -54,7 +54,7 @@ export default async function WordLessonCategories({params: {uuid}}: Props) {
                 <div className="main-content p-3 w-95 word-lesson">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
                     <div className="d-flex flex-column align-items-center">
-                        <h1>{categoryResp.category.name}</h1>
+                        <h1>{categoryResp.name}</h1>
                         <div className="row col-12 justify-content-around gap-4">
                             {subcategories && subcategories.length > 0 && subcategories
                                 .slice()
@@ -65,9 +65,9 @@ export default async function WordLessonCategories({params: {uuid}}: Props) {
                                 </div>
                             ))}
                         </div>
-                        {categoryResp.t && categoryResp.t.length > 0 &&
+                        {categoryResp.wordLessons && categoryResp.wordLessons.length > 0 &&
                             <>
-                                <h1>{categoryResp.t[0].category.name}</h1>
+                                <h1>{categoryResp.wordLessons[0].category.name}</h1>
 
                                 {/*{categoryResp.t.map(article => (*/}
 
@@ -97,7 +97,7 @@ export default async function WordLessonCategories({params: {uuid}}: Props) {
                             </>
                         }
 
-                        {(!subcategories || subcategories.length === 0) && (!categoryResp.t || categoryResp.t.length === 0) &&
+                        {(!subcategories || subcategories.length === 0) && (!categoryResp.wordLessons || categoryResp.wordLessons.length === 0) &&
                             <>
                                 <NoContent/>
                             </>

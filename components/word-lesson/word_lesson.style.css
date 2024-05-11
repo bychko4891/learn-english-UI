@@ -1,8 +1,28 @@
-
+@media (min-width: 768px) and (max-width: 1300px) {
+    .info_w_l {
+        display: none;
+    }
+}
+@media (max-width: 430px) {
+    .info_w_l {
+        display: none;
+    }
+}
 
 .word-lesson p {
     text-align: start;
 }
 .word-lesson img {
     border-radius: 10px;
+}
+
+.truncated-text {
+    max-width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    transition: font-size 0.3s ease;
 }

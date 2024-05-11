@@ -46,7 +46,7 @@ export default async function CategoriesPage() {
 
     if (categories) {
         return (
-            <div className="app-content-area d-flex flex-column align-items-center">
+            <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
                 <div className="main-content p-3 w-95 admin-h">
                     <div className="d-flex justify-content-between top-admin-block">
                         <ButtonBack backURL="/admin"/>

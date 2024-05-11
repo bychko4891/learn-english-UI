@@ -1,5 +1,5 @@
 import {env} from "@/env.mjs";
-import {CategoryResponse, WordLesson} from "@/app/DefaultResponsesInterfaces";
+import {Category} from "@/app/DefaultResponsesInterfaces";
 
 
 export async function geCategoryToWordLesson(uuid: string) {
@@ -10,7 +10,11 @@ export async function geCategoryToWordLesson(uuid: string) {
             cache: 'no-store', next: {}
         });
 
-        return (await response.json()) as CategoryResponse<WordLesson>;
+        if(response.ok) {
+            return (await response.json()) as Category;
+        }
+
+        return undefined;
 
     } catch (error) {
 

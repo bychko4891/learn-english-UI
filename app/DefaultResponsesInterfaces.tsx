@@ -32,6 +32,7 @@ export interface Category {
     subcategories: Category[];
     categoryPage: string[];
     image: Image;
+    wordLessons: WordLesson[];
 }
 
 export interface Image {

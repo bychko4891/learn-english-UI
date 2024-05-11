@@ -682,9 +682,9 @@ button.reset-styles {
 }
 
 img.reset-styles {
-    border-radius: 0;
-    border: none;
-    margin: 0;
+    border-radius: 0 !important;
+    border: none !important;
+    margin: 0 !important;
 }
 
 button.reset-styles:hover {
@@ -1874,7 +1874,7 @@ button.reset-styles:hover {
 .bread-crumbs__bottom {
     border-bottom: 2px solid #797979;
     /*padding-left: 20px;*/
-    margin: 20px;
+    margin: 10px 20px;
 }
 
 .top-1 {
@@ -2316,9 +2316,10 @@ button.reset-styles:hover {
 }
 
 .h3__link {
-    text-decoration: underline;
+    text-decoration: none;
 }
 .h3__link:hover {
+    text-decoration: underline;
     color: var(--dashui-indigo);
 }
 
