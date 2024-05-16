@@ -26,3 +26,79 @@
     -webkit-box-orient: vertical;
     transition: font-size 0.3s ease;
 }
+
+.count-container {
+    position: relative;
+    display: inline-block;
+    bottom: 8px;
+}
+
+.image-count_container {
+    display: block;
+    width: 100%;
+    transform: rotate(-180deg);
+}
+
+.text-count-overlay {
+    position: absolute;
+    top: 13px;
+    color: white;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.wl-card-container {
+    width: auto;
+    height: 60px;
+    background:  rgba(40, 42, 57, 1);
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 10px 15px;
+    transition: all .7s;
+}
+
+.wl-card-container.active {
+    height: 260px;
+    box-shadow: 0 4px 10px 2px rgb(24 24 24);
+}
+
+.wl-card-container.active h3 {
+    color: #2dc26b
+}
+
+.ml-card__mini {
+    border-bottom: 1px solid;
+}
+
+.arrow-active {
+    transform: rotate(90deg);
+    transition: all .7s;
+}
+
+.l-u-info {
+    height: 140px;
+    border-bottom: 1px solid;
+    margin-bottom: 10px;
+}
+
+.l-u-info, .l-info {
+    opacity: 0;
+    display: none;
+    transition: all .4s;
+}
+
+.l-u-info.active, .l-info.active {
+    opacity: 1;
+    display: block;
+    transition: all 1s;
+}
+
+.all-cards__svg {
+    filter: brightness(0) saturate(100%) invert(57%) sepia(74%) saturate(358%) hue-rotate(165deg) brightness(87%) contrast(89%);
+}
+
+.all-cards__svg:hover {
+    filter: brightness(0) saturate(100%) invert(87%) sepia(70%) saturate(533%) hue-rotate(55deg) brightness(88%) contrast(87%);
+}
+

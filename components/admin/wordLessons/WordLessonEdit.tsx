@@ -15,11 +15,15 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
     const wordLesson = wordLessonResp.t;
 
     const [uuid, setUuid] = useState(wordLesson.uuid);
-    const [cards, setCards] = useState<WordLessonCard[]>(wordLesson.cards);
+    const [cards, setCards] = useState<WordLessonCard[]>(wordLesson.cards || []);
     const [name, setName] = useState(wordLesson.name);
+    const [tagTitle, setTagTitle] = useState(wordLesson.htmlTagTitle || "");
+    const [tagDescription, setTagDescription] = useState(wordLesson.htmlTagDescription || "");
     const [nameError, setNameError] = useState("");
     const [description, setDescription] = useState(wordLesson.description);
     const [descriptionError, setDescriptionError] = useState("");
+    const [tagTitleError, setTagTitleError] = useState("");
+    const [tagDescriptionError, setTagDescriptionError] = useState("");
     const [sortOrder, setSortOrder] = useState(wordLesson.sortOrder);
 
 
@@ -180,6 +184,36 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
                                 <input type="number" value={sortOrder} onChange={(e) => setSortOrder(+e.target.value)}/>
                             </div>
                         </div>
+
+                        <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
+                            <div className="d-flex flex-column align-items-start w-100">
+                                <label>Html tag «Title»</label>
+                                <textarea className="w-100" name="name" value={tagTitle}
+                                          onChange={(e) => setTagTitle(e.target.value)}/>
+                                <span className="counter-text text-end">
+                                     <span>{tagTitle.length}</span>
+                                        /
+                                    <span>360</span>
+                            </span>
+                            </div>
+                        </div>
+                        {!!tagTitleError && <p className="p_error ms-3">{tagTitleError}</p>}
+
+                        <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
+                            <div className="d-flex flex-column align-items-start w-100">
+                                <label>Html tag «Description»</label>
+                                <textarea className="w-100" name="name" value={tagDescription}
+                                          onChange={(e) => setTagDescription(e.target.value)}/>
+                                <span className="counter-text text-end">
+                                     <span>{tagDescription.length}</span>
+                                        /
+                                    <span>360</span>
+                            </span>
+                            </div>
+                        </div>
+
+                        {!!tagDescriptionError && <p className="p_error ms-3">{tagDescriptionError}</p>}
+
                         <label>Категорія:
                             {wordLessonCategory &&
                                 <span style={{paddingLeft: 10, color: "#307ed9"}}>{wordLessonCategory.name}</span>

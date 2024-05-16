@@ -6,6 +6,14 @@
     margin-right: 0 !important
 }
 
+.me-1 {
+    margin-right: .25rem !important
+}
+
+.me-2 {
+    margin-right: .5rem !important
+}
+
 .ps-3 {
     padding-left: 1rem !important
 }
@@ -176,10 +184,6 @@
     margin-left: .25rem !important
 }
 
-.me-1 {
-    margin-right: .25rem !important
-}
-
 .ms-auto {
     margin-left: auto !important
 }
@@ -305,8 +309,18 @@
     list-style: none
 }
 
-.me-2 {
-    margin-right: .5rem !important
+
+
+.p-1 {
+    padding: .25rem !important
+}
+
+.p-2 {
+    padding: .5rem !important
+}
+
+.p-2-1 {
+    padding: .75rem !important
 }
 
 .p-3 {

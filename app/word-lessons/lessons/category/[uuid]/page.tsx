@@ -1,7 +1,6 @@
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
-import Link from "next/link";
-import {getWords} from "@/app/dictionary/category/words/[uuid]/getWords";
-import {SearchWords} from "@/components/search/SearchWords";
+import {getCategoryToWordLesson} from "@/app/word-lessons/category/[uuid]/getCategoryToWordLesson";
+import {WordLessonCards} from "@/components/word-lesson/WordLessonCards";
 
 type Props = {
     params: {
@@ -9,11 +8,27 @@ type Props = {
     }
 }
 
-export default async function VocabularyCategories({params: {uuid}}: Props) {
+export async function generateMetadata({params: {uuid}}: Props) {
 
-    const dictionaryPages = await getWords(uuid);
+    const category = await getCategoryToWordLesson(uuid);
 
-    if (dictionaryPages) {
+    if (category) {
+        return {
+            title: category.htmlTagTitle,
+            description: category.htmlTagDescription,
+        }
+    }
+    return {
+        title: "Title E-learn",
+        description: "Description E-learn",
+    }
+}
+
+export default async function WordLessonsByCategory({params: {uuid}}: Props) {
+
+    const category = await getCategoryToWordLesson(uuid);
+
+    if (category) {
 
         const breadcrumbNavigation = {
             href: "/dictionary",
@@ -22,27 +37,12 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
 
         return (
             <div className="app-content-area">
-                <div className="main-content p-3 w-95">
+                <div className="main-content p-3 w-95 overflow-hidden">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
                     <div className="d-flex flex-column">
-                        <div className="col-md-6 col-12">
-                            <SearchWords />
-                        </div>
-                        <h1>Слова з категорії {dictionaryPages.length > 0 && dictionaryPages[0].category.name}</h1>
-                        {dictionaryPages.length > 0 && dictionaryPages.map(dictionaryPage => (
-                            <>
-                                {dictionaryPage.published &&
-                                    <div key={dictionaryPage.uuid} className="me-auto row align-items-center">
-                                        <Link href={'/dictionary/word/' + dictionaryPage.name}>
-                                            <b>{dictionaryPage.name}</b>
-                                        </Link>
-                                        <b> - </b>
-                                        <span>{dictionaryPage.word.translate}</span>
-                                    </div>
+                        <h1>{category.name}</h1>
+                        {category.wordLessons && category.wordLessons.length > 0  && <WordLessonCards wordLessons={category.wordLessons}/>}
 
-                                }
-                            </>
-                        ))}
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
 
     }
 
-    if (dictionaryPages) {
+    if (category) {
         // if (categoryRes && categoryRes.articles && categoryRes.articles.length > 0) {
         return (
             <div className="app-content-area">

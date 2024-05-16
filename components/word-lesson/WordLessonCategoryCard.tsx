@@ -7,23 +7,27 @@ import WordsSvg from "@/public/images/words_count.svg"
 import ClockSvg from "@/public/images/clock.svg"
 import "./word_lesson.style.css"
 
-export const WordLessonCategoryCart = ({category}: { category: Category }) => {
+export const WordLessonCategoryCard = ({category}: { category: Category }) => {
 
-    const countLessons = category.wordLessons.length ? category.wordLessons.length : 0;
+    const countLessons = category.wordLessons && category.wordLessons.length ? category.wordLessons.length : 0;
+
     let countWords = 0;
-    for (let i = 0; i < category.wordLessons.length; i++) {
-        countWords += category.wordLessons[i].cards.length;
-    }
     let hours = 0;
     let minutes = 0;
+
+    if(countLessons > 0) {
+        for (let i = 0; i < countLessons; i++) {
+            if(category.wordLessons[i].cards && category.wordLessons[i].cards.length > 0) {
+                countWords += category.wordLessons[i].cards?.length;
+            }
+        }
+    }
+
     if(countWords > 0) {
         let fullMinutes = Math.ceil(countWords * 1.9987);
         hours = Math.floor(fullMinutes / 60);
         minutes = fullMinutes - (hours * 60);
     }
-
-
-
 
     return (
         <div className="d-flex flex-column py-3">

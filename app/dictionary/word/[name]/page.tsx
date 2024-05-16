@@ -91,7 +91,7 @@ export default async function Word({params: {name}}: Props) {
                                 </div>
 
                             </div>
-                            <div className="col-md-5 col-12 ms-auto word-page-img">
+                            <div className="col-md-5 col-12 ms-auto w-page-img">
                                 <Image src={'/api/word-img/' + dictionaryPage.image.imageName} alt={dictionaryPage.name}
                                        width={270} height={270} style={{borderRadius: 20}}/>
                             </div>

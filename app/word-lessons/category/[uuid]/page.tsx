@@ -1,12 +1,9 @@
 import {getCategoryToDictionary} from "@/app/dictionary/category/[uuid]/getCategoryToDictionary";
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
-import Link from "next/link";
-import Image from "next/image";
 import {NoContent} from "@/components/noContent/NoContent";
-import {SearchWords} from "@/components/search/SearchWords";
 import React from "react";
-import {geCategoryToWordLesson} from "@/app/word-lessons/category/[uuid]/geCategoryToWordLesson";
-import {WordLessonCategoryCart} from "@/components/word-lesson/WordLessonCategoryCart";
+import {getCategoryToWordLesson} from "@/app/word-lessons/category/[uuid]/getCategoryToWordLesson";
+import {WordLessonCategoryCard} from "@/components/word-lesson/WordLessonCategoryCard";
 
 type Props = {
     params: {
@@ -30,7 +27,7 @@ export async function generateMetadata({params: {uuid}}: Props) {
 
 export default async function WordLessonCategories({params: {uuid}}: Props) {
 
-    const categoryResp = await geCategoryToWordLesson(uuid);
+    const categoryResp = await getCategoryToWordLesson(uuid);
 
     if (categoryResp) {
 
@@ -61,7 +58,7 @@ export default async function WordLessonCategories({params: {uuid}}: Props) {
                                 .sort((a, b) => a.sortOrder - b.sortOrder)
                                 .map(category => (
                                 <div key={category.uuid} className="col-md-5 col-12" style={{border: "1px solid", borderRadius: 20}}>
-                                    <WordLessonCategoryCart category={category} />
+                                    <WordLessonCategoryCard category={category} />
                                 </div>
                             ))}
                         </div>

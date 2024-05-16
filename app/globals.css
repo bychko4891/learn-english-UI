@@ -6,7 +6,7 @@ body {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: var(--dashui-body-bg-color);
+    background: var(--dashui-body-bg-color);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-sizing: border-box;
@@ -760,6 +760,38 @@ button.reset-styles:hover {
     margin-left: auto;
 }
 
+@media (min-width: 280px) {
+
+    .w-top-content div:nth-child(1) {
+        order: 2;
+    }
+    .w-top-content div:nth-child(2) {
+        order: 1;
+    }
+
+}
+
+@media (min-width: 768.01px) {
+
+    .w-top-content div:nth-child(1) {
+        order: 1;
+    }
+    .w-top-content div:nth-child(2) {
+        order: 2;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .w-top-content div:nth-child(1) {
+        order: 2;
+    }
+    .w-top-content div:nth-child(2) {
+        order: 1;
+    }
+
+}
 /* *******************************************************  my style end ************************************************************************************************ */
 
 .navbar-custom {

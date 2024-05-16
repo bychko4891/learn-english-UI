@@ -1,8 +1,8 @@
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";
 import Image from "next/image";
-import {getArticle} from "@/app/dictionary/article/[uuid]/getArticle";
 import NotFound from "@/app/not-found";
+import {getWordLesson} from "@/app/word-lessons/cards/lesson/[uuid]/getWordLesson";
 
 type Props = {
     params: {
@@ -11,24 +11,24 @@ type Props = {
 }
 
 export async function generateMetadata({params: {uuid}}: Props) {
-    const article = await getArticle(uuid);
-    if (article) {
+    const wordLesson = await getWordLesson(uuid);
+    if (wordLesson) {
         return {
-            title: article.htmlTagTitle,
-            description: article.htmlTagDescription,
+            title: wordLesson.htmlTagTitle,
+            description: wordLesson.htmlTagDescription,
         }
     }
     return {
-        title: "",
-        description: ""
+        title: "Title E-learn",
+        description: "Description E-learn",
     }
 }
 
-export default async function VocabularyCategories({params: {uuid}}: Props) {
+export default async function WordLessonCards({params: {uuid}}: Props) {
 
-    const article = await getArticle(uuid);
+    const wordLesson = await getWordLesson(uuid);
 
-    if (article) {
+    if (wordLesson) {
 
         const breadcrumbNavigation = {
             href: "/dictionary",
@@ -40,11 +40,19 @@ export default async function VocabularyCategories({params: {uuid}}: Props) {
                 <div className="main-content p-3 w-95">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
                     <div className="d-flex flex-column">
-                        <h1>{article.h1}</h1>
-                        {article.image && article.image.imageName &&
-                            <Image unoptimized src={'/api/webimg/' + article.image.imageName} alt="" width={600} height={400} style={{marginLeft: "auto", marginRight: "auto", maxWidth: "100%", height: "auto"}}/>
-                        }
-                        <div dangerouslySetInnerHTML={{__html: (article.description)}}/>
+                        <div className="row col-12 w-top-content">
+                            <div className="col-md-6 col-12 text-start">
+                                <h1>{wordLesson.name}</h1>
+                                <div dangerouslySetInnerHTML={{__html: (wordLesson.description)}}/>
+                            </div>
+                            <div className="col-md-5 col-12 ms-auto w-page-img">
+                                {wordLesson.category.image && wordLesson.category.image.imageName &&
+                                 <Image unoptimized src={'/api/category-img/' + wordLesson.category.image.imageName} alt="" width={110} height={165} style={{marginLeft: "auto", marginRight: "auto", maxWidth: "100%", height: "auto"}}/>
+                                }
+                            </div>
+
+                        </div>
+
                         {/*{subcategories && subcategories.length > 0 && subcategories.map(category => (*/}
                         {/*    <div key={category.uuid} className="me-auto row align-items-center">*/}
                         {/*        <b>{category.name} - </b>*/}

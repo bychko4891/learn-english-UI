@@ -138,6 +138,8 @@ export interface WordLesson {
     uuid: string;
     name: string;
     description: string;
+    htmlTagDescription: string;
+    htmlTagTitle: string;
     sortOrder: number;
     category: Category;
     cards: WordLessonCard[];
