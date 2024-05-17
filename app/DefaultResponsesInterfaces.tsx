@@ -137,6 +137,7 @@ export interface WordLesson {
     id: number;
     uuid: string;
     name: string;
+    h1: string;
     description: string;
     htmlTagDescription: string;
     htmlTagTitle: string;

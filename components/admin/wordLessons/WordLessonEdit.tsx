@@ -17,15 +17,18 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
     const [uuid, setUuid] = useState(wordLesson.uuid);
     const [cards, setCards] = useState<WordLessonCard[]>(wordLesson.cards || []);
     const [name, setName] = useState(wordLesson.name);
-    const [tagTitle, setTagTitle] = useState(wordLesson.htmlTagTitle || "");
-    const [tagDescription, setTagDescription] = useState(wordLesson.htmlTagDescription || "");
     const [nameError, setNameError] = useState("");
+    const [h1, setH1] = useState(wordLesson.h1);
+    const [h1Error, setH1Error] = useState("");
+    const [tagTitle, setTagTitle] = useState(wordLesson.htmlTagTitle || "");
+    const [tagTitleError, setTagTitleError] = useState("");
+    const [tagDescription, setTagDescription] = useState(wordLesson.htmlTagDescription || "");
+    const [tagDescriptionError, setTagDescriptionError] = useState("");
+
     const [description, setDescription] = useState(wordLesson.description);
     const [descriptionError, setDescriptionError] = useState("");
-    const [tagTitleError, setTagTitleError] = useState("");
-    const [tagDescriptionError, setTagDescriptionError] = useState("");
-    const [sortOrder, setSortOrder] = useState(wordLesson.sortOrder);
 
+    const [sortOrder, setSortOrder] = useState(wordLesson.sortOrder);
 
     const [wordLessonCategory, setWordLessonCategory] = useState(wordLesson.category);
 
@@ -80,7 +83,10 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
         const wordLesson = {
             uuid: uuid,
             name: name,
+            h1: h1,
             description: description,
+            htmlTagTitle: tagTitle,
+            htmlTagDescription: tagDescription,
             sortOrder: sortOrder,
             cards: cards,
             category: selectCategory,
@@ -164,21 +170,28 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
                     </div>
 
                     <div className="col-md-3 col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
-                        <div className="d-flex flex-column w-100" style={{height: 90}}>
+                        <div className="d-flex flex-column w-100" >
                             <div className="d-flex flex-column">
                                 <label className="me-auto">Назва уроку: </label>
                                 <input type="text" value={name} onChange={(e) => setName(e.target.value)}
                                        required={true}/>
                             </div>
                         </div>
-                        <div className="d-flex flex-column w-100" style={{height: 90}}>
+                        <div className="d-flex flex-column w-100" >
+                            <div className="d-flex flex-column">
+                                <label className="me-auto">H1 уроку: </label>
+                                <input type="text" value={h1} onChange={(e) => setH1(e.target.value)}
+                                       required={true}/>
+                            </div>
+                        </div>
+                        <div className="d-flex flex-column w-100" style={{height: 120}}>
                             <div className="d-flex flex-column">
                                 <label className="me-auto">Опис уроку: </label>
                                 <textarea value={description} onChange={(e) => setDescription(e.target.value)}
-                                          style={{height: "auto"}}/>
+                                          style={{height: 80}} cols={4}/>
                             </div>
                         </div>
-                        <div className="d-flex flex-column w-100" style={{height: 90}}>
+                        <div className="d-flex flex-column w-100" >
                             <div className="d-flex flex-column">
                                 <label className="me-auto">Порядок сортування: </label>
                                 <input type="number" value={sortOrder} onChange={(e) => setSortOrder(+e.target.value)}/>
@@ -187,7 +200,7 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
 
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
-                                <label>Html tag «Title»</label>
+                                <label>Html tag «Title»:</label>
                                 <textarea className="w-100" name="name" value={tagTitle}
                                           onChange={(e) => setTagTitle(e.target.value)}/>
                                 <span className="counter-text text-end">
@@ -201,7 +214,7 @@ export const WordLessonEdit = ({wordLessonResp}: { wordLessonResp: EntityAndMain
 
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
-                                <label>Html tag «Description»</label>
+                                <label>Html tag «Description»:</label>
                                 <textarea className="w-100" name="name" value={tagDescription}
                                           onChange={(e) => setTagDescription(e.target.value)}/>
                                 <span className="counter-text text-end">

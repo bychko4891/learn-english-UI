@@ -102,3 +102,22 @@
     filter: brightness(0) saturate(100%) invert(87%) sepia(70%) saturate(533%) hue-rotate(55deg) brightness(88%) contrast(87%);
 }
 
+.wl-b-start-learn {
+    cursor: pointer;
+    background: var(--dashui-indigo);
+    /*background: #57b846;*/
+    border: 1px solid;
+    border-radius: 22px;
+    width: fit-content;
+    padding: 15px 20px;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all .9s;
+}
+
+.wl-b-start-learn:hover {
+    background: var(--dashui-headings-color);
+    color: white;
+}
+

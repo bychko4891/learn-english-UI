@@ -29,9 +29,11 @@ export const UserGroup = () => {
 
 
     useEffect(() => {
-        import("./bootstrap.bundle.min").then((bootstrap) => {
-        });
+        typeof document !== undefined
+            ? require('bootstrap/dist/js/bootstrap.bundle.min.js')
+            : null;
     }, []);
+
 
     const avatar = `/api/avatar/${user?.userAvatar?.imageName}` || "/images/avatar-2.jpeg";
 

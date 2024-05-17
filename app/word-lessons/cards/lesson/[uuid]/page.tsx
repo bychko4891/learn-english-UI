@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import NotFound from "@/app/not-found";
 import {getWordLesson} from "@/app/word-lessons/cards/lesson/[uuid]/getWordLesson";
+import {CardsButtonLearn} from "@/components/word-lesson/CardsButtonLearn";
+import "@/components/word-lesson/word_lesson.style.css";
 
 type Props = {
     params: {
@@ -42,12 +44,13 @@ export default async function WordLessonCards({params: {uuid}}: Props) {
                     <div className="d-flex flex-column">
                         <div className="row col-12 w-top-content">
                             <div className="col-md-6 col-12 text-start">
-                                <h1>{wordLesson.name}</h1>
-                                <div dangerouslySetInnerHTML={{__html: (wordLesson.description)}}/>
+                                <h1>{wordLesson.h1}</h1>
+                                <div dangerouslySetInnerHTML={{__html: (wordLesson.description)}} style={{fontSize: "1.125rem"}}/>
+                                <CardsButtonLearn />
                             </div>
                             <div className="col-md-5 col-12 ms-auto w-page-img">
                                 {wordLesson.category.image && wordLesson.category.image.imageName &&
-                                 <Image unoptimized src={'/api/category-img/' + wordLesson.category.image.imageName} alt="" width={110} height={165} style={{marginLeft: "auto", marginRight: "auto", maxWidth: "100%", height: "auto"}}/>
+                                 <Image unoptimized src={'/api/category-img/' + wordLesson.category.image.imageName} alt="" width={120} height={180} style={{marginLeft: "auto", marginRight: "auto", maxWidth: "100%", height: "auto"}}/>
                                 }
                             </div>
 
