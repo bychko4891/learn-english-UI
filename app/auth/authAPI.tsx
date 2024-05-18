@@ -6,15 +6,11 @@ import {regenerateAllTokens} from "@/app/(protected)/jwtSessionService/authToken
 
 export async function authAPI(key: string) {
 
-    console.log("authAPI")
 
     const tokens = await regenerateAllTokens(key);
-    console.log("authAPI tokens")
     if (tokens) {
-        console.log("authAPI tokens fetch ok")
         setJwtAccessToken(tokens.jwtAccessToken);
         setJwtRefreshToken(tokens.jwtRefreshToken);
-        console.log("authAPI tokens pred redirect")
         redirect('/user/profile');
     } else {
         redirect('/login');

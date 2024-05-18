@@ -28,7 +28,6 @@ export const LoginForm = () => {
             }
         } catch (error) {
             setDisabled(false);
-            console.log("Server error: " + error)
 
         }
     }

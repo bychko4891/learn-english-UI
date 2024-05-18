@@ -63,10 +63,8 @@ export const ArticleForm = ({articleResponse}: { articleResponse: EntityAndMainC
     };
 
     const handleSelectMainCategory = (uuid: string) => {
-        console.log("selectMain: " + uuid);
         articleResponse.mainCategories.forEach(category => {
             if (category.uuid === uuid) {
-                console.log("UUID")
                 setSelectMainCategory(category);
                 setArticleCategory(category);
                 setSubcategories(category.subcategories);

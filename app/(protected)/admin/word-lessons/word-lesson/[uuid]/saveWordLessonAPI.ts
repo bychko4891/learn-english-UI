@@ -16,7 +16,6 @@ export async function saveWordLessonAPI(data:WordLesson, uuid: string) {
                 }
         });
 
-        console.log(await response?.json())
 
         if (response?.ok) {
             const message = (await  response.json()) as ResponseMessages;
@@ -25,7 +24,6 @@ export async function saveWordLessonAPI(data:WordLesson, uuid: string) {
         }
 
         if (response?.status === 400) {
-            console.log("400 !!! !!!")
             const message = (await  response.json()) as ResponseMessages;
             message.status = 400;
             return message;

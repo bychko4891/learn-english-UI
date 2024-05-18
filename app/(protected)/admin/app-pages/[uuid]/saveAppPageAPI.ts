@@ -16,7 +16,6 @@ type ResMessage = {
 
 export async function saveAppPageAPI(appPage: AppPage, uuid: string) {
 
-    console.log("saveAppPageAPI")
 
     try {
         const response = await fetchWithToken(env.SERVER_API_URL + `/api/admin/app-pages/page/${uuid}`, {

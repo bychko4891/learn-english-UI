@@ -22,7 +22,6 @@ export async function saveWordAPI(data:FormData, uuid: string) {
         }
 
         if (response?.status === 400) {
-            console.log("400 !!! !!!")
             const message = (await  response.json()) as ResponseMessages;
             message.status = 400;
             return message;

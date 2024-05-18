@@ -79,7 +79,6 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {dictionaryPageResp: En
     const handleSelectMainCategory = (uuid: string) => {
         dictionaryPageResp.mainCategories.forEach(category => {
             if (category.uuid === uuid) {
-                console.log("UUID")
                 setSelectMainCategory(category);
                 setArticleCategory(category);
                 setSubcategories(category.subcategories);
