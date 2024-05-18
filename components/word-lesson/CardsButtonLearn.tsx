@@ -12,9 +12,9 @@ export const CardsButtonLearn = () => {
 
     if (user) {
         return (
-            <>
-                <Link href="/word-lesson/" className="mt-4 wl-b-start-learn">Почати навчання</Link>
-            </>
+            <div className="mt-4-1">
+                <Link href="/word-lesson/" className="wl-b-start-learn">Почати навчання</Link>
+            </div>
         );
     } else {
 
@@ -22,8 +22,8 @@ export const CardsButtonLearn = () => {
         const handleClose = () => setShow(false);
         const handleShow = () => setShow(true);
         return (
-            <div>
-                <button onClick={handleShow} className="mt-4 wl-b-start-learn">
+            <div className="mt-4">
+                <button onClick={handleShow} className=" wl-b-start-learn">
                     Почати навчання
                 </button>
 

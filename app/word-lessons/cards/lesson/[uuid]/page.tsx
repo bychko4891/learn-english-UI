@@ -41,7 +41,7 @@ export default async function WordLessonCards({params: {uuid}}: Props) {
             <div className="app-content-area">
                 <div className="main-content p-3 w-95">
                     <Breadcrumb breadcrumb={breadcrumbNavigation}/>
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column align-items-center">
                         <div className="row col-12 w-top-content">
                             <div className="col-md-6 col-12 text-start">
                                 <h1>{wordLesson.h1}</h1>
@@ -50,9 +50,44 @@ export default async function WordLessonCards({params: {uuid}}: Props) {
                             </div>
                             <div className="col-md-5 col-12 ms-auto w-page-img">
                                 {wordLesson.category.image && wordLesson.category.image.imageName &&
-                                 <Image unoptimized src={'/api/category-img/' + wordLesson.category.image.imageName} alt="" width={120} height={180} style={{marginLeft: "auto", marginRight: "auto", maxWidth: "100%", height: "auto"}}/>
+                                 <Image unoptimized src={'/api/category-img/' + wordLesson.category.image.imageName} alt="" width={120} height={180} style={{marginLeft: "auto", marginRight: "auto", maxWidth: "100%", height: "auto", borderRadius: 10}}/>
                                 }
                             </div>
+
+                        </div>
+                        <div className="row col-12">
+                            {wordLesson.cards && wordLesson.cards.length > 0 && wordLesson.cards
+                                .slice()
+                                .sort((a, b) => a.sortOrder - b.sortOrder)
+                                .map(card => (
+                                    <div key={card.uuid} className="col-12 col-md-4 d-flex align-items-stretch " style={{ padding: 10}}>
+                                        <div className="d-flex flex-column p-3 w-100" style={{borderRadius: 10, boxShadow: "0 4px 10px 2px rgb(24 24 24)"}}>
+                                            <Image src={'/api/word-img/' + card.dictionaryPage.image.imageName} alt="" width={120} height={120} style={{borderRadius: 10}} className="mx-auto"/>
+                                            <div className="me-auto">
+                                                <div className="text-start">
+                                                    <h3 style={{color: "#4d90f5"}}>{card.dictionaryPage.name}</h3>
+                                                    <span>{card.dictionaryPage.word.usaTranscription}</span>
+                                                    <div style={{margin: 0, padding: 0}}>
+                                                        <p>{card.description}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="mt-auto d-flex flex-row align-items-center">
+                                                <div>
+                                                    <button>+</button>
+                                                </div>
+                                                <div className="ms-auto">
+                                                    <Link href={'/dictionary/word/' + card.dictionaryPage.name}>
+                                                        <Image src="/images/link-word.svg" alt="" height={30} width={30} className="colored-svg reset-styles"/>
+                                                    </Link>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+
 
                         </div>
 

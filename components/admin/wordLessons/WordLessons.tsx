@@ -47,7 +47,7 @@ export const WordLessons = () => {
                         <th scope="col">Порядок сортування</th>
                         <th scope="col">Ім`я</th>
 
-                        <th scope="col">Опис</th>
+                        <th scope="col">H1</th>
                         <th scope="col">Категорія</th>
                         <th scope="col">#</th>
                     </tr>
@@ -58,7 +58,7 @@ export const WordLessons = () => {
                             <th scope="row">{wordLesson.id}</th>
                             <td>{wordLesson.sortOrder}</td>
                             <td>{wordLesson.name}</td>
-                            <td>{wordLesson.description}</td>
+                            <td>{wordLesson.h1}</td>
                             <td>{wordLesson.category ? wordLesson.category.name : "Відсутня"}</td>
                             <td>
                                 <Link href={'/admin/word-lessons/word-lesson/' + wordLesson.uuid}>
