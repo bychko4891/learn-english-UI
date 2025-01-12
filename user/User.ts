@@ -1,22 +1,22 @@
 class User {
-    id: number;
+    user_id: number;
     uuid: string;
     email: string;
-    name: string;
-    login: string;
-    about: string;
-    userIp: string;
+    name?: string;
+    login?: string;
+    about?: string;
+    userIp?: string;
     enable: boolean;
-    gender: string[];
+    gender?: "male" | "female";
     userAvatar: { imageName: string } ;
-    userRole: string[];
-    dateOfCreated: string;
-    lastVisit: string;
+    userRole: "ADMIN" | "USER";
+    dateOfCreated?: string;
+    lastVisit?: string;
 
 
-    constructor(id: number, uuid: string, email: string, name: string, login: string, about:string, userIp: string, enable: boolean,  gender: string[] = [],
-                userAvatar: { imageName: string },  userRole: string[] = [], dateOfCreated: string, lastVisit: string) {
-        this.id = id;
+    constructor(user_id: number, uuid: string, email: string, name: string, login: string, about:string, userIp: string, enable: boolean,  gender: "male" | "female",
+                userAvatar: { imageName: string },  userRole: "ADMIN" | "USER", dateOfCreated: string, lastVisit: string) {
+        this.user_id = user_id;
         this.uuid = uuid;
         this.email = email;
         this.name = name;

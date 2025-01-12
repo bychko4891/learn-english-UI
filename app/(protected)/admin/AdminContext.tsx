@@ -14,13 +14,13 @@ export function AdminContext({children}: { children: ReactNode }) {
 
     useEffect(() => {
         if (user) {
-            setUserRole(user.userRole[0]);
+            setUserRole(user.userRole);
             setIsLoading(false);
         }
     }, [user]);
 
     useEffect(() => {
-        if (!isLoading && userRole !== "ROLE_ADMIN") {
+        if (!isLoading && userRole !== "ADMIN") {
             router.push("/user/profile");
         }
     }, [isLoading, userRole]);
@@ -30,6 +30,4 @@ export function AdminContext({children}: { children: ReactNode }) {
     }
 
     return <>{children}</>;
-
-
 }

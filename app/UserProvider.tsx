@@ -20,6 +20,7 @@ export const UserProvider = ({children}: { children: ReactNode }) => {
 
     const updateUser = (userData: User | null) => {
         setUser(userData);
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         if (userData) {
             localStorage.setItem('user', JSON.stringify(userData));
         } else {

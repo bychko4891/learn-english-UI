@@ -12,21 +12,8 @@ type Props = {
     }
 }
 
-export async function generateMetadata({params: {uuid}}: Props) {
-    const wordLesson = await getWordLesson(uuid);
-    if (wordLesson) {
-        return {
-            title: wordLesson.htmlTagTitle,
-            description: wordLesson.htmlTagDescription,
-        }
-    }
-    return {
-        title: "Title E-learn",
-        description: "Description E-learn",
-    }
-}
 
-export default async function WordLessonCards({params: {uuid}}: Props) {
+export default async function LearnWordLesson({params: {uuid}}: Props) {
 
     const wordLesson = await getWordLesson(uuid);
 

@@ -51,6 +51,7 @@
 .wl-card-container {
     width: auto;
     height: 60px;
+    cursor: pointer;
     background:  rgba(40, 42, 57, 1);
     border: 1px solid;
     border-radius: 20px;
@@ -67,7 +68,7 @@
     color: #2dc26b
 }
 
-.ml-card__mini {
+.wl-card__mini {
     border-bottom: 1px solid;
 }
 
@@ -106,18 +107,41 @@
     cursor: pointer;
     background: var(--dashui-indigo);
     /*background: #57b846;*/
-    border: 1px solid;
+    /*border: 1px solid;*/
     border-radius: 22px;
     width: fit-content;
     padding: 15px 20px;
     color: white;
     font-weight: 700;
     text-transform: uppercase;
-    transition: all .9s;
+    transition: .2s linear;
+    /*transition: all .9s;*/
 }
 
 .wl-b-start-learn:hover {
-    background: var(--dashui-headings-color);
-    color: white;
+    box-shadow: 0 0 0 2px var(--dashui-block-content-bg), 0 0 0 4px #3C82F8;
+    /*background: var(--dashui-headings-color);*/
+    /*color: white;*/
 }
 
+.wl__all_cards_img {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: var(--dashui-card-box-shadow);
+}
+
+.wl__card_container {
+    border-radius: 10px;
+    box-shadow: var(--dashui-card-box-shadow);
+}
+
+.wl__card_container img {
+    border-radius: 10px;
+}
+
+.wl__card_container h3 {
+    color: #4d90f5;
+}

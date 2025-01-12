@@ -32,7 +32,7 @@ export const WordLessonCards = ({wordLessons}: { wordLessons: WordLesson[] }) =>
                 <div key={wordLesson.uuid}
                      className={wlCardActive === index ? "d-flex flex-column wl-card-container active" : "d-flex flex-column wl-card-container"}
                      onClick={() => handleClick(index)}>
-                    <div className={wlCardActive === index ? "d-flex flex-row align-items-center ml-card__mini" : "d-flex flex-row align-items-center"}>
+                    <div className={wlCardActive === index ? "d-flex flex-row align-items-center wl-card__mini" : "d-flex flex-row align-items-center"}>
                         <div className="d-flex flex-row align-items-center">
                             <ReactSVG beforeInjection={(svg) => {
                                 svg.setAttribute('style', 'height: 25px; width: 25px;')
@@ -62,7 +62,7 @@ export const WordLessonCards = ({wordLessons}: { wordLessons: WordLesson[] }) =>
                                     <ReactSVG beforeInjection={(svg) => {
                                         svg.setAttribute('style', 'height: 20px; width: 20px;')
                                     }} src="/images/words_count.svg" className="colored-svg reset-styles"/>
-                                    {wordLesson.cards && <span>{wordLesson.cards.length}</span>}
+                                    { wordLesson.cards ? <span>{wordLesson.cards.length}</span> : <span>0</span>}
                                     <span className="info_w_l"> слів(a)</span>
                                 </div>
                                 <div className="d-flex flex-row gap-1">

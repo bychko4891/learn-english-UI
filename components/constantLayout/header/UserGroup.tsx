@@ -35,7 +35,7 @@ export const UserGroup = () => {
     }, []);
 
 
-    const avatar = `/api/avatar/${user?.userAvatar?.imageName}` || "/images/avatar-2.jpeg";
+    const avatar = `/api/i/4/image/${user?.userAvatar?.imageName}` || "/images/avatar-2.jpeg";
 
     return (
 

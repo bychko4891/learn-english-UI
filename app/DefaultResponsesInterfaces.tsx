@@ -4,9 +4,10 @@ export interface GeneralMessage {
 }
 
 export interface ResponseTokens {
-    type: "Bearer";
-    jwtAccessToken: string;
-    jwtRefreshToken: string;
+
+    role: "ADMIN" | "USER";
+    accessJwtToken: string;
+    refreshJwtToken: string;
 }
 
 export interface ResponseMessages {
@@ -31,14 +32,15 @@ export interface Category {
     parentCategory: Category;
     subcategories: Category[];
     categoryPage: string[];
-    image: Image;
+    image: ImageAPI;
     wordLessons: WordLesson[];
 }
 
-export interface Image {
+export interface ImageAPI {
     imageName: string;
     width: string;
     height: string;
+    storageId: number | null;
 }
 
 export interface Article {
@@ -49,7 +51,7 @@ export interface Article {
     htmlTagDescription: string;
     description: string;
     published: boolean;
-    image: Image;
+    image: ImageAPI;
     category: Category;
 }
 
@@ -73,7 +75,7 @@ export interface AppPageContent {
     positionOrder: number;
     positionContent: string[];
     applicationPage: AppPage;
-    image: Image;
+    image: ImageAPI;
 }
 
 export interface AppPage {
@@ -101,13 +103,17 @@ export interface Word {
     irregularVerbPt: string;
     irregularVerbPp: string;
     activeURL: boolean;
-    audio: Audio;
+    correctVerb: boolean;
+    wordLevel: string;
+    audio: Audio | null;
+    image: ImageAPI | null;
 }
 
 export interface Audio {
     name: string ;
     brAudioName: string ;
     usaAudioName: string ;
+    storageId: number | null;
 }
 
 
@@ -129,7 +135,7 @@ export interface DictionaryPage {
     published: boolean;
     isRepeatable: boolean;
     word: Word;
-    image: Image;
+    image: ImageAPI;
     category: Category;
 }
 

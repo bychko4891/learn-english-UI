@@ -61,7 +61,7 @@ export const Users = () => {
                     <tbody>
                     {users && users.length > 0 && users.map((user) => (
                         <tr key={user.uuid}>
-                            <th scope="row">{user.id}</th>
+                            <th scope="row">{user.user_id}</th>
                             <td>{user.email}</td>
                             <td>{user.dateOfCreated}</td>
                             <td>{user.lastVisit}</td>

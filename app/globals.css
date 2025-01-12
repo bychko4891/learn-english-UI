@@ -87,6 +87,8 @@ body {
     --dashui-success-text: #75b798;
     --dashui-danger-text: #ea868f;
     --dashui-card-background: #1e293b;
+    --dashui-card-box-shadow: 0 4px 10px 2px rgb(33 35 49);
+    /*--dashui-card-box-shadow: 0 4px 10px 2px rgb(24 24 24);*/
     --dashui-secondary-color: rgba(100, 116, 139, .75);
     --dashui-dark: #fff;
     --dashui-dark-first: wheat;
@@ -131,6 +133,7 @@ body {
     --dashui-success-text: #146c43;
     --dashui-danger-text: #b02a37;
     --dashui-card-background: #fff;
+    --dashui-card-box-shadow: 0 4px 10px 2px rgb(186 186 186);
     --dashui-secondary-color: rgba(71, 85, 105, .75);
     --dashui-dark: #1e293b;
     --dashui-dark-first: var(--dashui-body-color);

@@ -15,7 +15,7 @@ export default async function ArticlesPage() {
                     </div>
 
                     <div className="right d-flex gap-3">
-                        <ButtonNewEntity apiRequestURL="/new-word" redirectURL="/admin/words/word/"/>
+                        <ButtonNewEntity apiRequestURL="/word/new" redirectURL="/admin/words/word/"/>
                     </div>
                 </div>
                 <Words/>

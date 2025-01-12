@@ -4,7 +4,7 @@ import {setJwtAccessToken, setJwtRefreshToken} from "./SetHttpOnlyCookies";
 import {ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 
 export async function setAccessAndRefresh(allTokens: ResponseTokens): Promise<boolean> {
-    setJwtAccessToken(allTokens.jwtAccessToken);
-    setJwtRefreshToken(allTokens.jwtRefreshToken);
+    setJwtAccessToken(allTokens.accessJwtToken);
+    setJwtRefreshToken(allTokens.refreshJwtToken);
     return true;
 }

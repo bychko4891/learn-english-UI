@@ -1,4 +1,4 @@
-'use server'
+// 'use server';
 
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";

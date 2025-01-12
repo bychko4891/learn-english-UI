@@ -8,12 +8,10 @@ import {fetchWithToken} from "@/app/fetchWithToken";
 export async function saveWordAPI(data:FormData, uuid: string) {
 
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/word/' + uuid, {
+        const response = await fetchWithToken(env.SERVER_API_URL + '/api/v1/word/' + uuid, {
             method: 'PUT',
             body: data,
         });
-
-        // console.log(await response?.json())
 
         if (response?.ok) {
             const message = (await  response.json()) as ResponseMessages;

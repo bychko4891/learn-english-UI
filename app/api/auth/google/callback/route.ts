@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
         if (response.status === 200) {
             const tokens = (await response.json()) as ResponseTokens;
 
-            return NextResponse.redirect(new URL(`/auth?key=${tokens.jwtRefreshToken}`, req.url));
+            return NextResponse.redirect(new URL(`/auth?key=${tokens.refreshJwtToken}`, req.url));
         }
 
         return NextResponse.redirect(new URL('/login', req.url));

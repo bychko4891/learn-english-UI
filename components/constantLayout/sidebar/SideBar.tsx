@@ -1,4 +1,4 @@
-'use server'
+// 'use server'
 
 import {Logo} from "@/components/constantLayout/sidebar/Logo";
 import {Navigation} from "@/components/constantLayout/sidebar/Navigation";
@@ -26,7 +26,7 @@ export const SideBar = () => {
         {label: "Слова", href:"/admin/words", imageName: "words.svg"},
         {label: "Сторінки словника", href:"/admin/dictionary-pages", imageName: "dictionary.svg"},
         {label: "Статті", href:"/admin/articles", imageName: "articles.svg"},
-        {label: "Юзер інтерфес", href:"/user/profile", imageName: "user-interface.svg"}
+        // {label: "Юзер інтерфес", href:"/user/profile", imageName: "user-interface.svg"}
 
     ];
 

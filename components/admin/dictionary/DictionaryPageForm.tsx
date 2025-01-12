@@ -52,9 +52,6 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {dictionaryPageResp: En
         }
     }, [word]);
 
-    const handleClickVisit = () => {
-        setVisit(!visit);
-    }
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -290,7 +287,7 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {dictionaryPageResp: En
 
 
                         <div className="d-flex flex-column align-items-start w-100 pt-2">
-                            <button type="button" className="w-100 d-flex flex-row br-g" onClick={handleClickVisit}>
+                            <button type="button" className="w-100 d-flex flex-row br-g" onClick={() => setVisit(!visit)}>
                                 <span className="align-items-start">Зображення категорії</span>
                                 <ReactSVG src="/images/arrow-down.svg" className="color-arrow-svg ms-auto"
                                           beforeInjection={(svg) => {
@@ -302,7 +299,8 @@ export const DictionaryPageForm = ({dictionaryPageResp}: {dictionaryPageResp: En
                                 <input type="file" className="w-100" accept="image/*" onChange={handleImageChange}/>
                                 <div className="category-edit-img-container">
                                     {imageURL &&
-                                        <img src={imageURL} alt="Uploaded Image" className="block-edit-img"/>}
+                                        <img src={imageURL} alt="Uploaded Image" className="block-edit-img"/>
+                                    }
                                 </div>
                                 <div className="d-flex w-100 pt-2">
 

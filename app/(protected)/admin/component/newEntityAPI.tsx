@@ -11,10 +11,11 @@ import {fetchWithToken} from "@/app/fetchWithToken";
 export async function newEntityAPI(apiURL:string) {
 
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + `/api/admin${apiURL}`, {
-            method: 'GET',
-        });
-
+        const response = await fetchWithToken(`${env.SERVER_API_URL}/api/v1${apiURL}`,
+            {
+                method: 'GET',
+            }
+        );
 
         if (!response?.ok) {
             throw new Error('Network response was not ok');

@@ -14,6 +14,10 @@
     margin-right: .5rem !important
 }
 
+.ps-2 {
+    padding-left: .5rem !important
+}
+
 .ps-3 {
     padding-left: 1rem !important
 }
@@ -580,3 +584,11 @@ tbody, td, tfoot, th, thead, tr {
     color: var(--dashui-gray-900);
     border-color: #373b3e;
 }
+
+.bg-white {
+    background: white;
+}
+
+.fw-semibold{font-weight:600!important}
+
+.cursor-pointer {cursor: pointer;}

@@ -10,7 +10,7 @@ export async function getWordAPI(uuid: string) {
 
 
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/word/' + uuid, {
+        const response = await fetchWithToken(env.SERVER_API_URL + '/api/v1/word/' + uuid, {
             method: 'GET',
 
         });

@@ -25,7 +25,7 @@ export const Navigation = ({navLinks, navLinksAdmin}: Props) => {
     const regex = /^\/admin/;
 
     const isAdminUrl = regex.test(pathName);
-    const isUserAdmin = user?.userRole[0] === "ROLE_ADMIN";
+    const isUserAdmin = user?.userRole=== "ADMIN";
 
 
     if (isAdminUrl && isUserAdmin) {
