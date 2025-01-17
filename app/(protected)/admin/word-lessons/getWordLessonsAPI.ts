@@ -9,7 +9,7 @@ export async function getWordLessonsAPI(page: number, size: number) {
 
     const params = page > 0 || size > 25 ? `?page=${page}&size=${size}` : "";
 
-    const response = await fetchWithToken(`${env.SERVER_API_URL}/api/admin/word-lessons${params}`, {
+    const response = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/lesson-word/all${params}`, {
         method: 'GET',
         cache: 'no-store',
     });

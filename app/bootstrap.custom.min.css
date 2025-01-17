@@ -372,6 +372,10 @@
     position: relative !important
 }
 
+.position-absolute {
+    position: absolute !important;
+}
+
 dl, ol, ul {
     margin-top: 0;
     margin-bottom: 1rem
@@ -592,3 +596,7 @@ tbody, td, tfoot, th, thead, tr {
 .fw-semibold{font-weight:600!important}
 
 .cursor-pointer {cursor: pointer;}
+
+.top-100 {
+    top: 100% !important;
+}

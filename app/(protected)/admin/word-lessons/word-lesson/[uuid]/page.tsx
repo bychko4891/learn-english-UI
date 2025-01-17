@@ -15,7 +15,7 @@ export default async function WordLessonPage({params: {uuid}}: Props) {
         return (
             <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
                 <div className="main-content p-3 w-95 admin-h">
-                    {resp && <WordLessonEdit wordLessonResp={resp}/>}
+                    {resp && <WordLessonEdit lessonResp={resp}/>}
                 </div>
             </div>
         );

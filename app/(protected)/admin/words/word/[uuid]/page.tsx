@@ -1,5 +1,5 @@
 import {getWordAPI} from "@/app/(protected)/admin/words/word/[uuid]/getWordAPI";
-import {WordForm} from "@/components/admin/words/WordForm";
+import {WordForm} from "@/app/(protected)/admin/words/word/[uuid]/WordForm";
 
 type Props = {
     params: {

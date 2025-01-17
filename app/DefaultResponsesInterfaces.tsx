@@ -22,18 +22,18 @@ export interface ResponseMessages {
 
 export interface Category {
     uuid: string;
-    sortOrder: number;
     name: string;
+    sortOrder: number;
     description: string;
-    miniDescription: string;
-    htmlTagTitle: string;
-    htmlTagDescription: string;
+    shortDescription: string;
+    attentionText: string;
     mainCategory: boolean;
-    parentCategory: Category;
+    showDescriptionInPage: boolean;
     subcategories: Category[];
-    categoryPage: string[];
+    parentCategory: Category;
+    categoryPage: string;
     image: ImageAPI;
-    wordLessons: WordLesson[];
+    seoObject: SEOObject;
 }
 
 export interface ImageAPI {
@@ -139,29 +139,19 @@ export interface DictionaryPage {
     category: Category;
 }
 
-export interface WordLesson {
-    id: number;
-    uuid: string;
-    name: string;
-    h1: string;
-    description: string;
-    htmlTagDescription: string;
-    htmlTagTitle: string;
-    sortOrder: number;
-    category: Category;
-    cards: WordLessonCard[];
-}
 
-export interface WordLessonCard {
-    id: number;
-    uuid: string
-    description: string;
-    dictionaryPage: DictionaryPage;
-    sortOrder: number;
-}
+
+
 
 export interface Pagination {
     totalPages: number;
     currentPage: number;
     totalElements: number;
+}
+
+export type SEOObject = {
+    id: number;
+    h1: string;
+    htmlTagTitle: string;
+    htmlTagDescription: string;
 }

@@ -17,12 +17,13 @@ export default async function CategoryEditPage({params: {uuid}}: Props) {
 
     const category = await getCategoryAPI(uuid);
 
+
     if(category) {
         return (
             <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
                 <div className="main-content p-3 w-95 admin-h">
-                    <CategoryForm categoryResponse={category}/>
-                </div>
+                     <CategoryForm category={category}/>
+               </div>
             </div>
         );
     }

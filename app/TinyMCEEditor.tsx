@@ -20,7 +20,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
     const [content, setContent] = useState<string>(initialValue || ""); // Встановлюємо початковий вміст
 
     const handleContentChange = (content: string) => {
-        setContent(content);
+        // setContent(content);
         onContentChange(content);
     };
 
@@ -66,7 +66,8 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
                         images_upload_base_path: "/api/webimg/",
                         setup: function (editor) {
                             editor.on('change', function () {
-                                handleContentChange(editor.getContent());
+                                onContentChange(editor.getContent());
+                                // handleContentChange(editor.getContent());
                             });
                         },
                     }}

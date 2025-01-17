@@ -4,11 +4,11 @@ import {useEffect, useState} from "react";
 import {getWordsBySearchAPI} from "@/app/(protected)/admin/dictionary-pages/dictionary-page/[uuid]/getWordsBySearchAPI";
 import {DictionaryPage, Word} from "@/app/DefaultResponsesInterfaces";
 import {
-    getDictionaryPagesBySearchAPI
-} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getDictionaryPagesBySearchAPI";
+    fetchSearchWordToCardAPI
+} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/fetchSearchWordToCardAPI";
 
 type Props = {
-    onSearch: (value: DictionaryPage[]) => void;
+    onSearch: (value: Word[]) => void;
 }
 export const SearchDictionaryPage = ({onSearch}: Props) => {
 
@@ -17,8 +17,8 @@ export const SearchDictionaryPage = ({onSearch}: Props) => {
     useEffect(() => {
         if (search.length > 0) {
             const searchWords = async () => {
-                const dictionaryPages = await getDictionaryPagesBySearchAPI(search);
-                onSearch(dictionaryPages || []);
+                const words = await fetchSearchWordToCardAPI(search);
+                onSearch(words || []);
             }
             searchWords();
         }

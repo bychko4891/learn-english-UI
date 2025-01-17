@@ -16,9 +16,8 @@ type ResMessage = {
 
 export async function saveCategoryAPI(data:FormData, uuid: string) {
 
-
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/category/' + uuid, {
+        const response = await fetchWithToken(env.SERVER_API_URL + '/api/v1/category/' + uuid, {
             method: 'PUT',
             body: data,
         });

@@ -1,6 +1,6 @@
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import {ButtonNewEntity} from "@/components/admin/ButtonNewEntity";
-import {Words} from "@/components/admin/words/Words";
+import {Words} from "@/app/(protected)/admin/words/Words";
 
 
 export default async function ArticlesPage() {

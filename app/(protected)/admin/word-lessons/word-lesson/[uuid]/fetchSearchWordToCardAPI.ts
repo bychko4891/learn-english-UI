@@ -5,10 +5,10 @@ import {DictionaryPage, Word} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 
-export async function getDictionaryPagesBySearchAPI(searchTerm: string) {
+export async function fetchSearchWordToCardAPI(searchTerm: string) {
 
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/search/dictionary-page?searchTerm=' + searchTerm, {
+        const response = await fetchWithToken(env.SERVER_API_URL + '/api/v1/words/search?searchQuery=' + searchTerm, {
             method: 'GET',
         });
 
@@ -18,8 +18,8 @@ export async function getDictionaryPagesBySearchAPI(searchTerm: string) {
             throw new Error('Network response was not ok');
         }
 
+        return (await response.json()) as Word[];
 
-        return (await response.json()) as DictionaryPage[];
     } catch (error) {
         // console.error('Error fetching get data Category to  Admin page:', error);
         return undefined;

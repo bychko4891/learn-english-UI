@@ -2,49 +2,66 @@
 
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
-import React, {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
-import {Category, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
+import {Category, CategoryResponse, ImageAPI, SEOObject} from "@/app/DefaultResponsesInterfaces";
 import {saveCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/saveCategoryAPI";
 import Image from "next/image";
 import {toast, ToastContainer, Zoom} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "../categories.style.css"
+import {SearchCategory} from "@/app/(protected)/admin/categories/category/[uuid]/SearchCategory";
+import {Storages} from "@/components/admin/Storages";
 
+export type CategoryState = {
+    uuid: string;
+    name: string;
+    sortOrder: number;
+    // description: string;
+    shortDescription: string;
+    attentionText: string;
+    mainCategory: boolean;
+    showDescriptionInPage: boolean;
+    parentCategoryUUID: string;
+    parentCategoryName: string;
+    categoryPage: string;
+    image: ImageAPI;
+    seoObject: SEOObject;
+}
 
-export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryResponse<Category> }) => {
+export const CategoryForm = ({category}: { category: Category }) => {
 
-    const imgUrl = categoryResponse.category.image ? `/api/category-img/${categoryResponse.category.image.imageName}` : "";
+    const imgUrl = category.image ? `/api/i/${category.image.storageId}/img/${category.image.imageName}` : "";
+    const [categorySaved, setCategorySaved] = useState<Category>(category);
+    const [categoryState, setCategoryState] = useState<CategoryState>({
+        uuid: categorySaved.uuid,
+        name: categorySaved.name,
+        sortOrder: categorySaved.sortOrder,
+        // description: categorySaved.description,
+        shortDescription: categorySaved.shortDescription,
+        attentionText: categorySaved.attentionText,
+        mainCategory: categorySaved.mainCategory,
+        showDescriptionInPage: categorySaved.showDescriptionInPage,
+        parentCategoryUUID: categorySaved.parentCategory?.uuid ? categorySaved.parentCategory?.uuid : "",
+        // parentCategoryUUID: categorySaved.parentCategory?.uuid,
+        parentCategoryName: categorySaved.parentCategory?.name ? categorySaved.parentCategory?.name : "",
+        categoryPage: categorySaved.categoryPage,
+        image: categorySaved.image ? categorySaved.image : {width: "", height: "", storageId: null} as ImageAPI,
+        seoObject: {
+            h1: categorySaved.seoObject?.h1 ?? "",
+            htmlTagTitle: categorySaved.seoObject?.htmlTagDescription ?? "",
+            htmlTagDescription: categorySaved.seoObject?.htmlTagDescription ?? "",
+        } as SEOObject,
+    });
 
-    const [textContent, setTextContent] = useState<string>(categoryResponse.category.description);
-    const [miniDescription, setMiniDescription] = useState<string>(categoryResponse.category.miniDescription);
-    const [mainCategory, setMainCategory] = useState(categoryResponse.category.mainCategory);
-    const [showDescription, setShowDescription] = useState(true);
-    const [tagTitle, setTagTitle] = useState(categoryResponse.category.htmlTagTitle || "");
-    const [tagDescription, setTagDescription] = useState(categoryResponse.category.htmlTagDescription || "");
-    const [selectedPage, setSelectedPage] = useState("NO_PAGE");
-    const [name, setName] = useState(categoryResponse.category.name);
-    const [sortOrder, setSortOrder] = useState(categoryResponse.category.sortOrder);
-    const [uuid, setUuid] = useState(categoryResponse.category.uuid);
+    const [textContent, setTextContent] = useState<string>(categorySaved.description);
     const [image, setImage] = useState<File>();
-    const [subCategories, setSubcategories] = useState<Category[]>();
-    const [selectMainCategory, setSelectMainCategory] = useState<Category>();
-    const [selectSubcategory, setSelectSubcategory] = useState<Category>();
-
-    const [parentCategory, setParentCategory] = useState<Category>(categoryResponse.category.parentCategory);
-
     const [nameError, setNameError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
     const [titleError, setTitleError] = useState("");
 
     const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
-
-    const blockVisit = visit ? "block-h mt-2 visit" : "block-h";
-
-    const handleClickVisit = () => {
-        setVisit(!visit);
-    }
 
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -63,59 +80,33 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
         }
     };
 
-    const handleContentChange = (newContent: string) => {
-        setTextContent(newContent);
-    };
-
-    const handleSelectMainCategory = (uuid: string) => {
-        categoryResponse.mainCategories.forEach(category => {
-            if (category.uuid === uuid) {
-                setSelectMainCategory(category);
-                setParentCategory(category);
-                setSubcategories(category.subcategories);
-                return;
-            }
-            if (!uuid) {
-                setParentCategory(categoryResponse.category.parentCategory);
-            }
-        });
-    };
-
-    const handleSelectSubcategory = (uuid: string) => {
-        subCategories?.forEach(category => {
-            if (category.uuid === uuid) {
-                setSelectSubcategory(category);
-                setParentCategory(category);
-                return;
-            }
-            if (!uuid && selectMainCategory) {
-                setParentCategory(selectMainCategory);
-                return;
-            }
-        });
-    };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // setDisabled(true);
-        const parentCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
+        // const parentCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
         const category = {
-            uuid: uuid,
-            name: name,
+            uuid: categoryState.uuid,
+            name: categoryState.name,
             description: textContent,
-            miniDescription: miniDescription,
-            htmlTagTitle: tagTitle,
-            htmlTagDescription: tagDescription,
-            sortOrder: sortOrder,
-            mainCategory: mainCategory,
-            parentCategory: parentCategory,
-            categoryPage: [selectedPage],
-        } as Category
+            shortDescription: categoryState.shortDescription,
+            seoObject: {
+                htmlTagTitle: categoryState.seoObject.htmlTagTitle,
+                htmlTagDescription: categoryState.seoObject.htmlTagDescription
+            },
+            sortOrder: categoryState.sortOrder,
+            mainCategory: categoryState.mainCategory,
+            showDescriptionInPage: categoryState.showDescriptionInPage,
+            ...((!!categoryState.parentCategoryUUID && !categoryState.mainCategory) && {parentCategoryUUID: categoryState.parentCategoryUUID}),
+            categoryPage: categoryState.categoryPage,
+            image: categoryState.image,
+        }
+        // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!! --> "+JSON.stringify(category))
         var formData = new FormData;
         formData.append('image', image as Blob);
         formData.append('category', new Blob([JSON.stringify(category)], {type: 'application/json'}));
         try {
-            const response = await saveCategoryAPI(formData, uuid);
+            const response = await saveCategoryAPI(formData, categorySaved.uuid);
             if(response?.status ===200) {
                 toast.success(response.general);
                 setDescriptionError("");
@@ -139,6 +130,14 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
         }
     }
 
+    const handleContentChange = (newContent: string) => {
+        setTextContent(newContent);
+    };
+
+    useEffect(() => {
+        setCategoryState({...categoryState, parentCategoryName: "", parentCategoryUUID: ""});
+    }, [categoryState.categoryPage]);
+
     return (
         <>
             <ToastContainer autoClose={3000} transition={Zoom}/>
@@ -160,33 +159,62 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
 
                     <div className="col-md-9 col-12">
                         <div className="d-flex flex-column align-items-start w-100 mb-4">
-                            <label>Міні опис</label>
-                            <textarea className="w-100 h-auto" name="name" value={miniDescription}
-                                      onChange={(e) => setMiniDescription(e.target.value)}/>
-                        </div>
-                        <div className="d-flex flex-column align-items-start w-100 mb-4">
                             <label>Повний опис</label>
                             <TinyMCEEditor onContentChange={handleContentChange} initialValue={textContent}/>
+                            {/*<TinyMCEEditor*/}
+                            {/*    onContentChange={(text) => {*/}
+                            {/*    setCategoryState({...categoryState, description: text})*/}
+                            {/*    }}*/}
+                            {/*    initialValue={categoryState.description}/>*/}
+                        </div>
+                        <div className="d-flex flex-column align-items-start w-100 mb-4">
+                            <label>Міні опис</label>
+                            <textarea className="w-100 h-auto" name="name"
+                                      value={categoryState.shortDescription}
+                                      onChange={(e) => {
+                                          setCategoryState({...categoryState, shortDescription: e.target.value});
+                                      }}
+                            />
+                        </div>
+                        <div className="d-flex flex-column align-items-start w-100 mb-4">
+                            <label>Текст попередження</label>
+                            <textarea className="w-100 h-auto" name="name"
+                                      value={categoryState.attentionText}
+                                      onChange={(e) => {
+                                          setCategoryState({...categoryState, attentionText: e.target.value})
+                                      }}/>
                         </div>
                     </div>
 
                     <div className="col-md-3 col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>Ім`я</label>
-                            <input type="text" className="w-100" name="name" value={name}
-                                   onChange={(e) => setName(e.target.value)}/>
+                            <input type="text" className="w-100" name="name"
+                                   value={categoryState.name}
+                                   onChange={(e) => {
+                                       setCategoryState({...categoryState, name: e.target.value});
+                                   }}
+                            />
                         </div>
                         {!!nameError && <p className="p_error ms-3">{nameError}</p>}
 
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>Html tag «Title»</label>
-                                <textarea className="w-100" name="name" value={tagTitle}
-                                          onChange={(e) => setTagTitle(e.target.value)}/>
+                                <textarea className="w-100" name="name"
+                                          value={categoryState.seoObject?.htmlTagTitle ?? ""}
+                                          onChange={(e) => {
+                                              const seo = categoryState.seoObject;
+                                              seo.htmlTagTitle = e.target.value;
+                                              setCategoryState({...categoryState, seoObject: seo})
+                                          }}
+                                          maxLength={200}
+
+                                />
                                 <span className="counter-text text-end">
-                                     <span>{tagTitle.length}</span>
+                                     <span>{categoryState.seoObject?.htmlTagTitle.length ?? 0}</span>
                                         /
-                                    <span>360</span>
+                                    <span>200</span>
                             </span>
                             </div>
                         </div>
@@ -195,10 +223,18 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>Html tag «Description»</label>
-                                <textarea className="w-100" name="name" value={tagDescription}
-                                          onChange={(e) => setTagDescription(e.target.value)}/>
+                                <textarea className="w-100" name="name"
+                                          value={categoryState.seoObject?.htmlTagDescription ?? ""}
+                                          onChange={(e) => {
+                                              const seo = categoryState.seoObject;
+                                              seo.htmlTagDescription = e.target.value;
+                                              setCategoryState({...categoryState, seoObject: seo});
+
+                                          }}
+                                          maxLength={360}
+                                />
                                 <span className="counter-text text-end">
-                                     <span>{tagDescription.length}</span>
+                                     <span>{categoryState.seoObject?.htmlTagDescription.length ?? 0}</span>
                                         /
                                     <span>360</span>
                             </span>
@@ -208,60 +244,49 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
 
                         <div className="d-flex flex-row w-100 align-items-center">
                             <span className="me-auto">Головна категорія: </span>
-                            <input id="toggleSwitch" type="checkbox" checked={mainCategory} className="toggle-switch"
-                                   name="mainCategory"
-                                   onChange={(e) => setMainCategory(e.target.checked)}/>
-                            <label htmlFor="toggleSwitch" className="toggle-switch-label"></label>
+                            <input id="toggleSwitchCategory" type="checkbox" className="toggle-switch" name="mainCategory"
+                                   checked={categoryState.mainCategory}
+                                   onChange={(e) => {
+                                       setCategoryState({...categoryState, mainCategory: e.target.checked})
+                                   }}
+                            />
+                            <label htmlFor="toggleSwitchCategory" className="toggle-switch-label"></label>
 
                         </div>
 
                         <div className="d-flex flex-row w-100 align-items-center">
                             <span className="me-auto">Опис на сторінці (так\ні):</span>
-                            <input id="toggleSwitch" type="checkbox" checked={showDescription} className="toggle-switch"
-                                   name="showDescriptionInPage"
-                                   onChange={(e) => setShowDescription(e.target.checked)}/>
-                            <label htmlFor="toggleSwitch" className="toggle-switch-label"></label>
+                            <input id="toggleSwitchDescr" type="checkbox" name="showDescriptionInPage"
+                                   className="toggle-switch"
+                                   checked={categoryState.showDescriptionInPage}
+                                   onChange={(e) => {
+                                       setCategoryState({...categoryState, showDescriptionInPage: e.target.checked});
+                                   }}
+                            />
+                            <label htmlFor="toggleSwitchDescr" className="toggle-switch-label"></label>
                         </div>
 
-                        <div className="d-flex flex-column w-100" >
+                        <div className="d-flex flex-column w-100">
                             <div className="d-flex flex-column">
                                 <label className="me-auto">Порядок сортування: </label>
-                                <input type="number" value={sortOrder} onChange={(e) => setSortOrder(+e.target.value)}/>
+                                <input type="number"
+                                       value={categoryState.sortOrder}
+                                       onChange={(e) => {
+                                           setCategoryState({...categoryState, sortOrder: Number(e.target.value)})
+                                       }}
+                                       min={0}
+                                       max={10000}
+                                />
                             </div>
                         </div>
-
-                        <label>Батьківська категорія:
-                            {parentCategory &&
-                                <span style={{paddingLeft: 10, color: "#307ed9"}}>{parentCategory.name}</span> ||
-                                <span style={{paddingLeft: 10, color: "#307ed9"}}>Відсутня</span>
-                            }
-                        </label>
-                        <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
-                            <option>Змінити батьківську категорію</option>
-                            {categoryResponse.mainCategories && categoryResponse.mainCategories.length > 0 &&
-                                categoryResponse.mainCategories.map(category => (
-                                    <option key={category.uuid} value={category.uuid}>
-                                        {category.name}
-                                    </option>
-                                ))}
-
-                        </select>
-
-                        <select className="w-100" onChange={(e) => handleSelectSubcategory(e.target.value)}>
-                            <option>Змінити підкатегорію</option>
-                            {subCategories && subCategories.length > 0 &&
-                                subCategories.map(category => (
-                                    <option key={category.uuid} value={category.uuid}>
-                                        {category.name}
-                                    </option>
-                                ))}
-
-                        </select>
-
                         <div className="d-flex flex-column w-100 align-items-start">
                             <label htmlFor="page">Сторінка вивода</label>
                             <select id="page" name="categoryPage" className="w-100"
-                                    onChange={(e) => setSelectedPage(e.target.value)}>
+                                    value={categoryState.categoryPage ?? "noPage"}
+                                    onChange={(e) => {
+                                        setCategoryState({...categoryState, categoryPage: e.target.value})
+                                    }}
+                            >
                                 <option value="NO_PAGE">Оберіть сторінку вивода</option>
                                 <option value="DICTIONARY_PAGE">Словник</option>
                                 <option value="MINI_STORIES">Міні історії</option>
@@ -269,9 +294,56 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                                 <option value="LESSON_PHRASES">Заняття для фпаз</option>
                             </select>
                         </div>
+                        {!categoryState.mainCategory && categoryState.categoryPage && (
+                            <SearchCategory
+                                title={"Батьківська категорія"}
+                                placeholder={"Знайти батьківську категорію..."}
+                                categoryPage={categoryState.categoryPage}
+                                categoryName={categoryState.parentCategoryName}
+                                setCategoryName={(name) => {
+                                    setCategoryState({...categoryState, parentCategoryName: name});
+                                }}
+                                setCategoryUUID={(uuid) => {
+                                    const state = categoryState;
+                                    state.parentCategoryUUID = uuid;
+                                    setCategoryState(state);
+                                }}
+                            />
+                            // <>
+                            //     <label>Батьківська категорія:
+                            //         {parentCategory &&
+                            //             <span style={{paddingLeft: 10, color: "#307ed9"}}>{parentCategory.name}</span> ||
+                            //             <span style={{paddingLeft: 10, color: "#307ed9"}}>Відсутня</span>
+                            //         }
+                            //     </label>
+                            //     <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
+                            //         <option>Змінити батьківську категорію</option>
+                            //         {/*{category.mainCategories && category.mainCategories.length > 0 &&*/}
+                            //         {/*    category.mainCategories.map(category => (*/}
+                            //         {/*        <option key={category.uuid} value={category.uuid}>*/}
+                            //         {/*            {category.name}*/}
+                            //         {/*        </option>*/}
+                            //         {/*    ))*/}
+                            //         {/*}*/}
+                            //     </select>
+                            //
+                            //     <select className="w-100" onChange={(e) => handleSelectSubcategory(e.target.value)}>
+                            //         <option>Змінити підкатегорію</option>
+                            //         {subCategories && subCategories.length > 0 &&
+                            //             subCategories.map(category => (
+                            //                 <option key={category.uuid} value={category.uuid}>
+                            //                     {category.name}
+                            //                 </option>
+                            //             ))}
+                            //
+                            //     </select>
+                            // </>
+                        )}
+
 
                         <div className="d-flex flex-column align-items-start w-100 pt-2">
-                            <button type="button" className="w-100 d-flex flex-row br-g" onClick={handleClickVisit}>
+                            <button type="button" className="w-100 d-flex flex-row br-g"
+                                    onClick={() => setVisit(!visit)}>
                                 <span className="align-items-start">Зображення категорії</span>
                                 <ReactSVG src="/images/arrow-down.svg" className="color-arrow-svg ms-auto"
                                           beforeInjection={(svg) => {
@@ -279,7 +351,15 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                                               svg.setAttribute('style', 'height: 15px')
                                           }}/>
                             </button>
-                            <div className={blockVisit}>
+                            <div className={visit ? "block-h mt-2 visit" : "block-h"}>
+                                <Storages
+                                    title={"Директорія для зображення"}
+                                    setStorageId={(storageId) => {
+                                        categoryState.image.storageId = storageId;
+                                        setCategoryState({...categoryState});
+                                    }}
+                                    storageId={categoryState.image?.storageId ?? null}
+                                />
                                 <input type="file" className="w-100" accept="image/*" onChange={handleImageChange}/>
                                 <div className="category-edit-img-container">
                                     {imageURL &&
@@ -294,8 +374,8 @@ export const CategoryForm = ({categoryResponse}: { categoryResponse: CategoryRes
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    <input type="hidden" name="uuid" value={uuid} onChange={(e) => setUuid(e.target.value)}/>
                 </form>
             </div>
         </>

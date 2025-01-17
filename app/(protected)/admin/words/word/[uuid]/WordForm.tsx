@@ -8,10 +8,11 @@ import {Audio, ImageAPI, Word} from "@/app/DefaultResponsesInterfaces";
 import {toast, ToastContainer, Zoom} from "react-toastify";
 import {AudiPlayerMini} from "@/components/audioPlayers/AudiPlayerMini";
 import {saveWordAPI} from "@/app/(protected)/admin/words/word/[uuid]/saveWordAPI";
-import {getStoragesAPI, StorageFolder} from "@/app/(protected)/admin/words/word/[uuid]/getStoragesAPI";
+import {getStoragesAPI, StorageFolder} from "@/components/admin/getStoragesAPI";
 import Image from "next/image";
 import {AiGemini} from "@/components/images/AiGemini";
 import {fetchAiAPI} from "@/app/(protected)/admin/words/word/[uuid]/fetchAiAPI";
+import {Storages} from "@/components/admin/Storages";
 
 export type WordLevel =
     | "A1"
@@ -42,7 +43,6 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
     const [wordSaved, setWordSaved] = useState(wordResp);
 
-    const imgUrl = wordResp.image ? `/api/i/${wordSaved.image?.storageId}/image/${wordResp.image.imageName}` : "";
     const [wordState, setWordState] = useState<WordState>({
         uuid: wordSaved.uuid,
         name: wordSaved.name,
@@ -59,9 +59,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
         imageFile: null,
     })
 
-    // console.log(JSON.stringify(wordSaved));
     const [nameError, setNameError] = useState("");
-    // const [audio, setAudio] = useState<Audio>(wordResp.audio);
     const [uuid, setUuid] = useState(wordResp.uuid);
 
     const [brAudioFile, setBrAudioFile] = useState<File>();
@@ -74,7 +72,8 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
         (wordSaved.audio && wordSaved.audio.brAudioName && wordSaved.audio.storageId) ? `/api/a/${wordSaved.audio?.storageId}/audio/${wordSaved.audio.usaAudioName}` : ""
     );
 
-    const [image, setImage] = useState<File>();
+    const imgUrl = wordResp.image ? `/api/i/${wordSaved.image?.storageId}/image/${wordResp.image.imageName}` : "";
+    // const [image, setImage] = useState<File>();
     const [imageURL, setImageURL] = useState<string>(imgUrl);
 
     const [visit, setVisit] = useState(false);
@@ -95,8 +94,6 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
         }
     };
 
-
-
     const handleUsaAudioChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         setUsaAudioFile(file);
@@ -114,7 +111,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        setImage(file);
+        // setImage(file);
         if(file) setWordState({...wordState, imageFile: file});
         const reader = new FileReader();
 
@@ -172,7 +169,6 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
         e.preventDefault();
         if(wordField && wordState.name) {
             const res = await fetchAiAPI(wordField, wordState.name);
-            console.log("RES ---------------->> |"+res.ok + "|")
             if(wordField === "irregularVerbPt" && res.ok) setWordState({...wordState, irregularVerbPt: res.ok})
             if(wordField === "irregularVerbPp" && res.ok) setWordState({...wordState, irregularVerbPp: res.ok})
             if(wordField === "brTranscription" && res.ok) setWordState({...wordState, brTranscription: res.ok})
@@ -191,7 +187,6 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
     return (
         <>
-
             <ToastContainer autoClose={3000} transition={Zoom}/>
             <div className="d-flex justify-content-between top-admin-block">
                 <ButtonBack backURL="/admin/words"/>
@@ -375,7 +370,6 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
                     </div>
 
-
                     <div className="d-flex flex-column gap-2 col-md-5 col-12 mt-3">
                            <Storages
                                 title={"Директорія для аудіо"}
@@ -414,7 +408,6 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                                                   svg.setAttribute('style', 'height: 15px')
                                               }}/>
                                 </div>
-
 
                                 <div className={visit ? "w-100 block-h mt-2 visit d-flex flex-column gap-2" : "block-h"}>
                                     <Storages
@@ -475,47 +468,5 @@ function WordLevelInput(props: {
                 <option value="IT">IT</option>
             </select>
         </label>
-    );
-}
-
-function Storages(props: {
-    title: string;
-    setStorageId: (id: number) => void;
-    storageId: number | null;
-}) {
-
-    const [storages, setStorages] = useState<StorageFolder[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            const {ok} = await getStoragesAPI();
-            if(ok) {
-                setStorages(ok);
-            }
-        })()
-    }, []);
-
-    return(
-        <div className="position-absolute d-flex flex-column overflow-scroll align-items-start g-2 z-10 w-100 max-h-60 border bg-gray-50 py-2 font-normal">
-            <label>{props.title}</label>
-            <select className="cursor-pointer rounded border border-gray-300 w-100 fw-semibold"
-                    value={props.storageId ?? ""}
-                    onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (!isNaN(value)) {
-                            props.setStorageId(value);
-                        }
-                    }}
-            >
-                <option></option>
-                {storages && storages.length > 0 && storages.map((storage) => {
-                    return (
-
-                        <option key={storage.id} value={storage.id}>{storage.storageName}</option>
-                    );
-                })}
-            </select>
-
-        </div>
     );
 }

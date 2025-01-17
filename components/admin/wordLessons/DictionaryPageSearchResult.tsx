@@ -1,19 +1,19 @@
-import {DictionaryPage, Word} from "@/app/DefaultResponsesInterfaces";
+import { Word } from "@/app/DefaultResponsesInterfaces";
 
 type Props = {
-    dictionaryPage: DictionaryPage;
-    dictionaryPageChange: (value: DictionaryPage) => void;
+    word: Word;
+    setSelectWord: (value: Word) => void;
 }
 
-export const DictionaryPageSearchResult = ({ dictionaryPage, dictionaryPageChange }: Props) => {
+export const DictionaryPageSearchResult = ({ word, setSelectWord }: Props) => {
     const handleClick = () => {
-        dictionaryPageChange(dictionaryPage);
+        setSelectWord(word);
     }
 
     return (
         <div className="d-flex flex-row gap-4">
 
-            <span>{dictionaryPage.name}</span>
+            <span>{word.name}</span>
             <button type="button" onClick={handleClick}> + </button>
         </div>
     );

@@ -8,41 +8,12 @@ import {Categories} from "@/components/admin/categories/Categories";
 import {OneCategory} from "@/components/admin/categories/OneCategory";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 import {GetServerSidePropsContext} from "next";
-import {fetchWithToken} from "@/app/fetchWithToken";
-import {env} from "@/env.mjs";
-import {Category} from "@/app/DefaultResponsesInterfaces";
-import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
-
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//     // Виконати запит до віддаленого сервера для отримання оновлених даних
-//     const categories = await getCategoriesAPI();
-//     const data = await res.json();
-//
-//     // Повернути отримані дані як пропси для компонента
-//     return {
-//         props: {
-//             data,
-//         },
-//     };
-// }
 
 
 export default async function CategoriesPage() {
 
-
-    const accessToken = await getJwtAccessToken();
-    const resp = await fetch(env.SERVER_API_URL + '/api/admin/categories', {
-        method: 'GET',
-        next: { revalidate: 0 },
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        }
-
-    });
-
-    const categories = await resp?.json() as Category[]
-    const apiRequestURL = "/categories/new-category";
+    const res = await getCategoriesAPI({parentCategory: true});
+    const categories = res.ok;
 
     if (categories) {
         return (
@@ -53,14 +24,14 @@ export default async function CategoriesPage() {
                         <div className="center">
                             <h1>Категорії</h1>
                         </div>
-                        <ButtonNewEntity apiRequestURL={apiRequestURL} redirectURL="/admin/categories/category/"/>
+                        <ButtonNewEntity apiRequestURL="/category/new" redirectURL="/admin/categories/category/"/>
                     </div>
                     <div className="block-form d-flex flex-column">
 
 
                         {categories.length > 0 && categories.map((category) => (
                             <ul key={category.uuid} className="d-flex">
-                                {category.subcategories && category.subcategories.length > 0 ? (
+                                {(!category.parentCategory && category.subcategories && category.subcategories.length > 0) ? (
                                     <li key={category.uuid}>
                                         <CategoryAndSubcategories
                                             key={category.uuid}

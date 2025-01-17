@@ -1,16 +1,49 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {ResponseMessages, WordLesson} from "@/app/DefaultResponsesInterfaces";
+import { ResponseMessages } from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
+import {LessonWordState} from "@/components/admin/wordLessons/WordLessonEdit";
+import {
+    LessonWordsAnkiType,
+    LessonWordsByLevel
+} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getWordLessonAPI";
 
 
-export async function saveWordLessonAPI(data:WordLesson, uuid: string) {
+export async function saveWordLessonAPI(data: LessonWordState, uuid: string) {
+
+    const lesson: Record<string, any> = {
+        uuid: data.uuid,
+        name: data.name,
+        description: data.description,
+        sortOrder: data.sortOrder,
+        categoryUUID: data.categoryUUID,
+        seoObject: data.seoObject,
+        ...(data.lessonType === "byLevel" ? {
+            lessonType: "byLevel",
+            cards: (data as LessonWordsByLevel).cards && (data as LessonWordsByLevel).cards.length > 0
+                && (data as LessonWordsByLevel).cards.map((wc) => {
+                    return {
+                        uuid: wc.uuid,
+                        description: wc.description,
+                        wordUUID: wc.wordUUID,
+                        sortOrder: wc.sortOrder,
+                    };
+                }) || [],
+        } : {
+            lessonType: "ankiType",
+            lessonsByLevel: (data as LessonWordsAnkiType).lessonsByLevel && (data as LessonWordsAnkiType).lessonsByLevel.length > 0
+                && (data as LessonWordsAnkiType).lessonsByLevel.map((l) => l.uuid)
+        }),
+
+    };
+
+    const lessonType = data.lessonType === "byLevel" ? "lesson-by-level" :  "lesson-anki-type";
 
     try {
-            const response = await fetchWithToken(`${env.SERVER_API_URL}/api/admin/word-lesson/${uuid}`, {
+            const response = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/${lessonType}/${uuid}`, {
                 method: 'PUT',
-                body: JSON.stringify(data),
+                body: JSON.stringify(lesson),
                 headers: {
                     'Content-Type': 'application/json'
                 }

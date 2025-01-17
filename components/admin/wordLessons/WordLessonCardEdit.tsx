@@ -1,50 +1,41 @@
 'use client'
 
-import {DictionaryPage, WordLessonCard} from "@/app/DefaultResponsesInterfaces";
-import React, {ReactNode, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SearchDictionaryPage} from "@/components/admin/wordLessons/SearchDictionaryPage";
 import {DictionaryPageSearchResult} from "@/components/admin/wordLessons/DictionaryPageSearchResult";
+import {WordCard} from "@/components/admin/wordLessons/WordLessonEdit";
+import {Word} from "@/app/DefaultResponsesInterfaces";
 
 type Props = {
-    card: WordLessonCard;
-    children: ReactNode;
-    updateCard: (updatedCard: WordLessonCard) => void;
+    card: WordCard;
+    updateCard: (updatedCard: WordCard | undefined) => void;
 }
 
-export const WordLessonCardEdit = ({card, children, updateCard}: Props) => {
+export const WordLessonCardEdit = ({card, updateCard}: Props) => {
 
-    const [sortOrder, setSortOrder] = useState(card.sortOrder);
-    const [description, setDescription] = useState(card.description);
-    const [dictionaryPages, setDictionaryPages] = useState<DictionaryPage[]>();
-    const [dictionaryPage, setDictionaryPage] = useState<DictionaryPage>(card.dictionaryPage);
+    const [words, setWords] = useState<Word[]>();
+    const [cardSave, setCardSave] = useState(card);
     const [requiredFieldError, setRequiredFieldError] = useState("")
 
     useEffect(() => {
-        if (dictionaryPage) {
-            setDictionaryPages([]);
+        if (card) {
+            setWords([]);
             setRequiredFieldError("");
         }
-    }, [dictionaryPage]);
+    }, [card]);
 
     const handleSave = () => {
-        if (dictionaryPage) {
+        if (card && cardSave) {
             setRequiredFieldError("");
-            const cardUpdated = {
-                uuid: card.uuid,
-                description: description,
-                sortOrder: sortOrder,
-                dictionaryPage: dictionaryPage
-            } as WordLessonCard;
-            updateCard(cardUpdated);
+            updateCard(cardSave);
         } else {
             setRequiredFieldError("Обов'язкове поле не може бути пустим!");
         }
     };
 
-    const handleClickDictionaryPageDelete = () => {
-        setDictionaryPage(card.dictionaryPage);
-        setDictionaryPages([]);
-        setRequiredFieldError("");
+    const handleClickWordSelectedDelete = () => {
+        setCardSave({...cardSave, wordUUID: "", wordName: ""});
+        setRequiredFieldError("Обов'язкове поле не може бути пустим!");
     }
 
     return (
@@ -54,36 +45,53 @@ export const WordLessonCardEdit = ({card, children, updateCard}: Props) => {
                     <label htmlFor="description">Опис картки: </label>
                 </div>
                 <div className="col-md-10 col-12">
-                    <textarea cols={2} id="description" className="h-auto w-95" value={description}
-                              onChange={(e) => setDescription(e.target.value)}/>
+                    <textarea  id="description" className="h-auto w-95"
+                               value={cardSave.description}
+                               onChange={(e) => {
+                                   setCardSave({...cardSave, description: e.target.value});
+                               }}
+                               cols={2}
+                    />
                 </div>
 
             </div>
             <div className="row col-12">
                 <div className="d-flex col-md-3 col-12 me-auto">
                     <label htmlFor="sort">Порядок сортування: </label>
-                    <input id="sort" type="number" value={sortOrder} onChange={(e) => setSortOrder(+e.target.value)}
-                           style={{width: 60}}/>
+                    <input id="sort" type="number"  style={{width: 60}}
+                           value={cardSave.sortOrder}
+                           onChange={(e) => {
+                               setCardSave({...cardSave, sortOrder: + e.target.value});
+                           }}
+                    />
                 </div>
                 <div className="d-flex col-md-9 col-12">
-                    <SearchDictionaryPage onSearch={setDictionaryPages}/>
-                    {dictionaryPages && dictionaryPages.length > 0 &&
+                    <SearchDictionaryPage onSearch={setWords}/>
+                    {words && words.length > 0 &&
                         <div className="col-md-2 search__result flex-column" style={{marginTop: 35}}>
-                            {dictionaryPages.map(dictionaryPage => (
-                                <div key={dictionaryPage.uuid}>
-                                    <DictionaryPageSearchResult dictionaryPage={dictionaryPage}
-                                                                dictionaryPageChange={setDictionaryPage}/>
+                            {words.map(word => (
+                                <div key={word.uuid}>
+                                    <DictionaryPageSearchResult
+                                        word={word}
+                                        setSelectWord={(word) => {
+                                            setCardSave({...cardSave, wordUUID: word.uuid, wordName: word.name});
+                                            setWords([]);
+                                            setRequiredFieldError("");
+                                        }}
+                                    />
                                 </div>
                             ))}
                         </div>}
                     <div className="d-flex ms-3">
                         <span>Слово картки: </span>
                         <div className="needs"></div>
-                        {dictionaryPage &&
+                        {card &&
                             <>
-                                <span className="ms-3" style={{color: "#298ff8"}}>{dictionaryPage.name}</span>
-                                <button type="button" onClick={handleClickDictionaryPageDelete}
-                                        className="delete__b ms-1">X
+                                <span className="ms-3" style={{color: "#298ff8"}}>{cardSave.wordName}</span>
+                                <button type="button" className="delete__b ms-1"
+                                        onClick={handleClickWordSelectedDelete}
+                                >
+                                    X
                                 </button>
                             </>
                         }
@@ -94,7 +102,11 @@ export const WordLessonCardEdit = ({card, children, updateCard}: Props) => {
             </div>
             <div>
                 <button type="button" onClick={handleSave} className="b-curt-save">Save</button>
-                {children}
+                <button type="button" className="b-curt-delete"
+                        onClick={() => updateCard(undefined)}
+                >
+                    X
+                </button>
             </div>
 
         </div>
