@@ -1,5 +1,5 @@
 import { env } from "@/env.mjs";
-import { WordLesson } from "@/app/DefaultResponsesInterfaces";
+import {LessonWords} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getWordLessonAPI";
 
 
 export async function getWordLesson(uuid: string) {
@@ -11,7 +11,7 @@ export async function getWordLesson(uuid: string) {
         });
 
         if (response.ok) {
-            return (await response.json()) as WordLesson;
+            return (await response.json()) as LessonWords;
         }
 
         return undefined;

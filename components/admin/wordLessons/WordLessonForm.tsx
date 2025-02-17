@@ -14,8 +14,11 @@ import {
     LessonWordsByLevel
 } from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getWordLessonAPI";
 import {SearchCategory} from "@/app/(protected)/admin/categories/category/[uuid]/SearchCategory";
+import 'react-toastify/dist/ReactToastify.css';
+import {ShowErrorMessage} from "@/components/ShowErrorMessage";
 
-export type WordCard = {
+export type WordCardState = {
+    id: number;
     uuid: string
     description: string;
     wordUUID: string;
@@ -34,7 +37,7 @@ export type LessonWordState = {
 } & (
     | {
     lessonType: "byLevel";
-    cards: WordCard[] | [];
+    cards: WordCardState[] | [];
 }
     | {
     lessonType: "ankiType";
@@ -45,9 +48,9 @@ export type LessonWordState = {
 }
     );
 
-export const WordLessonEdit = ({lessonResp}: { lessonResp: LessonWords }) => {
+export function WordLessonForm(props:{ lessonResp: LessonWords })  {
 
-    const [lessonSaved, setLessonSaved] = useState<LessonWords>(lessonResp);
+    const [lessonSaved, setLessonSaved] = useState<LessonWords>(props.lessonResp);
 
     const [lessonState, setLessonState] = useState<LessonWordState>({
         uuid: lessonSaved.uuid,
@@ -63,16 +66,15 @@ export const WordLessonEdit = ({lessonResp}: { lessonResp: LessonWords }) => {
         } as SEOObject,
         ...(lessonSaved.lessonType === "byLevel" ? {
             lessonType: "byLevel",
-            cards: ((lessonSaved as LessonWordsByLevel).cards && (lessonSaved as LessonWordsByLevel).cards.length > 0)
-                && (lessonSaved as LessonWordsByLevel).cards.map((c) => {
+            cards: (lessonSaved as LessonWordsByLevel).cards.map((c) => {
                 return {
                     uuid: c.uuid,
                     description: c.description,
-                    wordUUID: c.wordUUID,
-                    wordName: c.wordName,
+                    wordUUID: c.word.uuid,
+                    wordName: c.word.name,
                     sortOrder: c.sortOrder,
                 }
-            }) || [],
+            }) as WordCardState[],
         } : lessonSaved.lessonType === "ankiType" ? {
                 lessonType: "ankiType",
                 lessonsByLevel: (lessonSaved as LessonWordsAnkiType).lessonsByLevel && (lessonSaved as LessonWordsAnkiType).lessonsByLevel.length > 0
@@ -93,11 +95,13 @@ export const WordLessonEdit = ({lessonResp}: { lessonResp: LessonWords }) => {
     const [h1Error, setH1Error] = useState("");
     const [tagTitleError, setTagTitleError] = useState("");
     const [tagDescriptionError, setTagDescriptionError] = useState("");
+    const [errorEmptyCardsError, setErrorEmptyCards] = useState("");
 
     const [descriptionError, setDescriptionError] = useState("");
 
     const handleNewCard = () => {
         if (lessonState.lessonType === "byLevel") {
+            setErrorEmptyCards("");
             const updatedCards = [
                 ...(lessonState.cards || []),
                 {
@@ -117,7 +121,9 @@ export const WordLessonEdit = ({lessonResp}: { lessonResp: LessonWords }) => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        if(lessonState.lessonType === "byLevel" && !lessonState.cards || lessonState.cards.length === 0) {
+            setErrorEmptyCards("Необхідно створити мінімум 1 карту!");
+        }
         try {
             const response = await saveWordLessonAPI(lessonState, lessonSaved.uuid);
                     if (response?.status === 200) {
@@ -137,6 +143,9 @@ export const WordLessonEdit = ({lessonResp}: { lessonResp: LessonWords }) => {
             toast.error("Помилка сервера!!!");
         }
     }
+
+
+    console.log(JSON.stringify(lessonSaved));
 
     return (
         <>
@@ -160,10 +169,10 @@ export const WordLessonEdit = ({lessonResp}: { lessonResp: LessonWords }) => {
                             && (lessonState as LessonWordsByLevel).cards.map((card, cIdx) => {
                                 return (
                                     <div key={card.uuid}
-                                         style={{padding: 5, margin: 5, border: "1px solid", borderRadius: 20}}>
+                                         style={{padding: 5, margin: 5, border: "1px solid #19a68c", borderRadius: 20}}>
                                         <WordLessonCardEdit
                                             card={card}
-                                            updateCard={(card) => {
+                                            setCard={(card) => {
                                                 if(!card) {
                                                     const updatedCards = lessonState.cards.filter(
                                                         (_, index) => index !== cIdx );
@@ -188,6 +197,7 @@ export const WordLessonEdit = ({lessonResp}: { lessonResp: LessonWords }) => {
                                 <ReactSVG src="/images/plus.svg" className="back-arrow-color"/>
                             </button>
                         </div>
+                        { errorEmptyCardsError && <ShowErrorMessage error={errorEmptyCardsError} /> }
                     </div>
 
                     <div className="col-md-3 col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">

@@ -1,38 +1,66 @@
 'use client'
 
-import {useEffect, useState} from "react";
-import {getWordsBySearchAPI} from "@/app/(protected)/admin/dictionary-pages/dictionary-page/[uuid]/getWordsBySearchAPI";
-import {Word} from "@/app/DefaultResponsesInterfaces";
+import React, { useEffect, useState } from "react";
+import {
+    searchWord,
+    SimpleWord
+} from "@/app/(protected)/admin/dictionary-pages/dictionary-page/[uuid]/searchWord";
 
-type Props = {
-    onSearch: (value: Word[]) => void;
-}
-export const SearchWord = ({onSearch}: Props) => {
 
-    const [search, setSearch] = useState("");
+export function SearchWord(props: {
+    searchTo: string;
+    wordName: string;
+    wordUUID: string;
+    setWordName: (wordName: string) => void;
+    setWordUUID: (wordUUID: string) => void }) {
+
+    const [words, setWords] = useState<SimpleWord[]>([]);
+    const [openWordList, setOpenWordList] = useState<boolean>(false);
 
     useEffect(() => {
-        if (search.length > 0) {
-            const searchWords = async () => {
-                const words = await getWordsBySearchAPI(search);
-                onSearch(words || []);
-            }
-            searchWords();
+        if (props.wordName.length > 0) {
+            (async () => {
+                const res = await searchWord(props.wordName, props.searchTo);
+                if(res.ok) {
+                   setWords(res.ok);
+                }
+            })()
         }
-        onSearch([]);
-    }, [search]);
+        setWords([]);
+    }, [props.wordName]);
 
-    // const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-    //     event.preventDefault();
-    //     const words = await getWordsBySearchAPI(search);
-    //     onSearch(words || [])
-    // }
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>,uuid: string, wordName: string) => {
+        e.preventDefault();
+        props.setWordUUID(uuid);
+        props.setWordName(wordName);
+        setOpenWordList(false);
+    }
 
 
     return (
-        // <form onSubmit={handleSubmit}>
-        <input type="search" placeholder="пошук слова..." value={search} onChange={(event) => setSearch(event.target.value)} style={{position: "relative"}}/>
-        // <button type="submit">Search</button>
-        // </form>
+        <div className="position-relative">
+            <input className="w-100" type="search" placeholder="пошук слова..."
+                   onFocus={() => setOpenWordList(true)}
+                   value={props.wordName}
+                   onChange={(event) => {
+                       props.setWordName(event.target.value);
+                   }}
+                   required
+            />
+            {openWordList && words && words.length > 0 &&
+                <div className="col-md-2 search__result flex-column position-absolute">
+                    {words.map(word => (
+                        <div key={word.uuid}>
+                            <div className="d-flex flex-row gap-4">
+                                <span>{word.name}</span>
+                                <button type="button" onClick={(e) => {
+                                    handleClick(e, word.uuid, word.name);
+                                }}> + </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            }
+        </div>
     );
 };

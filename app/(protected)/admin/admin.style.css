@@ -288,13 +288,15 @@ input[type="file"]::file-selector-button:active {
 
 .search__result {
     position: absolute;
+    width: 100%;
     background: var(--dashui-block-content-bg);
+    color: white;
     border-radius: 10px;
     padding: 5px 10px;
     gap: 10px;
     display: flex;
-    border: 1px solid;
-    margin-top: 65px;
+    border: 1px solid #717171;
+    /*margin-top: 65px;*/
     z-index: 9999;
 }
 

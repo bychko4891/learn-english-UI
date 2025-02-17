@@ -5,6 +5,7 @@ import NotFound from "@/app/not-found";
 import {getWordLesson} from "@/app/word-lessons/cards/lesson/[uuid]/getWordLesson";
 import {CardsButtonLearn} from "@/components/word-lesson/CardsButtonLearn";
 import "@/components/word-lesson/word_lesson.style.css";
+import {LessonWordsByLevel} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getWordLessonAPI";
 
 type Props = {
     params: {
@@ -31,7 +32,7 @@ export default async function LearnWordLesson({params: {uuid}}: Props) {
                     <div className="d-flex flex-column align-items-center">
                         <div className="row col-12 w-top-content">
                             <div className="col-md-6 col-12 text-start">
-                                <h1>{wordLesson.h1}</h1>
+                                <h1>{wordLesson.seoObject.h1}</h1>
                                 <div dangerouslySetInnerHTML={{__html: (wordLesson.description)}}
                                      style={{fontSize: "1.125rem"}}/>
                                 <CardsButtonLearn/>
@@ -45,7 +46,8 @@ export default async function LearnWordLesson({params: {uuid}}: Props) {
 
                         </div>
                         <div className="row col-12">
-                            {wordLesson.cards && wordLesson.cards.length > 0 && wordLesson.cards
+                            {wordLesson && wordLesson.lessonType === "byLevel" && (wordLesson as LessonWordsByLevel).cards && (wordLesson as LessonWordsByLevel).cards.length > 0
+                                && (wordLesson as LessonWordsByLevel).cards
                                 .slice()
                                 .sort((a, b) => a.sortOrder - b.sortOrder)
                                 .map(card => (

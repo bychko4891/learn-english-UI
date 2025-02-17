@@ -18,7 +18,7 @@ export default async function ArticlesPage() {
                         <ButtonNewEntity apiRequestURL="/lesson-word/new" redirectURL="/admin/word-lessons/word-lesson/"/>
                     </div>
                 </div>
-                <WordLessons/>
+                <WordLessons />
             </div>
         </div>
     );

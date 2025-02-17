@@ -16,7 +16,7 @@ export default async function ApplicationPages() {
                     </div>
 
                     <div className="right d-flex gap-3">
-                    <ButtonNewEntity  apiRequestURL="/app-pages/new-page" redirectURL="/admin/app-pages/"/>
+                    <ButtonNewEntity  apiRequestURL="/app-page/new" redirectURL="/admin/app-pages/"/>
                     <Link href="/admin/app-pages/contents" className="right page-nav">Контент сторінок</Link>
                     </div>
                 </div>

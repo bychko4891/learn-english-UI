@@ -1,3 +1,8 @@
+export interface SuccessResponse <T> {
+    t: T;
+    localizedMessage: string;
+}
+
 export interface GeneralMessage {
     status: number;
     general: string;
@@ -55,10 +60,7 @@ export interface Article {
     category: Category;
 }
 
-export interface EntityAndMainCategoriesResp <T>{
-    t: T;
-    mainCategories: Category[];
-}
+
 
 export interface CategoryResponse <T> {
     category: Category
@@ -78,36 +80,13 @@ export interface AppPageContent {
     image: ImageAPI;
 }
 
-export interface AppPage {
-    id: number;
-    uuid: string;
-    h1: string;
-    htmlTagDescription: string;
-    htmlTagTitle: string;
-    url: string;
-    appPageContents: AppPageContent[];
-}
+
 
 export interface AppPageContentRequest {
     applicationPageContent: AppPageContent;
     applicationPages: AppPage[];
 }
 
-export interface Word {
-    id: number;
-    uuid: string;
-    name: string;
-    translate: string;
-    brTranscription: string;
-    usaTranscription: string;
-    irregularVerbPt: string;
-    irregularVerbPp: string;
-    activeURL: boolean;
-    correctVerb: boolean;
-    wordLevel: string;
-    audio: Audio | null;
-    image: ImageAPI | null;
-}
 
 export interface Audio {
     name: string ;
@@ -120,32 +99,14 @@ export interface Audio {
 export interface PaginationObject<T> {
     t: T[];
     totalPages: number;
-    totalElements: number;
-    currentPage: number;
+    totalElements?: number;
+    // currentPage?: number;
 }
-
-export interface DictionaryPage {
-    id: number;
-    uuid: string;
-    name: string;
-    description: string;
-    partOfSpeech: string;
-    htmlTagDescription: string;
-    htmlTagTitle: string;
-    published: boolean;
-    isRepeatable: boolean;
-    word: Word;
-    image: ImageAPI;
-    category: Category;
-}
-
-
-
 
 
 export interface Pagination {
     totalPages: number;
-    currentPage: number;
+    // currentPage: number;
     totalElements: number;
 }
 

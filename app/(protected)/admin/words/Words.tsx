@@ -3,30 +3,36 @@
 import Link from "next/link";
 import Image from "next/image";
 import {useEffect, useState} from "react";
-import {Pagination, Word} from "@/app/DefaultResponsesInterfaces";
+import { Pagination } from "@/app/DefaultResponsesInterfaces";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 import {NoContent} from "@/components/noContent/NoContent";
-import {getWordsAPI} from "@/app/(protected)/admin/words/getWordsAPI";
+import {getWords} from "@/app/(protected)/admin/words/getWords";
 import {PaginationComponent} from "@/components/pagination/PaginationComponent";
+import {useSearchParams} from "next/navigation";
+import {Word} from "@/app/(protected)/admin/words/word/[uuid]/getWordAPI";
 
 export const Words = () => {
 
+    const searchParams = useSearchParams();
     const [words, setWords] = useState<Word[]>();
-    const [nextPage, setNextPage] = useState<number>(0);
-    const [size, setSize] = useState<number>(25);
     const [error, setError] = useState<Error>();
     const [pagination, setPagination] = useState<Pagination>();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getWordsAPI(nextPage, size);
+                const res = await getWords({
+                    searchQuery: searchParams.get("searchQuery")?.toString(),
+                    sort: searchParams.get("sort")?.toString(),
+                    page: searchParams.get("page")?.toString(),
+                    size: searchParams.get("size")?.toString(),
+                });
                 if (res) {
                     setWords(res.t);
                     const pagination = {
                         totalPages: res.totalPages,
-                        currentPage: res.currentPage,
-                        totalElements: res.totalElements
+                        // currentPage: res.currentPage,
+                        // totalElements: res.totalElements
                     } as Pagination
                     setPagination(pagination);
                 } else setError(new Error());
@@ -35,7 +41,7 @@ export const Words = () => {
             }
         };
         fetchData();
-    }, [error, nextPage, size]);
+    }, [error, searchParams]);
 
     if (!error) {
         return (
@@ -68,7 +74,7 @@ export const Words = () => {
                     ))}
                     </tbody>
                 </table>
-                {pagination && <PaginationComponent pagination={pagination} nextPage={setNextPage} size={setSize}/>}
+                {pagination && <PaginationComponent pagination={pagination} />}
             </>
         );
     }

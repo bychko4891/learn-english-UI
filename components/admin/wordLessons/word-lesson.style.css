@@ -25,18 +25,32 @@
 
 .b-curt-delete {
     cursor: pointer;
-    width: 30px;
-    height: 20px;
-    border-color: red;
-    border-radius: 5px;
-    color: red;
-    margin: 0 5px;
+    background-color: transparent;
+    margin-right: -30px;
+    margin-bottom: -6px;
+    width: 60px;
+    height: 40px;
+    border: 1px solid;
+    border-color: tomato #19a68c #19a68c tomato;
+    border-radius: 20px 0 20px 0;
+    color: tomato;
     transition: all .9s;
 }
 
+/*.b-curt-delete {*/
+/*    cursor: pointer;*/
+/*    width: 30px;*/
+/*    height: 20px;*/
+/*    border-color: red;*/
+/*    border-radius: 5px;*/
+/*    color: red;*/
+/*    margin: 0 5px;*/
+/*    transition: all .9s;*/
+/*}*/
+
 .b-curt-delete:hover {
     color: white;
-    background: red;
+    background: tomato;
 }
 
 .b-curt-save {

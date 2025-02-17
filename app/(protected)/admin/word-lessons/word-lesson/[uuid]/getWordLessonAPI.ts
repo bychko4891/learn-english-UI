@@ -3,7 +3,6 @@
 import {env} from "@/env.mjs";
 import { SEOObject } from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
-import {WordCard} from "@/components/admin/wordLessons/WordLessonEdit";
 
 export type LessonWordsBase = {
     uuid: string;
@@ -17,7 +16,13 @@ export type LessonWordsBase = {
 
 export type LessonWordsByLevel = LessonWordsBase & {
     lessonType: "byLevel"
-    cards: WordCard[];
+    cards: {
+        id: number;
+        uuid: string;
+        description: string;
+        sortOrder: number;
+        word: { uuid: string; name: string; }
+    }[];
 }
 
 export type LessonWordsAnkiType = LessonWordsBase & {

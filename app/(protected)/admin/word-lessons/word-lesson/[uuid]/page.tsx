@@ -1,4 +1,4 @@
-import {WordLessonEdit} from "@/components/admin/wordLessons/WordLessonEdit";
+import {WordLessonForm} from "@/components/admin/wordLessons/WordLessonForm";
 import {getWordLessonAPI} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getWordLessonAPI";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 
@@ -15,7 +15,7 @@ export default async function WordLessonPage({params: {uuid}}: Props) {
         return (
             <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
                 <div className="main-content p-3 w-95 admin-h">
-                    {resp && <WordLessonEdit lessonResp={resp}/>}
+                    {resp && <WordLessonForm lessonResp={resp}/>}
                 </div>
             </div>
         );

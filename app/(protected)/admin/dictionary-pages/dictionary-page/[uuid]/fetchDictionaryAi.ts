@@ -4,10 +4,10 @@ import {env} from "@/env.mjs";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
 
-export async function fetchAiAPI(wordField: string, word: string): Promise<Result<string, string>> {
+export async function fetchDictionaryAi(field: string, word: string): Promise<Result<string, string>> {
 
     try {
-        const response = await fetch(`${env.SERVER_API_URL}/api/v1/gemini/word-to-gemini?field=${wordField}&word=${word}`, {
+        const response = await fetch(`${env.SERVER_API_URL}/api/v1/gemini/dictionary-to-gemini?field=${field}&word=${word}`, {
         // const response = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/gemini/word-to-gemini?wordField=${wordField}&word=${word}`, {
             method: 'POST',
         });

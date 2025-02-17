@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {Editor} from '@tinymce/tinymce-react';
 
 
@@ -15,21 +15,40 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
 
     const editorHeight = height ? height : "calc(100vh - 200px)"
     const editorId = id ? id : "5712"
-
     const editorRef = useRef<any>(null);
-    const [content, setContent] = useState<string>(initialValue || ""); // Встановлюємо початковий вміст
+    const editorContainerRef = useRef<HTMLDivElement>(null); // Для відстеження миші
+    const [content, setContent] = useState(initialValue);
 
-    const handleContentChange = (content: string) => {
-        // setContent(content);
-        onContentChange(content);
+    const handleEditorChange = (newContent: string) => {
+        setContent(newContent);
+        // if(content) onContentChange(content);
     };
 
+    const handleMouseLeave = () => {
+        if (editorRef.current) {
+            const updatedContent = editorRef.current.getContent();
+            onContentChange(updatedContent);
+        }
+    };
+
+    useEffect(() => {
+        if (editorContainerRef.current) {
+            editorContainerRef.current.addEventListener("mouseleave", handleMouseLeave);
+        }
+
+        return () => {
+            if (editorContainerRef.current) {
+                editorContainerRef.current.removeEventListener("mouseleave", handleMouseLeave);
+            }
+        };
+    }, []);
 
     return (
-        <>
+        <div ref={editorContainerRef}>
             <Editor apiKey="j8dxs8puyiugoamq11vn3bctaonh1jhzvd0cewcb1jiyl2c6"
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     initialValue={initialValue}
+                    // value={content}
                     id={editorId}
                     init={{
                         height: editorHeight,
@@ -64,16 +83,22 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
                         images_upload_url: '/api/tinymce-img-upload',
                         automatic_uploads: true,
                         images_upload_base_path: "/api/webimg/",
-                        setup: function (editor) {
-                            editor.on('change', function () {
-                                onContentChange(editor.getContent());
-                                // handleContentChange(editor.getContent());
-                            });
-                        },
+                        // setup: (editor) => {
+                        //     editor.on("input", () => {
+                        //         handleEditorChange(editor.getContent());
+                        //     });
+                        // },
+                        // setup: function (editor) {
+                        //     editor.on('change', function () {
+                        //         handleEditorChange(editor.getContent());
+                        //         // onContentChange(editor.getContent());
+                        //         // handleContentChange(editor.getContent());
+                        //     });
+                        // },
                     }}
                     tinymceScriptSrc="/tinymce/tinymce.min.js"
             />
-        </>
+        </div>
     );
 };
 

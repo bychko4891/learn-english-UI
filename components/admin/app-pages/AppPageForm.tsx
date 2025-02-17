@@ -1,63 +1,55 @@
 'use client'
 
-import {AppPage} from "@/app/DefaultResponsesInterfaces";
 import React, {FormEvent, useState} from "react";
 import {toast, ToastContainer, Zoom} from "react-toastify";
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import {ReactSVG} from "react-svg";
-import {saveAppPageAPI} from "@/app/(protected)/admin/app-pages/[uuid]/saveAppPageAPI";
+import {saveAppPage, SaveAppPageErrors} from "@/app/(protected)/admin/app-pages/[uuid]/saveAppPage";
 import 'react-toastify/dist/ReactToastify.css';
+import {AppPage} from "@/app/(protected)/admin/app-pages/[uuid]/getAppPage";
+import {SEOObject} from "@/app/DefaultResponsesInterfaces";
+import {ShowErrorMessage} from "@/components/ShowErrorMessage";
 
-export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
+export const AppPageForm = ( props:{ appPage: AppPage } ) => {
 
-    const [uuid, setUuid] = useState(appPage.uuid);
-    const [h1, setH1] = useState(appPage.h1);
-    const [title, setTitle] = useState(appPage.htmlTagTitle || "");
-    const [description, setDescription] = useState(appPage.htmlTagDescription || "");
-    const [url, setUrl] = useState(appPage.url);
+    const [appPageSaved, setAppPageSaved] = useState(props.appPage);
+    const [appPageState, setAppPageState] = useState({
+        uuid: appPageSaved.uuid,
+        url: appPageSaved.url,
+        seoObject: {
+            h1: appPageSaved.seoObject?.h1 ?? "",
+            htmlTagTitle: appPageSaved.seoObject?.htmlTagTitle ?? "",
+            htmlTagDescription: appPageSaved.seoObject?.htmlTagDescription ?? "",
+        } as SEOObject,
+    });
 
-    const [h1Error, setH1Error] = useState("");
-    const [descriptionError, setDescriptionError] = useState("");
-    const [titleError, setTitleError] = useState("");
-    const [urlError, setUrlError] = useState("");
-    const [generalError, setGeneralError] = useState("");
-
-
+    const [errors, setErrors] = useState<SaveAppPageErrors | undefined>();
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // setDisabled(true);
-        const page = {
-            uuid: uuid,
-            h1: h1,
-            htmlTagTitle: title,
-            htmlTagDescription: description,
-            url: url
-        } as AppPage;
-
-        try {
-            const response = await saveAppPageAPI(page, uuid);
-            if (response?.status === 200) {
-                toast.success(response.general);
-            }
-            if (response?.status === 400) {
-                setDescriptionError(response?.htmlTagDescription)
-                setTitleError(response?.htmlTagTitle)
-                setUrlError(response?.url)
-                setGeneralError(response?.general)
-                setH1Error(response?.h1)
-                toast.error("Є помилки при введенні даних!");
-            }
-            // setDisabled(false);
-            // if(response) {
-            //     // setRespData(response);
-            // }
-        } catch (error) {
-            // setDisabled(false);
-            // console.log("Server error: " + error)
-
+        const page: Record<string, any> = {
+            uuid: appPageSaved.uuid,
+            url: appPageState.url,
+            seoObject: {
+                h1: appPageState.seoObject.h1,
+                htmlTagTitle: appPageState.seoObject.htmlTagTitle,
+                htmlTagDescription: appPageState.seoObject.htmlTagDescription ?? "",
+            },
+        };
+        const res = await saveAppPage(page, appPageSaved.uuid);
+        if (res.ok) {
+            setAppPageSaved(res.ok.t);
+            toast.success(res.ok.localizedMessage);
+            return;
         }
+        setErrors(res.err ? res.err : undefined)
+        toast.error("Є помилки при введенні даних!");
+        toast.error(res.err?.error);
     }
+
+    console.log(JSON.stringify(appPageState))
+    console.log(JSON.stringify("SAVED --> "+JSON.stringify(appPageSaved)))
 
     return (
         <>
@@ -79,54 +71,72 @@ export const AppPageForm = ({appPage}: { appPage: AppPage }) => {
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-3 pe-4">
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>H1 сторінки</label>
-                            <input type="text" className="w-50" name="name" value={h1}
-                                   onChange={(e) => setH1(e.target.value)}/>
+                            <input type="text" className="w-50" name="name"
+                                   value={appPageState.seoObject.h1}
+                                   onChange={(e) => {
+                                       const seo = appPageState.seoObject;
+                                       seo.h1 = e.target.value;
+                                       setAppPageState({...appPageState, seoObject: seo});
+                                   }}
+                            />
                         </div>
                     </div>
-                    {!!h1Error && <p className="p_error ms-3">{h1Error}</p>}
+                    {errors?.seoObject?.h1 && <ShowErrorMessage error={errors?.seoObject?.h1} />}
+
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>Html tag «Title»</label>
-                            <textarea className="w-50" name="name" value={title}
-                                      onChange={(e) => setTitle(e.target.value)}/>
+                            <textarea className="w-50" name="name"
+                                      value={appPageState.seoObject.htmlTagTitle}
+                                      onChange={(e) => {
+                                          const seo = appPageState.seoObject;
+                                          seo.htmlTagTitle = e.target.value;
+                                          setAppPageState({...appPageState, seoObject: seo});
+                                      }}
+                            />
                             <span className="counter-text w-50 text-end pe-3">
-                                     <span>{title.length}</span>
+                                     <span>{appPageState.seoObject.htmlTagTitle.length}</span>
                                         /
                                     <span>360</span>
                             </span>
                         </div>
                     </div>
-                    {!!titleError && <p className="p_error ms-3">{titleError}</p>}
+                    {errors?.seoObject?.htmlTagTitle && <ShowErrorMessage error={errors?.seoObject?.htmlTagTitle} />}
 
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>Html tag «Description»</label>
-                            <textarea className="w-50" name="name" value={description}
-                                      onChange={(e) => setDescription(e.target.value)}/>
+                            <textarea className="w-50" name="name"
+                                      value={appPageState.seoObject.htmlTagDescription}
+                                      onChange={(e) => {
+                                          const seo = appPageState.seoObject;
+                                          seo.htmlTagDescription = e.target.value;
+                                          setAppPageState({...appPageState, seoObject: seo});
+                                      }}
+                            />
                             <span className="counter-text w-50 text-end pe-3">
-                                     <span>{description.length}</span>
+                                     <span>{appPageState.seoObject.htmlTagDescription.length}</span>
                                         /
                                     <span>360</span>
                             </span>
                         </div>
                     </div>
-                    {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
+                    {errors?.seoObject?.htmlTagDescription && <ShowErrorMessage error={errors?.seoObject?.htmlTagDescription} />}
 
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
                         <div className="d-flex flex-column align-items-start w-100">
                             <label>URL сторінки</label>
-                            <input type="text" className="w-50" name="name" value={url}
-                                   onChange={(e) => setUrl(e.target.value)} required={true}/>
+                            <input type="text" className="w-50" name="name"
+                                   value={appPageState.url}
+                                   onChange={(e) => setAppPageState({...appPageState, url: e.target.value})}
+                                   required={true}
+                            />
                         </div>
                     </div>
-                    {!!urlError && <p className="p_error ms-3">{urlError}</p>}
-                    {!!generalError && <p className="p_error ms-3">{generalError}</p>}
-
-                    <input type="hidden" name="uuid" value={uuid} onChange={(e) => setUuid(e.target.value)}/>
+                    {errors?.url && <ShowErrorMessage error={errors?.url } />}
+                    {errors?.error && <ShowErrorMessage error={errors?.error } />}
                 </form>
             </div>
         </>
-    );
-
-
-};
+    )
+}

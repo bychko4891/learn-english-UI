@@ -1,6 +1,5 @@
 'use client'
 
-import {WordLesson} from "@/app/DefaultResponsesInterfaces";
 import {ReactSVG} from "react-svg";
 import "./word_lesson.style.css";
 import {useState} from "react";
@@ -9,8 +8,9 @@ import LessonsSvg from "public/images/lessons_count.svg";
 import WordsSvg from "public/images/words_count.svg";
 import ClockSvg from "public/images/clock.svg";
 import Link from "next/link";
+import {LessonWords} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getWordLessonAPI";
 
-export const WordLessonCards = ({wordLessons}: { wordLessons: WordLesson[] }) => {
+export const WordLessonCards = ({wordLessons}: { wordLessons: LessonWords[] }) => {
     const [wlCardActive, setWlCardActive] = useState(0)
 
     const handleClick = (index: number) => {

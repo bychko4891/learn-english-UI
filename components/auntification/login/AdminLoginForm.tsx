@@ -85,8 +85,11 @@ const LoginForm = () => {
     return (
         <form onSubmit={handleSubmit} className="class">
             <div className="wrap-input100 input">
-                <input className="input100" type="email" name="email" placeholder="Email" value={email}
-                       onChange={(e) => setEmail(e.target.value)} required={true} />
+                <input className="input100" type="email" name="email" placeholder="Email"
+                       value={email}
+                       onChange={(e) => setEmail(e.target.value)}
+                       required={true}
+                />
                 <span className="focus-input100"></span>
                 <span className="symbol-input100">
                     <i className="fa fa-envelope" aria-hidden="true"></i></span>

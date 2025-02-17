@@ -75,7 +75,7 @@ body {
     --dashui-header: rgb(40 42 57);
     --dashui-navbar-vertical-bg: rgb(40 42 57);
     --dashui-link-hover-color-rgb: 192, 183, 255;
-    --dashui-block-content-bg: rgba(40, 42, 57, .9);
+    --dashui-block-content-bg: rgba(40, 42, 57, .99);
     --dashui-input-bg: #0f172a;
     --dashui-input-border: #1e293b;
     --dashui-white: #1e293b;

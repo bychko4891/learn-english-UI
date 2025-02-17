@@ -72,7 +72,7 @@ function Categories(props: {
   }
 
   return (
-      <div className="position-absolute d-flex flex-column z-3 bg-white w-100 top-100 overflow-scroll">
+      <div className="position-absolute d-flex flex-column z-1 bg-white w-100 top-100 overflow-scroll">
         {props.categories.map((c) => {
           return (
               <div

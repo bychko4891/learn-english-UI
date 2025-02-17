@@ -6,8 +6,8 @@ import {getArticleAPI} from "@/app/(protected)/admin/articles/article/[uuid]/get
 import {ArticleForm} from "@/components/admin/articles/ArticleForm";
 import {DictionaryPageForm} from "@/components/admin/dictionary/DictionaryPageForm";
 import {
-    getDictionaryPageAPI
-} from "@/app/(protected)/admin/dictionary-pages/dictionary-page/[uuid]/getDictionaryPageAPI";
+    getDictionaryPage
+} from "@/app/(protected)/admin/dictionary-pages/dictionary-page/[uuid]/getDictionaryPage";
 
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
 
 export default async function DictionaryPageEditPage({params: {uuid}}: Props) {
 
-    const dictionaryPageResp = await getDictionaryPageAPI(uuid);
+    const dictionaryPageResp = await getDictionaryPage(uuid);
 
     if(dictionaryPageResp) {
         return (

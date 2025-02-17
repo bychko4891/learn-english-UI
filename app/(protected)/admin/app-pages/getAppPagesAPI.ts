@@ -2,22 +2,31 @@
 
 import {env} from "@/env.mjs";
 import {fetchWithToken} from "@/app/fetchWithToken";
-import {AppPage} from "@/app/DefaultResponsesInterfaces";
+import {PaginationObject, SEOObject} from "@/app/DefaultResponsesInterfaces";
 
+export type SimpleAppPage = {
+    uuid: string;
+    url: string;
+    seoObject: SEOObject;
+}
 
-export async function getAppPagesAPI() {
+export async function getAppPagesAPI(): Promise<Result<PaginationObject<SimpleAppPage>, string>> {
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/app-pages', {
+        const res = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/app-page/all`, {
             method: 'GET',
         });
-        if (response?.ok) {
-            return await response.json() as AppPage[];
-        } else {
-            throw new Error('Failed to fetch data from server => getAppPagesAPI()');
+
+        if (res?.ok) {
+            const totalPages = Number(res?.headers.get("x-total-pages"));
+            const json = (await res.json()) as SimpleAppPage[];
+            return {ok: {t: json, totalPages: totalPages}, err: null}
         }
+
+        return {ok: null, err: "Filed to fetch all pages, status: " + res?.status}
+
     } catch (error) {
-        // console.error('Error fetching data:', error);
-        throw error; // Передача помилки далі до функції, що викликала getAppPagesAPI()
+
+        return {ok: null, err: "Filed to fetch all pages"}
     }
 
 

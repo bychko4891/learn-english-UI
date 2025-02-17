@@ -4,15 +4,15 @@ import {ButtonBack} from "@/components/admin/ButtonBack";
 import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {ReactSVG} from "react-svg";
-import {Audio, ImageAPI, Word} from "@/app/DefaultResponsesInterfaces";
+import {Audio, ImageAPI } from "@/app/DefaultResponsesInterfaces";
 import {toast, ToastContainer, Zoom} from "react-toastify";
 import {AudiPlayerMini} from "@/components/audioPlayers/AudiPlayerMini";
 import {saveWordAPI} from "@/app/(protected)/admin/words/word/[uuid]/saveWordAPI";
-import {getStoragesAPI, StorageFolder} from "@/components/admin/getStoragesAPI";
 import Image from "next/image";
 import {AiGemini} from "@/components/images/AiGemini";
 import {fetchAiAPI} from "@/app/(protected)/admin/words/word/[uuid]/fetchAiAPI";
 import {Storages} from "@/components/admin/Storages";
+import {Word} from "@/app/(protected)/admin/words/word/[uuid]/getWordAPI";
 
 export type WordLevel =
     | "A1"

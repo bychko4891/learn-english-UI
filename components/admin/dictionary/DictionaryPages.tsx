@@ -3,30 +3,33 @@
 import Link from "next/link";
 import Image from "next/image";
 import {useEffect, useState} from "react";
-import {DictionaryPage, Pagination, Word} from "@/app/DefaultResponsesInterfaces";
+import { Pagination } from "@/app/DefaultResponsesInterfaces";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 import {NoContent} from "@/components/noContent/NoContent";
-import {getDictionaryPagesAPI} from "@/app/(protected)/admin/dictionary-pages/getDictionaryPagesAPI";
+import {getDictionaryPages, SimpleDictionaryPage} from "@/app/(protected)/admin/dictionary-pages/getDictionaryPages";
 import {PaginationComponent} from "@/components/pagination/PaginationComponent";
+import {useSearchParams} from "next/navigation";
 
 export const DictionaryPages = () => {
 
-    const [dictionaryPages, setDictionaryPages] = useState<DictionaryPage[]>();
-    const [nextPage, setNextPage] = useState<number>(0);
-    const [size, setSize] = useState<number>(25);
+    const searchParams = useSearchParams();
+    const [dictionaryPages, setDictionaryPages] = useState<SimpleDictionaryPage[]>();
     const [pagination, setPagination] = useState<Pagination>();
     const [error, setError] = useState<Error>();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getDictionaryPagesAPI(nextPage, size);
-                if (res) {
-                    setDictionaryPages(res.t);
+                const res = await getDictionaryPages({
+                    searchQuery: searchParams.get("searchQuery")?.toString(),
+                    sort: searchParams.get("sort")?.toString(),
+                    page: searchParams.get("page")?.toString(),
+                    size: searchParams.get("size")?.toString(),
+                });
+                if (res.ok) {
+                    setDictionaryPages(res.ok.t);
                     const pagination = {
-                        totalPages: res.totalPages,
-                        currentPage: res.currentPage,
-                        totalElements: res.totalElements
+                        totalPages: res.ok.totalPages,
                     } as Pagination
                     setPagination(pagination);
                 } else setError(new Error());
@@ -35,7 +38,7 @@ export const DictionaryPages = () => {
             }
         };
         fetchData();
-    }, [error, nextPage, size]);
+    }, [error, searchParams]);
 
 
     if (!error) {
@@ -44,24 +47,18 @@ export const DictionaryPages = () => {
                 <table className="table mt-3">
                     <thead className="table-dark">
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">Ім`я</th>
-
-                        <th scope="col">Зображення</th>
+                        <th scope="col">Категорія</th>
+                        <th scope="col">Опубліковано</th>
                         <th scope="col">#</th>
                     </tr>
                     </thead>
                     <tbody>
                     {!!dictionaryPages && dictionaryPages.length > 0 && dictionaryPages.map((dictionaryPage) => (
                         <tr key={dictionaryPage.uuid}>
-                            <th scope="row">{dictionaryPage.id}</th>
-                            <td>{dictionaryPage.name}</td>
-                            <td>
-                                {dictionaryPage.image.imageName &&
-                                    <Image src={'/api/word-img/' + dictionaryPage.image.imageName} alt=""
-                                           width={60} height={60}/>
-                                }
-                            </td>
+                            <th scope="row">{dictionaryPage.name}</th>
+                            <td>{dictionaryPage.categoryName}</td>
+                            <td>{dictionaryPage.published ? "Так" : "Ні"}</td>
                             <td>
                                 <Link href={'/admin/dictionary-pages/dictionary-page/' + dictionaryPage.uuid}>
                                     <div className="br-g edit-link">
@@ -74,7 +71,7 @@ export const DictionaryPages = () => {
                     ))}
                     </tbody>
                 </table>
-                {pagination && <PaginationComponent pagination={pagination} nextPage={setNextPage} size={setSize}/>}
+                {pagination && <PaginationComponent pagination={pagination} />}
             </>
         );
     }

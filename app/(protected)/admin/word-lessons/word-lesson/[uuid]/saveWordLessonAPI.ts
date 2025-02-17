@@ -1,14 +1,13 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import { ResponseMessages } from "@/app/DefaultResponsesInterfaces";
+import {ResponseMessages} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
-import {LessonWordState} from "@/components/admin/wordLessons/WordLessonEdit";
+import {LessonWordState, WordCardState} from "@/components/admin/wordLessons/WordLessonForm";
 import {
     LessonWordsAnkiType,
     LessonWordsByLevel
 } from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getWordLessonAPI";
-
 
 export async function saveWordLessonAPI(data: LessonWordState, uuid: string) {
 
@@ -18,12 +17,14 @@ export async function saveWordLessonAPI(data: LessonWordState, uuid: string) {
         description: data.description,
         sortOrder: data.sortOrder,
         categoryUUID: data.categoryUUID,
+        categoryName: data.categoryName,
         seoObject: data.seoObject,
         ...(data.lessonType === "byLevel" ? {
             lessonType: "byLevel",
-            cards: (data as LessonWordsByLevel).cards && (data as LessonWordsByLevel).cards.length > 0
-                && (data as LessonWordsByLevel).cards.map((wc) => {
+            cards: Array.isArray(data.cards) && data.cards?.length > 0
+                && data.cards?.map((wc) => {
                     return {
+                        id: wc.id,
                         uuid: wc.uuid,
                         description: wc.description,
                         wordUUID: wc.wordUUID,
@@ -32,32 +33,30 @@ export async function saveWordLessonAPI(data: LessonWordState, uuid: string) {
                 }) || [],
         } : {
             lessonType: "ankiType",
-            lessonsByLevel: (data as LessonWordsAnkiType).lessonsByLevel && (data as LessonWordsAnkiType).lessonsByLevel.length > 0
-                && (data as LessonWordsAnkiType).lessonsByLevel.map((l) => l.uuid)
+            lessonsByLevel: [],
         }),
 
     };
 
-    const lessonType = data.lessonType === "byLevel" ? "lesson-by-level" :  "lesson-anki-type";
+    const lessonType = data.lessonType === "byLevel" ? "lesson-by-level" : "lesson-anki-type";
 
     try {
-            const response = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/${lessonType}/${uuid}`, {
-                method: 'PUT',
-                body: JSON.stringify(lesson),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+        const res = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/${lessonType}/${uuid}`, {
+            method: 'PUT',
+            body: JSON.stringify(lesson),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
 
-
-        if (response?.ok) {
-            const message = (await  response.json()) as ResponseMessages;
+        if (res?.ok) {
+            const message = (await res.json()) as ResponseMessages;
             message.status = 200;
             return message;
         }
 
-        if (response?.status === 400) {
-            const message = (await  response.json()) as ResponseMessages;
+        if (res?.status === 400) {
+            const message = (await res.json()) as ResponseMessages;
             message.status = 400;
             return message;
         }

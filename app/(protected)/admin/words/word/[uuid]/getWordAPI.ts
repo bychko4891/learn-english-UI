@@ -1,10 +1,24 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
-import {AppPageContentRequest, Word} from "@/app/DefaultResponsesInterfaces";
+import { Audio, ImageAPI } from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
+export type Word = {
+    id: number;
+    uuid: string;
+    name: string;
+    translate: string;
+    brTranscription: string;
+    usaTranscription: string;
+    irregularVerbPt: string;
+    irregularVerbPp: string;
+    activeURL: boolean;
+    correctVerb: boolean;
+    wordLevel: string;
+    audio: Audio | null;
+    image: ImageAPI | null;
+}
 
 export async function getWordAPI(uuid: string) {
 
