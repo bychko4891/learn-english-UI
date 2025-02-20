@@ -10,7 +10,7 @@ export type SimpleAppPage = {
     seoObject: SEOObject;
 }
 
-export async function getAppPagesAPI(): Promise<Result<PaginationObject<SimpleAppPage>, string>> {
+export async function getAppPages(): Promise<Result<PaginationObject<SimpleAppPage>, string>> {
     try {
         const res = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/app-page/all`, {
             method: 'GET',
@@ -28,7 +28,4 @@ export async function getAppPagesAPI(): Promise<Result<PaginationObject<SimpleAp
 
         return {ok: null, err: "Filed to fetch all pages"}
     }
-
-
-
 }

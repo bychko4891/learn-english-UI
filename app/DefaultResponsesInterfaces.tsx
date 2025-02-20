@@ -69,25 +69,6 @@ export interface CategoryResponse <T> {
     // articles: Article[];
 }
 
-export interface AppPageContent {
-    id: number;
-    uuid: string;
-    name: string;
-    description: string;
-    positionOrder: number;
-    positionContent: string[];
-    applicationPage: AppPage;
-    image: ImageAPI;
-}
-
-
-
-export interface AppPageContentRequest {
-    applicationPageContent: AppPageContent;
-    applicationPages: AppPage[];
-}
-
-
 export interface Audio {
     name: string ;
     brAudioName: string ;

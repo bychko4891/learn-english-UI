@@ -1,13 +1,13 @@
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import {ButtonNewEntity} from "@/components/admin/ButtonNewEntity";
-import {getAppPagesContentsAPI} from "@/app/(protected)/admin/app-pages/contents/getAppPagesContetntsAPI";
+import {getAppPagesContents} from "@/app/(protected)/admin/app-pages/contents/getAppPagesContetntsAPI";
 import Link from "next/link";
 import Image from "next/image";
 
 
 export default async function ApplicationPage() {
 
-    const res = await getAppPagesContentsAPI();
+    const res = await getAppPagesContents();
 
     return (
         <div className="app-content-area d-flex flex-column align-items-center">
@@ -17,26 +17,25 @@ export default async function ApplicationPage() {
                     <div className="center">
                         <h1>Контент сторінок</h1>
                     </div>
-                    <ButtonNewEntity apiRequestURL="/app-pages-contents/new-page-content"
+                    <ButtonNewEntity apiRequestURL="/page-content/new"
                                      redirectURL="/admin/app-pages/contents/"/>
                 </div>
                 <table className="table mt-3">
                     <thead className="table-dark">
                     <tr>
-                        <th scope="col">ID</th>
+                        {/*<th scope="col">ID</th>*/}
+                        <th scope="col">Ім`я</th>
                         <th scope="col">Позиція</th>
-                        <th scope="col">h2...h6</th>
                         <th scope="col">url</th>
                         <th scope="col">#</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {!!res && res.map((pageContent) => (
+                    {res.ok?.t && res.ok.t.map((pageContent) => (
                         <tr key={pageContent.uuid}>
-                            <th scope="row">{pageContent.id}</th>
-                            <td>{pageContent.positionContent.length > 0 && pageContent.positionContent[0]}</td>
-                            <td>{pageContent.name}</td>
-                            <td>{pageContent.applicationPage && pageContent.applicationPage.url}</td>
+                            <th scope="row">{pageContent.name}</th>
+                            <td>{pageContent.position}</td>
+                            <td>{pageContent.applicationPageUrl}</td>
                             <td>
                                 <Link href={'/admin/app-pages/contents/' + pageContent.uuid} >
                                     <div className="br-g edit-link">

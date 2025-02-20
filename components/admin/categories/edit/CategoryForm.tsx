@@ -31,7 +31,7 @@ export type CategoryState = {
 
 export const CategoryForm = ({category}: { category: Category }) => {
 
-    const imgUrl = category.image ? `/api/i/${category.image.storageId}/img/${category.image.imageName}` : "";
+    const imgUrl = category.image ? `/api/i/${category.image.storageId}/image/${category.image.imageName}` : "";
     const [categorySaved, setCategorySaved] = useState<Category>(category);
     const [categoryState, setCategoryState] = useState<CategoryState>({
         uuid: categorySaved.uuid,

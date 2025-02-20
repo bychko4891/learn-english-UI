@@ -82,12 +82,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
                         skin: 'oxide-dark',
                         images_upload_url: '/api/tinymce-img-upload',
                         automatic_uploads: true,
-                        images_upload_base_path: "/api/webimg/",
-                        // setup: (editor) => {
-                        //     editor.on("input", () => {
-                        //         handleEditorChange(editor.getContent());
-                        //     });
-                        // },
+                        images_upload_base_path: "/api/i/1/image/",
                         // setup: function (editor) {
                         //     editor.on('change', function () {
                         //         handleEditorChange(editor.getContent());

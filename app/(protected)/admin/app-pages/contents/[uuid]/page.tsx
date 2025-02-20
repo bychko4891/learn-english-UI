@@ -1,7 +1,5 @@
-
 import {AppPageContentForm} from "@/components/admin/app-pages/contents/AppPageContentForm";
-import {getAppPageContentAPI} from "@/app/(protected)/admin/app-pages/contents/[uuid]/getAppPageContentAPI";
-import {AppPageContentRequest} from "@/app/DefaultResponsesInterfaces";
+import {getAppPageContent} from "@/app/(protected)/admin/app-pages/contents/[uuid]/getAppPageContent";
 
 type Props = {
     params: {
@@ -11,12 +9,12 @@ type Props = {
 export default async function ApplicationPage({params: {uuid}}: Props) {
 
 
-    const res = await getAppPageContentAPI(uuid) as AppPageContentRequest;
+    const res = await getAppPageContent(uuid);
 
     return (
         <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
             <div className="main-content p-3 w-95 admin-h">
-                {res && <AppPageContentForm pageContent={res} />}
+                {res.ok && <AppPageContentForm pageContent={res.ok} />}
             </div>
         </div>
     );

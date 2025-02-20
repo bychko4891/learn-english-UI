@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const data = new FormData();
     data.append("imageFile", img as Blob);
 
-    const resp = await fetchWithToken(env.SERVER_API_URL + "/api/admin/upload-web-img", {
+    const resp = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/storage/upload/web-img`, {
         method: "POST",
         body: data,
     });

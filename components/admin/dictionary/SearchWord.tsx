@@ -63,4 +63,4 @@ export function SearchWord(props: {
             }
         </div>
     );
-};
+}

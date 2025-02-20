@@ -10,7 +10,7 @@ export type AppPage = {
     seoObject: SEOObject;
 }
 
-export async function getAppPage(uuid: string): Promise<Result<AppPage, string>>  {
+export async function getAppPage(uuid: string): Promise<Result<AppPage, string>> {
 
     try {
         const res = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/app-page/${uuid}/admin`, {

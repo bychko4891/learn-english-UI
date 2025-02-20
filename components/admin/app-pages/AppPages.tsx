@@ -1,6 +1,6 @@
 'use client'
 
-import {getAppPagesAPI, SimpleAppPage} from "@/app/(protected)/admin/app-pages/getAppPagesAPI";
+import {getAppPages, SimpleAppPage} from "@/app/(protected)/admin/app-pages/getAppPages";
 import Link from "next/link";
 import Image from "next/image";
 import {useEffect, useState} from "react";
@@ -16,7 +16,7 @@ export const AppPages = () => {
     useEffect(() => {
         (async () => {
             try {
-                const res = await getAppPagesAPI();
+                const res = await getAppPages();
                 if (res.ok) {
                     setAppPages(res.ok.t);
                 }

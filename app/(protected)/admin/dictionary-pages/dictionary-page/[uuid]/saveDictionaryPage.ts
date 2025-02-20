@@ -46,7 +46,7 @@ export async function saveDictionaryPage(data: Record<string, any>, uuid: string
         }
 
 
-        return {ok: null, err: {error: "Помилка запиту на сервер, код: " + res?.status}};
+        return {ok: null, err: {error: "Помилка запиту на сервер, status: " + res?.status}};
 
     } catch (error) {
         // console.error('Error save Category to  Admin page:', error);

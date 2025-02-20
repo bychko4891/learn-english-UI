@@ -176,6 +176,9 @@
 
 }
 .block-h.visit {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     opacity: 1;
     height: auto;
     visibility: visible;

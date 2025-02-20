@@ -1,32 +1,35 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
-import { stringify, parse } from 'flatted';
-import {number} from "prop-types";
-import {OneCategory} from "@/components/admin/categories/OneCategory";
-import {AppPageContent, CategoryResponse} from "@/app/DefaultResponsesInterfaces";
+import {PaginationObject} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
 
+export type SimpleAppPageContent = {
+    uuid: string;
+    name: string;
+    sortOrder: number;
+    position: string;
+    applicationPageUrl: string;
+}
 
-export async function getAppPagesContentsAPI() {
+export async function getAppPagesContents(): Promise<Result<PaginationObject<SimpleAppPageContent>, string>> {
 
-    const token = await getJwtAccessToken();
 
     try {
-        const response = await fetchWithToken(env.SERVER_API_URL + '/api/admin/app-pages-contents', {
+        const res = await fetchWithToken(`${env.SERVER_API_URL}/api/v1/page-content/all`, {
             method: 'GET',
         });
 
-        if (!response?.ok) {
-            throw new Error('Network response was not ok');
+        if (res?.ok) {
+            const totalPages = Number(res?.headers.get("x-total-pages"));
+            const json = (await res.json()) as SimpleAppPageContent[];
+            return {ok: {t: json, totalPages: totalPages}, err: null}
         }
 
-        return (await response.json()) as AppPageContent[];
+        return {ok: null, err: "Filed to fetch all contents, status: " + res?.status}
+
     } catch (error) {
-        console.error('Error fetching data all appPagesContents to  Admin page:', error);
-        // Обробка помилки, якщо запит не вдалося виконати
+
+        return {ok: null, err: "Filed to fetch all contents"}
     }
-
-
 }
