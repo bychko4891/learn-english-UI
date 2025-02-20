@@ -6,9 +6,9 @@ import {ButtonBack} from "@/components/admin/ButtonBack";
 import {ReactSVG} from "react-svg";
 import {saveAppPage, SaveAppPageErrors} from "@/app/(protected)/admin/app-pages/[uuid]/saveAppPage";
 import 'react-toastify/dist/ReactToastify.css';
-import {AppPage} from "@/app/(protected)/admin/app-pages/[uuid]/getAppPage";
 import {SEOObject} from "@/app/DefaultResponsesInterfaces";
 import {ShowErrorMessage} from "@/components/ShowErrorMessage";
+import {AppPage} from "@/app/[url]/getAppPageByUrl";
 
 export const AppPageForm = ( props:{ appPage: AppPage } ) => {
 
@@ -21,6 +21,7 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
             htmlTagTitle: appPageSaved.seoObject?.htmlTagTitle ?? "",
             htmlTagDescription: appPageSaved.seoObject?.htmlTagDescription ?? "",
         } as SEOObject,
+        pageType:appPageSaved.pageType,
     });
 
     const [errors, setErrors] = useState<SaveAppPageErrors | undefined>();
@@ -36,6 +37,7 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
                 htmlTagTitle: appPageState.seoObject.htmlTagTitle,
                 htmlTagDescription: appPageState.seoObject.htmlTagDescription ?? "",
             },
+            pageType: appPageState.pageType,
         };
         const res = await saveAppPage(page, appPageSaved.uuid);
         if (res.ok) {
@@ -81,7 +83,7 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
                             />
                         </div>
                     </div>
-                    {errors?.seoObject?.h1 && <ShowErrorMessage error={errors?.seoObject?.h1} />}
+                    {errors?.seoObject?.h1 && <ShowErrorMessage error={errors?.seoObject?.h1}/>}
 
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
                         <div className="d-flex flex-column align-items-start w-100">
@@ -101,7 +103,7 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
                             </span>
                         </div>
                     </div>
-                    {errors?.seoObject?.htmlTagTitle && <ShowErrorMessage error={errors?.seoObject?.htmlTagTitle} />}
+                    {errors?.seoObject?.htmlTagTitle && <ShowErrorMessage error={errors?.seoObject?.htmlTagTitle}/>}
 
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
                         <div className="d-flex flex-column align-items-start w-100">
@@ -121,11 +123,12 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
                             </span>
                         </div>
                     </div>
-                    {errors?.seoObject?.htmlTagDescription && <ShowErrorMessage error={errors?.seoObject?.htmlTagDescription} />}
+                    {errors?.seoObject?.htmlTagDescription &&
+                        <ShowErrorMessage error={errors?.seoObject?.htmlTagDescription}/>}
 
                     <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
                         <div className="d-flex flex-column align-items-start w-100">
-                            <label>URL сторінки</label>
+                            <label>URL сторінки*</label>
                             <input type="text" className="w-50" name="name"
                                    value={appPageState.url}
                                    onChange={(e) => setAppPageState({...appPageState, url: e.target.value})}
@@ -133,10 +136,22 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
                             />
                         </div>
                     </div>
-                    {errors?.url && <ShowErrorMessage error={errors?.url } />}
-                    {errors?.error && <ShowErrorMessage error={errors?.error } />}
+                    {errors?.url && <ShowErrorMessage error={errors?.url}/>}
+                    <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
+                        <label htmlFor="type" className="text-xl font-bold">Тип сторінки*</label>
+                        <select id="type" className="w-50"
+                            value={appPageState.pageType}
+                            onChange={(e) => setAppPageState({...appPageState, pageType: e.target.value})}
+                            required
+                        >
+                            <option></option>
+                            <option value="SIMPLE">Простий</option>
+                            <option value="MULTIPLEX">Складний</option>
+                        </select>
+                    </div>
+                        {errors?.error && <ShowErrorMessage error={errors?.error}/>}
                 </form>
             </div>
         </>
-    )
+)
 }

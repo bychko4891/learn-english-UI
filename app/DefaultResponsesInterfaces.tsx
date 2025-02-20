@@ -45,6 +45,7 @@ export interface ImageAPI {
     imageName: string;
     width: string;
     height: string;
+    position?: string;
     storageId: number | null;
 }
 

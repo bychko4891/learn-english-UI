@@ -2,18 +2,9 @@
 
 import {env} from "@/env.mjs";
 import {fetchWithToken} from "@/app/fetchWithToken";
-import {SimpleAppPage} from "@/app/(protected)/admin/app-pages/getAppPages";
-import {ImageAPI} from "@/app/DefaultResponsesInterfaces";
+import {AppPageContent} from "@/app/[url]/getAppPageContentsByUrl";
 
-export type AppPageContent = {
-    uuid: string;
-    name: string;
-    description: string;
-    sortOrder: number;
-    applicationPage: SimpleAppPage,
-    position: string;
-    image: ImageAPI;
-}
+
 
 export async function getAppPageContent(uuid: string): Promise<Result<AppPageContent, string>> {
 

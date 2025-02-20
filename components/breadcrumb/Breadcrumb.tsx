@@ -1,14 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-type BreadcrumbNavigation = {
-    href: string,
-    name: string
-}
-type Props = {
-    breadcrumb: BreadcrumbNavigation;
-}
-export const Breadcrumb = ({breadcrumb}: Props) => {
+export const Breadcrumb = (props: { href: string; name: string; }) => {
     return (
         <nav aria-label="breadcrumb" className="bread-crumbs__bottom">
             <ol className="breadcrumb d-flex gap-2 p-0 m-0">
@@ -22,8 +15,8 @@ export const Breadcrumb = ({breadcrumb}: Props) => {
                     <span>/</span>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                    <Link href={breadcrumb.href}>
-                        {breadcrumb.name}
+                    <Link href={props.href}>
+                        {props.name}
                     </Link>
                 </li>
             </ol>

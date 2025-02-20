@@ -8,6 +8,7 @@ export type SimpleAppPage = {
     uuid: string;
     url: string;
     seoObject: SEOObject;
+    pageType: string;
 }
 
 export async function getAppPages(): Promise<Result<PaginationObject<SimpleAppPage>, string>> {

@@ -2,13 +2,9 @@
 
 import {env} from "@/env.mjs";
 import {fetchWithToken} from "@/app/fetchWithToken";
-import { SEOObject } from "@/app/DefaultResponsesInterfaces";
+import {AppPage} from "@/app/[url]/getAppPageByUrl";
 
-export type AppPage = {
-    uuid: string;
-    url: string;
-    seoObject: SEOObject;
-}
+
 
 export async function getAppPage(uuid: string): Promise<Result<AppPage, string>> {
 

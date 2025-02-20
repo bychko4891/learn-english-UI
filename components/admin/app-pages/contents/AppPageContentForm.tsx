@@ -2,17 +2,17 @@
 
 import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
-import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {ReactSVG} from "react-svg";
 import {toast, ToastContainer, Zoom} from "react-toastify";
-import {AppPageContent} from "@/app/(protected)/admin/app-pages/contents/[uuid]/getAppPageContent";
 import {SelectPage} from "@/app/(protected)/admin/app-pages/contents/[uuid]/SelectPage";
 import {saveAppPageContent} from "@/app/(protected)/admin/app-pages/contents/[uuid]/saveAppPageContent";
 import {SaveAppPageErrors} from "@/app/(protected)/admin/app-pages/[uuid]/saveAppPage";
 import {Storages} from "@/components/admin/Storages";
 import Image from "next/image";
 import {ImageAPI} from "@/app/DefaultResponsesInterfaces";
+import {AppPageContent} from "@/app/[url]/getAppPageContentsByUrl";
 
 export const AppPageContentForm = (props: { pageContent: AppPageContent }) => {
 
