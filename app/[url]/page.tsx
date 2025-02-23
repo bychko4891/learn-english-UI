@@ -6,6 +6,8 @@ import {AppPageContent, getAppPageContentsByUrl} from "@/app/[url]/getAppPageCon
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import {SimplePageView} from "@/app/[url]/SimplePageView";
 import React from "react";
+import {cookies} from "next/headers";
+import {redirect} from "next/navigation";
 
 type Props = {
     params: {
@@ -29,6 +31,11 @@ export async function generateMetadata({params: {url}}: Props) {
 }
 
 export default async function ApplicationPage({params: {url}}: Props) {
+
+    // const role = cookies().get("role")?.value;
+    // if(role && role === "ADMIN") {
+    //     redirect("/admin")
+    // }
 
     const contents = await getAppPageContentsByUrl(url);
 
@@ -67,7 +74,7 @@ export default async function ApplicationPage({params: {url}}: Props) {
         return (
             <div className="app-content-area">
                 <div className="main-content p-3 w-95">
-                    <Breadcrumb href={`/${url}`} name={contents[0].applicationPage?.seoObject?.h1}/>
+                    {/*<Breadcrumb href={`/${url}`} name={contents[0].applicationPage?.seoObject?.h1}/>*/}
                     <div className="d-flex flex-column align-items-center">
                         <h1 style={{position: "relative", zIndex: 1, color: "#2dc26b", marginTop: 30}}>
                             {contents[0].applicationPage.seoObject.h1}

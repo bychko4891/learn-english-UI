@@ -14,13 +14,10 @@ import {getAdminAPI} from "@/app/(protected)/admin/admin/getAdminAPI";
 import {useRouter} from "next/navigation";
 
 export const AdminLoginForm = () => {
-    const breadcrumbNavigation = {
-        href: "/login",
-        name: "Авторизація"
-    }
+
     return (
         <div className="main-content p-4 w-95">
-            <Breadcrumb breadcrumb={breadcrumbNavigation}/>
+            <Breadcrumb href={"/login"} name={"Авторизація"} />
             <h1 className="text-center mb-3">З поверненням!</h1>
             <div className="d-flex flex-row wrap-login100">
 

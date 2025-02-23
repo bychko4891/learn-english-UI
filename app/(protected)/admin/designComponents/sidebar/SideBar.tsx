@@ -1,7 +1,7 @@
 // 'use server'
 
-import {Logo} from "@/components/constantLayout/sidebar/Logo";
-import {Navigation} from "@/components/constantLayout/sidebar/Navigation";
+import {Logo} from "@/app/(protected)/admin/designComponents/sidebar/Logo";
+import {Navigation} from "@/app/(protected)/admin/designComponents/sidebar/Navigation";
 
 export const SideBar = () => {
 

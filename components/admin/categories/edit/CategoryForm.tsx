@@ -4,23 +4,25 @@ import {ButtonBack} from "@/components/admin/ButtonBack";
 import TinyMCEEditor from "@/app/TinyMCEEditor";
 import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {ReactSVG} from "react-svg";
-import {Category, CategoryResponse, ImageAPI, SEOObject} from "@/app/DefaultResponsesInterfaces";
-import {saveCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/saveCategoryAPI";
+import {Category, ImageAPI, SEOObject} from "@/app/DefaultResponsesInterfaces";
+import {saveCategory, SaveCategoryErrors} from "@/app/(protected)/admin/categories/category/[uuid]/saveCategory";
 import Image from "next/image";
 import {toast, ToastContainer, Zoom} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "../categories.style.css"
 import {SearchCategory} from "@/app/(protected)/admin/categories/category/[uuid]/SearchCategory";
 import {Storages} from "@/components/admin/Storages";
+import {ShowErrorMessage} from "@/components/ShowErrorMessage";
 
 export type CategoryState = {
     uuid: string;
     name: string;
     sortOrder: number;
-    // description: string;
     shortDescription: string;
     attentionText: string;
     mainCategory: boolean;
+    inMenu: boolean;
+    subCategoryInMenu: boolean;
     showDescriptionInPage: boolean;
     parentCategoryUUID: string;
     parentCategoryName: string;
@@ -31,19 +33,22 @@ export type CategoryState = {
 
 export const CategoryForm = ({category}: { category: Category }) => {
 
+    // console.log(JSON.stringify(category))
+
     const imgUrl = category.image ? `/api/i/${category.image.storageId}/image/${category.image.imageName}` : "";
     const [categorySaved, setCategorySaved] = useState<Category>(category);
+    const [description, setDescription] = useState<string>(categorySaved.description);
     const [categoryState, setCategoryState] = useState<CategoryState>({
         uuid: categorySaved.uuid,
         name: categorySaved.name,
         sortOrder: categorySaved.sortOrder,
-        // description: categorySaved.description,
         shortDescription: categorySaved.shortDescription,
         attentionText: categorySaved.attentionText,
         mainCategory: categorySaved.mainCategory,
+        inMenu: categorySaved.inMenu,
+        subCategoryInMenu: categorySaved.subCategoryInMenu,
         showDescriptionInPage: categorySaved.showDescriptionInPage,
         parentCategoryUUID: categorySaved.parentCategory?.uuid ? categorySaved.parentCategory?.uuid : "",
-        // parentCategoryUUID: categorySaved.parentCategory?.uuid,
         parentCategoryName: categorySaved.parentCategory?.name ? categorySaved.parentCategory?.name : "",
         categoryPage: categorySaved.categoryPage,
         image: categorySaved.image ? categorySaved.image : {width: "", height: "", storageId: null} as ImageAPI,
@@ -54,27 +59,22 @@ export const CategoryForm = ({category}: { category: Category }) => {
         } as SEOObject,
     });
 
-    const [textContent, setTextContent] = useState<string>(categorySaved.description);
     const [image, setImage] = useState<File>();
-    const [nameError, setNameError] = useState("");
-    const [descriptionError, setDescriptionError] = useState("");
-    const [titleError, setTitleError] = useState("");
-
     const [imageURL, setImageURL] = useState<string>(imgUrl);
     const [visit, setVisit] = useState(false);
+
+    const [errors, setErrors] = useState<SaveCategoryErrors | undefined>();
 
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         setImage(file);
         const reader = new FileReader();
-
         reader.onloadend = () => {
             if (typeof reader.result === 'string') {
                 setImageURL(reader.result);
             }
         };
-
         if (file) {
             reader.readAsDataURL(file);
         }
@@ -83,12 +83,13 @@ export const CategoryForm = ({category}: { category: Category }) => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrors(undefined);
         // setDisabled(true);
-        // const parentCategory = !!selectSubcategory ? selectSubcategory : !!selectMainCategory ? selectMainCategory : null;
+
         const category = {
             uuid: categoryState.uuid,
             name: categoryState.name,
-            description: textContent,
+            description: description,
             shortDescription: categoryState.shortDescription,
             seoObject: {
                 htmlTagTitle: categoryState.seoObject.htmlTagTitle,
@@ -96,43 +97,28 @@ export const CategoryForm = ({category}: { category: Category }) => {
             },
             sortOrder: categoryState.sortOrder,
             mainCategory: categoryState.mainCategory,
+            inMenu: categoryState.inMenu,
+            subCategoryInMenu: categoryState.subCategoryInMenu,
             showDescriptionInPage: categoryState.showDescriptionInPage,
             ...((!!categoryState.parentCategoryUUID && !categoryState.mainCategory) && {parentCategoryUUID: categoryState.parentCategoryUUID}),
             categoryPage: categoryState.categoryPage,
             image: categoryState.image,
         }
-        // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!! --> "+JSON.stringify(category))
-        var formData = new FormData;
-        formData.append('image', image as Blob);
-        formData.append('category', new Blob([JSON.stringify(category)], {type: 'application/json'}));
-        try {
-            const response = await saveCategoryAPI(formData, categorySaved.uuid);
-            if(response?.status ===200) {
-                toast.success(response.general);
-                setDescriptionError("");
-                setTitleError("");
-                setNameError("");
-            }
-            if(response?.status ===400) {
-                setDescriptionError(response?.htmlTagDescription);
-                setTitleError(response?.htmlTagTitle);
-                setNameError(response?.name);
-                toast.error("Є помилки при введенні даних!");
-            }
-            // setDisabled(false);
-            // if(response) {
-            //     // setRespData(response);
-            // }
-        } catch (error) {
-            // setDisabled(false);
-            // console.log("Server error: " + error)
-            toast.error("toast.error(res.general);");
-        }
-    }
 
-    const handleContentChange = (newContent: string) => {
-        setTextContent(newContent);
-    };
+        var formData = new FormData;
+        if(image) formData.append('image', image as Blob);
+        formData.append('category', new Blob([JSON.stringify(category)], {type: 'application/json'}));
+
+         const res = await saveCategory(formData, categorySaved.uuid);
+         if(res.ok) {
+             toast.success(res.ok.localizedMessage);
+             setCategorySaved(res.ok.t);
+             return;
+         }
+         setErrors(res.err ? res.err : undefined);
+         toast.error("Є помилки при введенні даних!");
+         if(res.err?.error)toast.error(res.err?.error);
+    }
 
     useEffect(() => {
         setCategoryState({...categoryState, parentCategoryName: "", parentCategoryUUID: ""});
@@ -160,12 +146,7 @@ export const CategoryForm = ({category}: { category: Category }) => {
                     <div className="col-md-9 col-12">
                         <div className="d-flex flex-column align-items-start w-100 mb-4">
                             <label>Повний опис</label>
-                            <TinyMCEEditor onContentChange={handleContentChange} initialValue={textContent}/>
-                            {/*<TinyMCEEditor*/}
-                            {/*    onContentChange={(text) => {*/}
-                            {/*    setCategoryState({...categoryState, description: text})*/}
-                            {/*    }}*/}
-                            {/*    initialValue={categoryState.description}/>*/}
+                            <TinyMCEEditor onContentChange={setDescription} initialValue={description}/>
                         </div>
                         <div className="d-flex flex-column align-items-start w-100 mb-4">
                             <label>Міні опис</label>
@@ -196,7 +177,7 @@ export const CategoryForm = ({category}: { category: Category }) => {
                                    }}
                             />
                         </div>
-                        {!!nameError && <p className="p_error ms-3">{nameError}</p>}
+                        {errors?.name && <ShowErrorMessage error={errors?.name} />}
 
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
@@ -218,7 +199,7 @@ export const CategoryForm = ({category}: { category: Category }) => {
                             </span>
                             </div>
                         </div>
-                        {!!titleError && <p className="p_error ms-3">{titleError}</p>}
+                        {errors?.seoObject?.htmlTagTitle && <ShowErrorMessage error={errors.seoObject.htmlTagTitle} />}
 
                         <div className="col-12 d-flex flex-column align-items-start gap-2 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
@@ -240,7 +221,7 @@ export const CategoryForm = ({category}: { category: Category }) => {
                             </span>
                             </div>
                         </div>
-                        {!!descriptionError && <p className="p_error ms-3">{descriptionError}</p>}
+                        {errors?.seoObject?.htmlTagDescription && <ShowErrorMessage error={errors.seoObject.htmlTagDescription} />}
 
                         <div className="d-flex flex-row w-100 align-items-center">
                             <span className="me-auto">Головна категорія: </span>
@@ -251,7 +232,26 @@ export const CategoryForm = ({category}: { category: Category }) => {
                                    }}
                             />
                             <label htmlFor="toggleSwitchCategory" className="toggle-switch-label"></label>
-
+                        </div>
+                        <div className="d-flex flex-row w-100 align-items-center">
+                            <span className="me-auto">Показувати в меню: </span>
+                            <input id="inMenu" type="checkbox" className="toggle-switch" name="inMenu"
+                                   checked={categoryState.inMenu}
+                                   onChange={(e) => {
+                                       setCategoryState({...categoryState, inMenu: e.target.checked})
+                                   }}
+                            />
+                            <label htmlFor="inMenu" className="toggle-switch-label"></label>
+                        </div>
+                        <div className="d-flex flex-row w-100 align-items-center">
+                            <span className="me-auto">Показувати підкатегорії в меню: </span>
+                            <input id="subCategoryInMenu" type="checkbox" className="toggle-switch" name="subCategoryInMenu"
+                                   checked={categoryState.subCategoryInMenu}
+                                   onChange={(e) => {
+                                       setCategoryState({...categoryState, subCategoryInMenu: e.target.checked})
+                                   }}
+                            />
+                            <label htmlFor="subCategoryInMenu" className="toggle-switch-label"></label>
                         </div>
 
                         <div className="d-flex flex-row w-100 align-items-center">
@@ -292,6 +292,7 @@ export const CategoryForm = ({category}: { category: Category }) => {
                                 <option value="MINI_STORIES">Міні історії</option>
                                 <option value="LESSON_WORDS">Заняття для слів</option>
                                 <option value="LESSON_PHRASES">Заняття для фпаз</option>
+                                <option value="ARTICLES">Статті</option>
                             </select>
                         </div>
                         {!categoryState.mainCategory && categoryState.categoryPage && (
@@ -309,35 +310,6 @@ export const CategoryForm = ({category}: { category: Category }) => {
                                     setCategoryState(state);
                                 }}
                             />
-                            // <>
-                            //     <label>Батьківська категорія:
-                            //         {parentCategory &&
-                            //             <span style={{paddingLeft: 10, color: "#307ed9"}}>{parentCategory.name}</span> ||
-                            //             <span style={{paddingLeft: 10, color: "#307ed9"}}>Відсутня</span>
-                            //         }
-                            //     </label>
-                            //     <select className="w-100" onChange={(e) => handleSelectMainCategory(e.target.value)}>
-                            //         <option>Змінити батьківську категорію</option>
-                            //         {/*{category.mainCategories && category.mainCategories.length > 0 &&*/}
-                            //         {/*    category.mainCategories.map(category => (*/}
-                            //         {/*        <option key={category.uuid} value={category.uuid}>*/}
-                            //         {/*            {category.name}*/}
-                            //         {/*        </option>*/}
-                            //         {/*    ))*/}
-                            //         {/*}*/}
-                            //     </select>
-                            //
-                            //     <select className="w-100" onChange={(e) => handleSelectSubcategory(e.target.value)}>
-                            //         <option>Змінити підкатегорію</option>
-                            //         {subCategories && subCategories.length > 0 &&
-                            //             subCategories.map(category => (
-                            //                 <option key={category.uuid} value={category.uuid}>
-                            //                     {category.name}
-                            //                 </option>
-                            //             ))}
-                            //
-                            //     </select>
-                            // </>
                         )}
 
 

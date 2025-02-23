@@ -15,7 +15,7 @@ export const Login = () => {
     }
     return (
         <div className="main-content p-4 w-95">
-            <Breadcrumb breadcrumb={breadcrumbNavigation}/>
+            {/*<Breadcrumb breadcrumb={breadcrumbNavigation}/>*/}
             <h1 className="text-center mb-3">З поверненням!</h1>
             <div className="d-flex flex-row wrap-login100">
 

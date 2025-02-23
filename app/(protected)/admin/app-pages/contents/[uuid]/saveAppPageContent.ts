@@ -1,11 +1,10 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {ResponseMessages, SuccessResponse} from "@/app/DefaultResponsesInterfaces";
+import {SuccessResponse} from "@/app/DefaultResponsesInterfaces";
 import {fetchWithToken} from "@/app/fetchWithToken";
-import {AppPage} from "@/app/(protected)/admin/app-pages/[uuid]/getAppPage";
 import {SaveAppPageErrors} from "@/app/(protected)/admin/app-pages/[uuid]/saveAppPage";
-import {AppPageContent} from "@/app/(protected)/admin/app-pages/contents/[uuid]/getAppPageContent";
+import {AppPageContent} from "@/app/[url]/getAppPageContentsByUrl";
 
 
 export async function saveAppPageContent(data: FormData, uuid: string): Promise<Result<SuccessResponse<AppPageContent>, SaveAppPageErrors>> {

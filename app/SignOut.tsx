@@ -9,7 +9,7 @@ import {useEffect} from "react";
 export default function SignOut() {
 
     const { user: currentUser, updateUser } = useUser();
-    const router = useRouter()
+    const router = useRouter();
 
     useEffect(() => {
         updateUser(null);

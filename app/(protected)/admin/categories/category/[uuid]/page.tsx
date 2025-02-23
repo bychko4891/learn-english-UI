@@ -1,11 +1,10 @@
 'use server'
 
-
 import {CategoryForm} from "@/components/admin/categories/edit/CategoryForm";
-import {getCategoryAPI} from "@/app/(protected)/admin/categories/category/[uuid]/getCategoryAPI";
+import {getCategory} from "@/app/(protected)/admin/categories/category/[uuid]/getCategory";
 import {CategoryResponse} from "@/app/DefaultResponsesInterfaces";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
-
+import {NoContent} from "@/components/noContent/NoContent";
 
 type Props = {
     params: {
@@ -15,14 +14,13 @@ type Props = {
 
 export default async function CategoryEditPage({params: {uuid}}: Props) {
 
-    const category = await getCategoryAPI(uuid);
+    const res = await getCategory(uuid);
 
-
-    if(category) {
+    if(res.ok) {
         return (
             <div className="app-content-area d-flex flex-column align-items-center overflow-hidden">
                 <div className="main-content p-3 w-95 admin-h">
-                     <CategoryForm category={category}/>
+                     <CategoryForm category={res.ok}/>
                </div>
             </div>
         );
@@ -30,7 +28,7 @@ export default async function CategoryEditPage({params: {uuid}}: Props) {
 
     return (
         <>
-            <DeleteJwtAccessToken />
+            <NoContent error={ res.err ? res.err : ""} />
         </>
     );
 }

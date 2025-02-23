@@ -13,9 +13,18 @@ export function SimplePageView(props: {content: AppPageContent}) {
     };
 
     return(
-            <div className="app-content-area">
-                <div className="main-content p-3 w-95">
-                    <Breadcrumb href={`/${props.content.applicationPage?.url}`} name={props.content.applicationPage?.seoObject?.h1}/>
+            <div className="app-content-area w-85 mx-auto">
+                <div className="container" style={{
+                    backgroundColor: "rgb(34 38 58 / 0%)",
+                    backdropFilter: "blur(10px)",
+                    borderRadius: 25,
+                    padding: 30,
+                    // webkitBoxShadow: "0px 5px 12px 9px rgba(0,0,0,0.36)",
+                    // mozBoxShadow: "0px 5px 12px 9px rgba(0,0,0,0.36)",
+                    boxShadow: "0px 5px 12px 9px rgb(33 27 27 / 36%)"
+                }}>
+                {/*<div className="main-content p-3 w-95">*/}
+                    {/*<Breadcrumb href={`/${props.content.applicationPage?.url}`} name={props.content.applicationPage?.seoObject?.h1}/>*/}
                     <div className="d-flex flex-column align-items-center">
                         {props.content && props.content.image?.imageName && props.content.image?.storageId &&
                             <Image src={`/api/i/${props.content.image.storageId}/image/${props.content.image.imageName}`}

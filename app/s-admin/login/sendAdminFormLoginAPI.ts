@@ -1,7 +1,7 @@
 'use server'
 
 import {env} from "@/env.mjs";
-import {setJwtAccessToken, setJwtRefreshToken} from "@/app/(protected)/jwtSessionService/SetHttpOnlyCookies";
+import {setJwtAccessToken, setJwtRefreshToken, setRole} from "@/app/(protected)/jwtSessionService/SetHttpOnlyCookies";
 import {redirect} from "next/navigation";
 import {ResponseMessages, ResponseTokens} from "@/app/DefaultResponsesInterfaces";
 import {getJwtAccessToken} from "@/app/(protected)/jwtSessionService/authTokenHandler";
@@ -27,6 +27,7 @@ export async function sendAdminFormLoginAPI(data: DataSend): Promise<Result<stri
             if (tokens.role === "ADMIN") {
                 setJwtAccessToken(tokens.accessJwtToken);
                 setJwtRefreshToken(tokens.refreshJwtToken);
+                setRole(tokens.role);
                 return {ok: tokens.role, status: 200, err: null}
                 // redirect('/admin');
             }

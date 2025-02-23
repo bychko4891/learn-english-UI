@@ -33,6 +33,8 @@ export interface Category {
     shortDescription: string;
     attentionText: string;
     mainCategory: boolean;
+    inMenu: boolean;
+    subCategoryInMenu: boolean;
     showDescriptionInPage: boolean;
     subcategories: Category[];
     parentCategory: Category;

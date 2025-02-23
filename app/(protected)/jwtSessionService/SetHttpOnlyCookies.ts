@@ -56,3 +56,16 @@ export function deleteJwtRefreshToken() {
         priority: "high"
     });
 }
+
+export function setRole(role: string) {
+    cookies().set({
+        name: "role",
+        value: role,
+        maxAge: 60 * 60 * 24 * 150, // 150d
+        httpOnly: true,
+        path: "/",
+        // secure: true,
+        sameSite: "lax",
+        priority: "high"
+    });
+}

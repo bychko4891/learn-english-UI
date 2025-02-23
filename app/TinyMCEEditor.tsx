@@ -44,7 +44,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({onContentChange, in
     }, []);
 
     return (
-        <div ref={editorContainerRef}>
+        <div ref={editorContainerRef} className="w-100">
             <Editor apiKey="j8dxs8puyiugoamq11vn3bctaonh1jhzvd0cewcb1jiyl2c6"
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     initialValue={initialValue}

@@ -8,6 +8,7 @@ import {Categories} from "@/components/admin/categories/Categories";
 import {OneCategory} from "@/components/admin/categories/OneCategory";
 import {DeleteJwtAccessToken} from "@/app/(protected)/jwtSessionService/DeleteJwtAccessToken";
 import {GetServerSidePropsContext} from "next";
+import {NoContent} from "@/components/noContent/NoContent";
 
 
 export default async function CategoriesPage() {
@@ -56,14 +57,14 @@ export default async function CategoriesPage() {
     }
     return (
         <>
-            <DeleteJwtAccessToken/>
+            <NoContent error={ res.err ? res.err : ""} />
         </>
     );
 }
 
-CategoriesPage.getInitialProps = async (context: GetServerSidePropsContext) => {
-    const res = await fetch("https://api.com");
-    const data = await res.json();
-
-    return { data }; // this will be passed to the page component as props
-};
+// CategoriesPage.getInitialProps = async (context: GetServerSidePropsContext) => {
+//     const res = await fetch("https://api.com");
+//     const data = await res.json();
+//
+//     return { data }; // this will be passed to the page component as props
+// };
