@@ -32,10 +32,10 @@ export async function generateMetadata({params: {url}}: Props) {
 
 export default async function ApplicationPage({params: {url}}: Props) {
 
-    // const role = cookies().get("role")?.value;
-    // if(role && role === "ADMIN") {
-    //     redirect("/admin")
-    // }
+    const role = cookies().get("role")?.value;
+    if(role && role === "ADMIN") {
+        redirect("/admin")
+    }
 
     const contents = await getAppPageContentsByUrl(url);
 

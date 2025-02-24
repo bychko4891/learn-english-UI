@@ -2,7 +2,7 @@ import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import Link from "next/link";
 import Image from "next/image";
 import NotFound from "@/app/not-found";
-import {getWordLesson} from "@/app/word-lessons/cards/lesson/[uuid]/getWordLesson";
+import {getWordLesson} from "@/app/vocabulary/lesson/[uuid]/getWordLesson";
 import {CardsButtonLearn} from "@/components/word-lesson/CardsButtonLearn";
 import "@/components/word-lesson/word_lesson.style.css";
 import {LessonWordsByLevel} from "@/app/(protected)/admin/word-lessons/word-lesson/[uuid]/getWordLessonAPI";

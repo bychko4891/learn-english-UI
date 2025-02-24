@@ -56,6 +56,8 @@ export function DictionaryPageForm( props:{ dictionaryPageResp: DictionaryPage})
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrors(undefined);
+        setWordError("");
         if (dictionaryPageState.wordUUID) {
             const dictionary: Record<string, any> = {
                 uuid: dictionaryPageSaved.uuid,
@@ -73,13 +75,14 @@ export function DictionaryPageForm( props:{ dictionaryPageResp: DictionaryPage})
 
             }
             const res = await saveDictionaryPage(dictionary, dictionaryPageSaved.uuid);
-                if (res.ok) {
-                    toast.success(res.ok.localizedMessage);
-                    setWordError("");
-                    return;
-                }
-                setErrors(res.err ? res.err : undefined);
-                toast.error("Є помилки при введенні даних або помилка  сервера!");
+
+            if (res.ok) {
+                toast.success(res.ok.localizedMessage);
+                return;
+            }
+            setErrors(res.err ? res.err : undefined);
+            toast.error("Є помилки при введенні даних або помилка  сервера!");
+            if(res.err && res.err.error) toast.error(res.err && res.err.error);
         } else {
         setWordError("Оберіть будь ласка слово для словника");
         toast.error("Є помилки при введенні даних!");

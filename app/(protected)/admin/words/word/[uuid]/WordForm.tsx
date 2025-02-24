@@ -7,12 +7,13 @@ import {ReactSVG} from "react-svg";
 import {Audio, ImageAPI } from "@/app/DefaultResponsesInterfaces";
 import {toast, ToastContainer, Zoom} from "react-toastify";
 import {AudiPlayerMini} from "@/components/audioPlayers/AudiPlayerMini";
-import {saveWordAPI} from "@/app/(protected)/admin/words/word/[uuid]/saveWordAPI";
+import {saveWord, SaveWordError} from "@/app/(protected)/admin/words/word/[uuid]/saveWord";
 import Image from "next/image";
 import {AiGemini} from "@/components/images/AiGemini";
 import {fetchAiAPI} from "@/app/(protected)/admin/words/word/[uuid]/fetchAiAPI";
 import {Storages} from "@/components/admin/Storages";
 import {Word} from "@/app/(protected)/admin/words/word/[uuid]/getWordAPI";
+import {ShowErrorMessage} from "@/components/ShowErrorMessage";
 
 export type WordLevel =
     | "A1"
@@ -20,8 +21,7 @@ export type WordLevel =
     | "B1"
     | "B2"
     | "C1"
-    | "C2"
-    | "IT";
+    | "C2";
 
 export type WordState = {
     uuid: string;
@@ -59,8 +59,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
         imageFile: null,
     })
 
-    const [nameError, setNameError] = useState("");
-    const [uuid, setUuid] = useState(wordResp.uuid);
+    const [errors, setErrors] = useState<SaveWordError | undefined>();
 
     const [brAudioFile, setBrAudioFile] = useState<File>();
     const [brAudioFileURL, setBrAudioFileURL] = useState<string>(
@@ -73,9 +72,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
     );
 
     const imgUrl = wordResp.image ? `/api/i/${wordSaved.image?.storageId}/image/${wordResp.image.imageName}` : "";
-    // const [image, setImage] = useState<File>();
     const [imageURL, setImageURL] = useState<string>(imgUrl);
-
     const [visit, setVisit] = useState(false);
 
     const handleBrAudioChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -147,22 +144,16 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
         formData.append('usa', usaAudioFile as Blob);
         formData.append('image', wordState.imageFile as Blob);
         formData.append('word', new Blob([JSON.stringify(word)], {type: 'application/json'}));
-        try {
-            const response = await saveWordAPI(formData, uuid);
-            if(response){
-                if (response.status === 200) {
-                    toast.success(response.general);
-                }
-                if (response.status === 400) {
-                    if(!!response.general) setNameError(response.general);
-                    else setNameError(response.name);
-                    toast.error("Є помилки при введенні даних!");
-                }
-            }else
-            toast.error("Щось зламалось і запит не пройшов! Зверніться до адміністратора будь ласка.");
-        } catch (error) {
-            toast.error("Помилка на сервері!");
+
+        const res = await saveWord(formData, wordSaved.uuid);
+        if (res.ok) {
+            toast.success(res.ok.localizedMessage);
+            return;
         }
+        setErrors(res.err ? res.err : undefined);
+        toast.error("Є помилки при введенні даних або помилка  сервера!");
+        if(res.err && res.err.error) toast.error(res.err && res.err.error);
+
     }
 
     async function onClickToFetchAI(e: React.MouseEvent<HTMLDivElement> , wordField: string) {
@@ -216,7 +207,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                                 />
                             </div>
                         </div>
-                        {!!nameError && <p className="p_error ms-3">{nameError}</p>}
+                        { errors?.name && <ShowErrorMessage error={errors.name} /> }
                         <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
                                 <label>Перреклад</label>
@@ -237,6 +228,7 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
                                 </div>
                             </div>
                         </div>
+                        { errors?.translate && <ShowErrorMessage error={errors.translate} /> }
 
                         <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
                             <div className="d-flex flex-column align-items-start w-100">
@@ -437,8 +429,6 @@ export const WordForm = ({wordResp}: { wordResp: Word }) => {
 
                         </div>
                     </div>
-
-                    <input type="hidden" name="uuid" value={uuid} onChange={(e) => setUuid(e.target.value)}/>
                 </form>
             </div>
         </>
@@ -465,7 +455,6 @@ function WordLevelInput(props: {
                 <option value="B2">B2</option>
                 <option value="C2">C1</option>
                 <option value="C1">C2</option>
-                <option value="IT">IT</option>
             </select>
         </label>
     );

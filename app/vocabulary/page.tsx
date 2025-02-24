@@ -2,7 +2,7 @@ import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import {getAppPageByUrl} from "@/app/[url]/getAppPageByUrl";
 import Image from "next/image";
 import Link from "next/link";
-import {getWordLessonsCategories} from "@/app/word-lessons/getWordLessonsCategories";
+import {getWordLessonsCategories} from "@/app/vocabulary/getWordLessonsCategories";
 
 export async function generateMetadata() {
 

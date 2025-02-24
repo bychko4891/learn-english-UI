@@ -2,7 +2,7 @@ import {getCategoryToDictionary} from "@/app/dictionary/category/[uuid]/getCateg
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
 import {NoContent} from "@/components/noContent/NoContent";
 import React from "react";
-import {getCategoryToWordLesson} from "@/app/word-lessons/category/[uuid]/getCategoryToWordLesson";
+import {getCategoryToWordLesson} from "@/app/vocabulary/category/[uuid]/getCategoryToWordLesson";
 import {WordLessonCategoryCard} from "@/components/word-lesson/WordLessonCategoryCard";
 
 type Props = {

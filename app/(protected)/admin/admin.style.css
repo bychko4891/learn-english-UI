@@ -343,9 +343,8 @@
 
 .block-form .counter-text {
     position: absolute;
-    right: 10px;
+    right: 0;
     bottom: 0;
-    left: 0;
 }
 
 .p_error {

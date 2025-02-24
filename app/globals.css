@@ -453,7 +453,7 @@ b {
 .theme-switch .form-check-input, .theme-switch .form-check-input:checked {
     background-color: transparent;
     background-position: 50%;
-    background-size: 22px
+    background-size: 28px
 }
 
 .theme-switch .form-check-input:checked {
@@ -524,9 +524,9 @@ b {
     font-weight: 400;
     height: 2.5rem;
     justify-content: center;
-    /*padding: 0;*/
     position: relative;
-    width: 2.5rem
+    width: 2.5rem;
+    margin-right: 10px;
 }
 
 .form-check-input {
@@ -2448,7 +2448,7 @@ b {
 .h-link-s-in {
     display: flex;
     height: 40px;
-    padding: 10px;
+    padding: 10px 15px;
     border-radius: 9999px;
     color: white;
     text-decoration: none;
@@ -2468,26 +2468,45 @@ b {
     filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(286deg) brightness(103%) contrast(101%);
 }
 
-/*.menu.hidden {*/
-/*    transform: translateY(-100%);*/
-/*}*/
+.m-link {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: var(--dashui-gray-900);
+    font-size: 20px;
+    font-weight: 500;
+    padding-bottom: 5px;
+}
 
-/* Стиль для хедера, коли він схований */
+.m-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #0690f4;;
+    transition: width 0.5s cubic-bezier(.4, 0, .2, 1), left 0.5s cubic-bezier(.4, 0, .2, 1);
+}
+
+.m-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+
 .header-hidden {
-    transform: translateY(-100%); /* Ховаємо хедер за межі екрана */
+    transform: translateY(-100%);
 }
 
-/* Стиль для хедера, коли він показаний */
 .header-visible {
-    transform: translateY(0); /* Повертаємо хедер в нормальне положення */
+    transform: translateY(0);
 }
 
-/* Пример анімації для появи/приховування */
 @keyframes slide-up {
     0% {
-        transform: translateY(-100%); /* Хедер за межами екрана */
+        transform: translateY(-100%);
     }
     100% {
-        transform: translateY(0); /* Хедер на своєму місці */
+        transform: translateY(0);
     }
 }

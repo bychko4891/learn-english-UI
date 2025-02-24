@@ -1,5 +1,5 @@
 import {Breadcrumb} from "@/components/breadcrumb/Breadcrumb";
-import {getCategoryToWordLesson} from "@/app/word-lessons/category/[uuid]/getCategoryToWordLesson";
+import {getCategoryToWordLesson} from "@/app/vocabulary/category/[uuid]/getCategoryToWordLesson";
 import {WordLessonCards} from "@/components/word-lesson/WordLessonCards";
 
 type Props = {

@@ -6,6 +6,7 @@ export type AppPage = {
     url: string;
     seoObject: SEOObject;
     pageType: string;
+    inMenu: boolean;
 }
 
 export async function getAppPageByUrl(url: string) {

@@ -1,7 +1,6 @@
 import React from "react";
 import {Inter} from "next/font/google";
 import "./globals.css";
-import "./menu.css";
 import "./bootstrap.custom.min.css";
 import {UserProvider} from "@/app/UserProvider";
 import {IsUser} from "@/app/IsUser";

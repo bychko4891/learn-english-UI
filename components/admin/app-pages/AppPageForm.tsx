@@ -22,6 +22,7 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
             htmlTagDescription: appPageSaved.seoObject?.htmlTagDescription ?? "",
         } as SEOObject,
         pageType:appPageSaved.pageType,
+        inMenu: appPageSaved.inMenu,
     });
 
     const [errors, setErrors] = useState<SaveAppPageErrors | undefined>();
@@ -38,6 +39,7 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
                 htmlTagDescription: appPageState.seoObject.htmlTagDescription ?? "",
             },
             pageType: appPageState.pageType,
+            inMenu: appPageState.inMenu,
         };
         const res = await saveAppPage(page, appPageSaved.uuid);
         if (res.ok) {
@@ -69,89 +71,109 @@ export const AppPageForm = ( props:{ appPage: AppPage } ) => {
                 </button>
             </div>
             <div className="block-form">
-                <form id="form" className="d-flex flex-column mt-3 gap-3" onSubmit={handleSubmit}>
-                    <div className="col-12 d-flex flex-column align-items-start ms-3 gap-3 pe-4">
-                        <div className="d-flex flex-column align-items-start w-100">
-                            <label>H1 сторінки</label>
-                            <input type="text" className="w-50" name="name"
-                                   value={appPageState.seoObject.h1}
+                <form id="form" className="row justify-content-between col-12" onSubmit={handleSubmit}>
+                {/*<form id="form" className="d-flex flex-column mt-3 gap-3" onSubmit={handleSubmit}>*/}
+                    <div className="col-md-6 d-flex flex-column gap-3">
+                        <div className="w-100 d-flex flex-column align-items-start gap-2 pe-3 ">
+                            <div className="d-flex flex-column align-items-start w-100">
+                                <label>URL сторінки*</label>
+                                <input type="text" className="w-100" name="name"
+                                       value={appPageState.url}
+                                       onChange={(e) => setAppPageState({...appPageState, url: e.target.value})}
+                                       required={true}
+                                />
+                            </div>
+                        </div>
+                        {errors?.url && <ShowErrorMessage error={errors?.url}/>}
+                        <div className="w-100 d-flex flex-column align-items-start gap-2 pe-3">
+                            <label htmlFor="type" className="text-xl font-bold">Тип сторінки*</label>
+                            <select id="type" className="w-100"
+                                    value={appPageState.pageType}
+                                    onChange={(e) => setAppPageState({...appPageState, pageType: e.target.value})}
+                                    required
+                            >
+                                <option></option>
+                                <option value="SIMPLE">Простий</option>
+                                <option value="MULTIPLEX">Складний</option>
+                            </select>
+                        </div>
+                        <div className="d-flex flex-row w-100 align-items-center">
+                            <span className="me-auto">Показувати в меню: </span>
+                            <input id="inMenu" type="checkbox" className="toggle-switch" name="inMenu"
+                                   checked={appPageState.inMenu}
                                    onChange={(e) => {
-                                       const seo = appPageState.seoObject;
-                                       seo.h1 = e.target.value;
-                                       setAppPageState({...appPageState, seoObject: seo});
+                                       setAppPageState({...appPageState, inMenu: e.target.checked})
                                    }}
                             />
+                            <label htmlFor="inMenu" className="toggle-switch-label me-4"></label>
                         </div>
-                    </div>
-                    {errors?.seoObject?.h1 && <ShowErrorMessage error={errors?.seoObject?.h1}/>}
 
-                    <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
-                        <div className="d-flex flex-column align-items-start w-100">
-                            <label>Html tag «Title»</label>
-                            <textarea className="w-50" name="name"
-                                      value={appPageState.seoObject.htmlTagTitle}
-                                      onChange={(e) => {
-                                          const seo = appPageState.seoObject;
-                                          seo.htmlTagTitle = e.target.value;
-                                          setAppPageState({...appPageState, seoObject: seo});
-                                      }}
-                            />
-                            <span className="counter-text w-50 text-end pe-3">
+                    </div>
+
+                    <div className="col-md-6 d-flex flex-column gap-3">
+                        <div className="d-flex flex-column align-items-start gap-3 pe-4">
+                            <div className="d-flex flex-column align-items-start w-100">
+                                <label>H1 сторінки</label>
+                                <input type="text" className="w-100" name="name"
+                                       value={appPageState.seoObject.h1}
+                                       onChange={(e) => {
+                                           const seo = appPageState.seoObject;
+                                           seo.h1 = e.target.value;
+                                           setAppPageState({...appPageState, seoObject: seo});
+                                       }}
+                                />
+                            </div>
+                        </div>
+                        {errors?.seoObject?.h1 && <ShowErrorMessage error={errors?.seoObject?.h1}/>}
+
+                        <div className="d-flex flex-column align-items-start gap-2 pe-3 counter-box">
+                            <div className="d-flex flex-column align-items-start w-100 position-relative">
+                                <label>Html tag «Title»</label>
+                                <textarea className="w-100" name="name"
+                                          value={appPageState.seoObject.htmlTagTitle}
+                                          onChange={(e) => {
+                                              const seo = appPageState.seoObject;
+                                              seo.htmlTagTitle = e.target.value;
+                                              setAppPageState({...appPageState, seoObject: seo});
+                                          }}
+                                />
+                                <span className="counter-text me-2">
                                      <span>{appPageState.seoObject.htmlTagTitle.length}</span>
                                         /
                                     <span>360</span>
                             </span>
+                            </div>
                         </div>
-                    </div>
-                    {errors?.seoObject?.htmlTagTitle && <ShowErrorMessage error={errors?.seoObject?.htmlTagTitle}/>}
+                        {errors?.seoObject?.htmlTagTitle && <ShowErrorMessage error={errors?.seoObject?.htmlTagTitle}/>}
 
-                    <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3 counter-box">
-                        <div className="d-flex flex-column align-items-start w-100">
-                            <label>Html tag «Description»</label>
-                            <textarea className="w-50" name="name"
-                                      value={appPageState.seoObject.htmlTagDescription}
-                                      onChange={(e) => {
-                                          const seo = appPageState.seoObject;
-                                          seo.htmlTagDescription = e.target.value;
-                                          setAppPageState({...appPageState, seoObject: seo});
-                                      }}
-                            />
-                            <span className="counter-text w-50 text-end pe-3">
+                        <div className="d-flex flex-column align-items-start gap-2 pe-3 counter-box">
+                            <div className="d-flex flex-column align-items-start w-100 position-relative">
+                                <label>Html tag «Description»</label>
+                                <textarea className="w-100" name="name"
+                                          value={appPageState.seoObject.htmlTagDescription}
+                                          onChange={(e) => {
+                                              const seo = appPageState.seoObject;
+                                              seo.htmlTagDescription = e.target.value;
+                                              setAppPageState({...appPageState, seoObject: seo});
+                                          }}
+                                />
+                                <span className="counter-text me-2">
                                      <span>{appPageState.seoObject.htmlTagDescription.length}</span>
                                         /
                                     <span>360</span>
                             </span>
+                            </div>
                         </div>
+
                     </div>
+
                     {errors?.seoObject?.htmlTagDescription &&
                         <ShowErrorMessage error={errors?.seoObject?.htmlTagDescription}/>}
 
-                    <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
-                        <div className="d-flex flex-column align-items-start w-100">
-                            <label>URL сторінки*</label>
-                            <input type="text" className="w-50" name="name"
-                                   value={appPageState.url}
-                                   onChange={(e) => setAppPageState({...appPageState, url: e.target.value})}
-                                   required={true}
-                            />
-                        </div>
-                    </div>
-                    {errors?.url && <ShowErrorMessage error={errors?.url}/>}
-                    <div className="col-12 d-flex flex-column align-items-start ms-3 gap-2 pe-3">
-                        <label htmlFor="type" className="text-xl font-bold">Тип сторінки*</label>
-                        <select id="type" className="w-50"
-                            value={appPageState.pageType}
-                            onChange={(e) => setAppPageState({...appPageState, pageType: e.target.value})}
-                            required
-                        >
-                            <option></option>
-                            <option value="SIMPLE">Простий</option>
-                            <option value="MULTIPLEX">Складний</option>
-                        </select>
-                    </div>
-                        {errors?.error && <ShowErrorMessage error={errors?.error}/>}
+
+                    {errors?.error && <ShowErrorMessage error={errors?.error}/>}
                 </form>
             </div>
         </>
-)
+    )
 }

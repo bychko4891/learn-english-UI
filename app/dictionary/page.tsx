@@ -3,13 +3,15 @@ import {getDictionaryPageMainCategories} from "@/app/dictionary/getDictionaryPag
 import {getAppPageByUrl} from "@/app/[url]/getAppPageByUrl";
 import Image from "next/image";
 import Link from "next/link";
+import {cookies} from "next/headers";
+import {redirect} from "next/navigation";
 
 export async function generateMetadata() {
     const page = await getAppPageByUrl("dictionary");
     if (page) {
         return {
-            title: page.htmlTagTitle,
-            description: page.htmlTagDescription,
+            title: page.seoObject.htmlTagTitle,
+            description: page.seoObject.htmlTagDescription,
         }
     }
     return {
@@ -20,22 +22,20 @@ export async function generateMetadata() {
 
 export default async function VocabularyMainCategories() {
 
-    const breadcrumbNavigation = {
-        href: "/dictionary",
-        name: "Англо-український словник"
+    const role = cookies().get("role")?.value;
+    if(role && role === "ADMIN") {
+        redirect("/admin")
     }
 
     const categories = await getDictionaryPageMainCategories();
 
-
-
     return (
 
         <div className="app-content-area">
-            <div className="main-content p-3 w-95 dictionary">
-                <Breadcrumb breadcrumb={breadcrumbNavigation}/>
+            <div className="main-content p-3 w-85 dictionary">
+                {/*<Breadcrumb breadcrumb={breadcrumbNavigation}/>*/}
                 <div className="d-flex flex-column align-items-center gap-4">
-                    <h1>Словник, часи та неправильні дієслова в англійській мові</h1>
+                    <h1>Словник та неправильні дієслова в англійській мові</h1>
                     {categories && categories.length > 0 && categories.map(category => (
                         <div key={category.uuid} className="row me-auto col-12" style={{margin: 0, border: "1px solid", borderRadius: 20, padding: 10}}>
                             {category.image && category.image.imageName &&

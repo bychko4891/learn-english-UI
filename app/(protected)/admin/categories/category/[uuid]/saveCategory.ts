@@ -36,7 +36,7 @@ export async function saveCategory(data:FormData, uuid: string): Promise<Result<
             return { ok: json, err: null }
         }
 
-        if(res?.status === 400 || res?.status === 404 || res?.status === 503) {
+        if(res?.status === 400 || res?.status === 404 || res?.status === 409 || res?.status === 503) {
             const errors = (await  res.json()) as SaveCategoryErrors;
             return { ok: null, err: errors };
         }

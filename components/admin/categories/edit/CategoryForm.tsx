@@ -291,7 +291,7 @@ export const CategoryForm = ({category}: { category: Category }) => {
                                 <option value="DICTIONARY_PAGE">Словник</option>
                                 <option value="MINI_STORIES">Міні історії</option>
                                 <option value="LESSON_WORDS">Заняття для слів</option>
-                                <option value="LESSON_PHRASES">Заняття для фпаз</option>
+                                <option value="LESSON_PHRASES">Заняття для фраз</option>
                                 <option value="ARTICLES">Статті</option>
                             </select>
                         </div>
